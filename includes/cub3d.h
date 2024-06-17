@@ -6,29 +6,54 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/17 14:16:48 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:19:57 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
- 
-# include <stdio.h>
+
+# include "./minilibx-linux/mlx.h"
+# include "./minilibx-linux/mlx_int.h"
+# include <stdlib.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+typedef struct s_player
+{
+	int		x;
+	int		y;
+	float	pos_x;
+	float	pos_y;
+	float	dir_x;
+	float	dir_y;
+	
+}	t_player;
+
+typedef struct s_data
+{
+	void		*mlx;
+	void		*mlx_win;
+	char		**map;
+	t_player	*player;
+
+}	t_data;
+
+typedef struct s_parsing
+{
+	char	*indentifier;
+	char	*line;
+	
+}	t_parsing;
+
+int	init(t_data *data);
 
 size_t	ft_strlen(const char *str);
 int		ft_isalnum(int c);
 char	*ft_strdup(const char *s);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
-
-typedef struct s_parsing
-{
-	char	*indentifier;
-	char	*line;
-}				t_parsing;
 
 # define ID_NO  "NO"
 # define ID_SO  "SO"

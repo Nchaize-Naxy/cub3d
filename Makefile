@@ -1,4 +1,5 @@
 NAME = cub3d
+CFLAGS = -Wall -Werror -Wextra -I ./includes/ -I./minilibx-linux -L./minilibx-linux -lmlx -lX11 -lXext
 
 MLX_LINK = -I. -I./minilibx_linux/ -L./minilibx-linux-lmlx -lX11 -lXext
 MLX_LIB = ./minilibx-linux/libmlx.a
@@ -7,6 +8,7 @@ MLX_EX = $(MLX_LIB) $(MLX_LINK)
 CFLAGS = -Wall -Werror -Wextra -I ./includes/
 
 CFILES = main.c\
+		init.c\
 
 SRCS_DIR = ./src/
 
