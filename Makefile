@@ -1,7 +1,8 @@
 NAME = cub3d
-CFLAGS = -Wall -Werror -Wextra -I ./includes/
+CFLAGS = -Wall -Werror -Wextra -I ./includes/ -I./minilibx-linux -L./minilibx-linux -lmlx -lX11 -lXext
 
 CFILES = main.c\
+		init.c\
 
 SRCS_DIR = ./src/
 
