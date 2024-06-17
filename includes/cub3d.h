@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/17 14:19:57 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:27:27 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ typedef struct s_player
 	float	dir_y;
 	
 }	t_player;
+
+typedef struct	s_textures
+{
+	char	*N_path;
+	char	*S_path;
+	char	*W_path;
+	char	*E_path;
+
+	char	*Floor_color;
+	char	*Ceiling_color;
+}
 
 typedef struct s_data
 {
