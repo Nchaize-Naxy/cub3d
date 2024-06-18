@@ -1,14 +1,11 @@
 NAME = cub3d
-CFLAGS = -Wall -Werror -Wextra -I ./includes/ -I./minilibx-linux -L./minilibx-linux -lmlx -lX11 -lXext
+CFLAGS = -Wall -Werror -Wextra -I./includes
 
-MLX_LINK = -I. -I./minilibx_linux/ -L./minilibx-linux-lmlx -lX11 -lXext
+MLX_LINK = -I ./minilibx_linux/ -L./minilibx-linux -lmlx -lX11 -lm -lXext
 MLX_LIB = ./minilibx-linux/libmlx.a
-MLX_EX = $(MLX_LIB) $(MLX_LINK)
+MLX_EX = $(MLX_LINK)
 
-CFLAGS = -Wall -Werror -Wextra -I ./includes/
-
-CFILES = main.c\
-		init.c\
+CFILES = main.c init.c
 
 SRCS_DIR = ./src/
 
@@ -18,11 +15,11 @@ SRCS = $(addprefix $(SRCS_DIR), $(CFILES))
 OBJS = $(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
 
 $(NAME): $(MLX_LIB) $(OBJS) Makefile ./includes/
-	$(CC) $(OBJS) $(MLX_EX) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) $(MLX_EX)
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 all: $(NAME)
 
