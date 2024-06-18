@@ -6,16 +6,19 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/18 10:30:27 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/18 10:32:48 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
+# include "./minilibx-linux/mlx.h"
+# include "./minilibx-linux/mlx_int.h"
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
 typedef struct s_player
 {
@@ -28,6 +31,17 @@ typedef struct s_player
 	
 }	t_player;
 
+typedef struct	s_textures
+{
+	char	*N_path;
+	char	*S_path;
+	char	*W_path;
+	char	*E_path;
+
+	char	*Floor_color;
+	char	*Ceiling_color;
+}
+
 typedef struct s_data
 {
 	void		*mlx;
@@ -37,6 +51,26 @@ typedef struct s_data
 
 }	t_data;
 
+typedef struct s_parsing
+{
+	char	*indentifier;
+	char	*line;
+	
+}	t_parsing;
+
 int	init(t_data *data);
+
+size_t	ft_strlen(const char *str);
+int		ft_isalnum(int c);
+char	*ft_strdup(const char *s);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+char	**ft_split(char const *s, char c);
+
+# define ID_NO  "NO"
+# define ID_SO  "SO"
+# define ID_WE  "WE"
+# define ID_EA  "EA"
+# define ID_F   "F"
+# define ID_C   "C"
 
 #endif
