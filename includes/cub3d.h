@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/18 14:26:50 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:59:47 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,11 @@ typedef struct s_data
 	void		*mlx;
 	void		*mlx_win;
 	char		**map;
+	int			map_fd;
+	size_t		height;
+	size_t		length;
 	t_player	*player;
-
+	t_textures	*textures;
 }	t_data;
 
 typedef struct s_parsing
@@ -74,10 +77,15 @@ typedef struct s_parsing
 	
 }	t_parsing;
 
+//functionalities
 int	init(t_data *data);
 int	play(t_data *data);
 void	minimap(t_data *data);
 
+//parsing
+int	is_valid_ch(char c);
+
+//utils
 size_t	ft_strlen(const char *str);
 int		ft_isalnum(int c);
 char	*ft_strdup(const char *s);

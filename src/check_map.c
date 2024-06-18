@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/17 15:22:36 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/18 20:00:39 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_valid_ch(char c)
 	return (1);
 }
 
-int	check_empty(char **map, size_t line, size_t col)
+int	check_empty(char **map, size_t line, size_t col, t_data *data)
 {
 	size_t	x;
 
@@ -67,7 +67,7 @@ int	check_map(char **map, t_data *data)
 				return (error("invalid character found in map"), 0);
 			if (map[line][col] != '1')
 			{
-				check_empty(map, line, col);
+				check_empty(map, line, col, data);
 			}
 		}
 	}
