@@ -1,8 +1,8 @@
 NAME = cub3d
 CFLAGS = -Wall -Werror -Wextra -I ./includes/ -I./minilibx-linux -L./minilibx-linux -lmlx -lX11 -lXext
 
-CFILES = main.c\
-		init.c\
+CFILES = main.c \
+			init.c \
 
 SRCS_DIR = ./src/
 
@@ -16,7 +16,7 @@ $(NAME): $(OBJS) Makefile ./includes/
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 all: $(NAME)
 
