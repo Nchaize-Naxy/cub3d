@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/18 14:25:47 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:04:26 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 int	init(t_data *data)
 {
+	t_textures	*textures;
+
+	textures = malloc(sizeof(t_textures));
+	data = malloc(sizeof(t_data));
 	data->player = malloc(sizeof(t_player));
 	data->mlx = mlx_init();
+	data->textures = textures;
 	data->player->pos_x = 80;
 	data->player->pos_y = 80;
 	

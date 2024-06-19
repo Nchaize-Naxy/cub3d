@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/18 14:32:15 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:41:26 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,9 @@ int	main(int argc, char **argv)
 	t_data *data;
 
 	(void) argc;
-	(void) argv;
 	data = malloc(sizeof(t_data));
 	init(data);
-	/*parsing(data)*/
+	parsing(argv[1], data);
 	raycast(data);
 	return (0);
 }

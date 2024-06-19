@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/17 15:22:42 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/18 20:52:04 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,73 +59,115 @@ size_t	count_split(char **split)
 	return (n);
 }
 
-int	handle_identifier(char **split, t_data *data)
+int		free_tab(char **tab)
 {
+	size_t	i;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (1);
+}
+
+int	handle_identifier(char *line, t_data *data)
+{
+	char **split;
+
+	split = ft_split(line, ' ');
+	if (count_split(split) > 2)
+		return (error("too many arguments found in a single line"), 0);
 	if (!split || !split[0])
 		return (0);
 	else if (!strncmp(split[0], ID_EA, 3))
-		data->E_path = split[1];
-	else if (!strncmp(split[0], ID_SW, 3))
-		data->S_path = split[1];
+		data->textures->E_path = split[1];
+	else if (!strncmp(split[0], ID_SO, 3))
+		data->textures->S_path = split[1];
 	else if (!strncmp(split[0], ID_NO, 3))
-		data->N_path = split[1];
+		data->textures->N_path = split[1];
 	else if (!strncmp(split[0], ID_WE, 3))
-		data->W_path = split[1];
+		data->textures->W_path = split[1];
 	else if (!strncmp(split[0], ID_F, 2))
-		data->Floor_color = split[1];
+		data->textures->Floor_color = split[1];
 	else if (!strncmp(split[0], ID_C, 2))
-		data->Ceiling_color = split[1];
+		data->textures->Ceiling_color = split[1];
 	else
+	{
+		free_tab(split);
 		return (0);
+	}
+	free_tab(split);
+	return (1);
+}
+
+int	check_map_line(char *line)
+{
+	size_t	i;
+
+	i = 0;
+	while (line && line[i])
+	{
+		if (!is_valid_ch(line[i]) && line[i] != '1')
+			return (error("invalid character found in map"), 0);
+		i++;
+	}
 	return (1);
 }
 
 int	handle_map(char *line, t_data *data)
 {
-	static int	i = 0;
+	size_t	i = 0;
+	size_t	height;
+	size_t	length;
 
+	measure_map(data);
 	if (!line)
 		return (0);
-	data->map[i] = ft_strdup(line);
-	if (data->map[i] == NULL)
-		return (error("memory allocation problem encountered"), 0);
+	while (line != NULL)
+	{
+		check_map_line(line);
+		data->map[i] = ft_strdup(line);
+		if (data->map[i] == NULL)
+			return (error("memory allocation problem encountered"), 0);
+		line = get_next_line(data->map_fd);
+	}
+	return (1);
 }
 
-char	*parse_line(char *line, t_data *data)
+int	parse_line(char *line, t_data *data)
 {
-	char **line_split;
-
-	line_split = ft_split(line);
-	if (count_split(line_split) > 2)
-		return (error("too many arguments found in a single line"), NULL);
-	if (handle_identifier(line_split, data) == 0)
+	if (handle_identifier(line, data) == 0)
 		handle_map(line, data);
+	return (1);
 }
 
-int read_file(int fd, t_data *data)
+int read_file(t_data *data)
 {
     char *line;
 
-    line = get_next_line(fd);
+    line = get_next_line(data->map_fd);
     while (line != NULL)
     {
 		parse_line(line, data);
-		line = get_next_line(fd);
+		line = get_next_line(data->map_fd);
     }
+	return (1);
 }
 
-int parsing(char *map_name, int map_fd, t_data *data)
+int parsing(char *map_name, t_data *data)
 {
-    int fd;
-    
     if (check_name(map_name) == 0)
     {
-        fd = open(map_name, O_RDONLY);
-        if (fd == -1)
+        data->map_fd = open(map_name, O_RDONLY);
+        if (data->map_fd == -1)
             return (error("error opening map file\n"), 1);
-        read_file(fd);
+		read_file(data);
     }
     check_walls(map_name);
+	return (1);
 }
 
 /* char	*parse_line(char *line)
