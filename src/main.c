@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/19 17:03:35 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:09:42 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,12 @@ int	main(int argc, char **argv)
 {
 	t_data *data;
 
-	(void) argc;
-	(void) argv;
+	if (argc > 3)
+		return (error("too many arguments"), 1);
 	data = malloc(sizeof(t_data));
 	init(data);
-	//parsing(argv[1], data);
+	if (parsing(argv[1], data) == 0)
+		return (1);
 	raycast(data);
 	return (0);
 }

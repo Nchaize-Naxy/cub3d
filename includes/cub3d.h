@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/19 15:34:07 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:07:46 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
+# include "get_next_line.h"
 
 # define WHITE 16777215
 # define RED 16711680
@@ -51,11 +52,11 @@ typedef struct s_player
 
 typedef struct	s_textures
 {
+	int		i;
 	char	*N_path;
 	char	*S_path;
 	char	*W_path;
 	char	*E_path;
-
 	char	*Floor_color;
 	char	*Ceiling_color;
 }	t_textures;
@@ -86,6 +87,9 @@ void	minimap(t_data *data);
 
 //parsing
 int	is_valid_ch(char c);
+int parsing(char *map_name, t_data *data);
+char	*dup_map_row(const char *s);
+int	check_map(char **map, t_data *data);
 
 //utils
 size_t	ft_strlen(const char *str);
@@ -93,5 +97,7 @@ int		ft_isalnum(int c);
 char	*ft_strdup(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
+void	error(char *err_msg);
+int		is_alnum(int c);
 
 #endif
