@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/18 19:41:26 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/06/19 16:36:18 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	minimap(t_data *data)
 		while (data->map[i][j])
 		{
 			if (data->map[i][j] == '1')
-				putcase(data, i, j, WHITE);
+				putcase(data, j, i, WHITE);
 			else
-				putcase(data, i, j, BLACK);
+				putcase(data, j, i, BLACK);
 			j++;
 		}
 		i++;
@@ -129,10 +129,12 @@ int	main(int argc, char **argv)
 {
 	t_data *data;
 
-	(void) argc;
+	if (argc > 3)
+		return (error("too many arguments"), 1);
 	data = malloc(sizeof(t_data));
 	init(data);
-	parsing(argv[1], data);
+	if (parsing(argv[1], data) == 0)
+		return (1);
 	raycast(data);
 	return (0);
 }
