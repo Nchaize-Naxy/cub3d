@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/19 17:07:46 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:03:55 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdbool.h>
 # include "get_next_line.h"
 
 # define WHITE 16777215
@@ -47,6 +48,13 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
+
+	bool	move_f;
+	bool	move_b;
+	bool	move_r;
+	bool	move_l;
+	bool	rotate_r;
+	bool	rotate_l;
 	
 }	t_player;
 
@@ -67,6 +75,7 @@ typedef struct s_data
 	void		*mlx_win;
 	char		**map;
 	int			map_fd;
+	Bool		exit;
 	size_t		height;
 	size_t		length;
 	t_player	*player;

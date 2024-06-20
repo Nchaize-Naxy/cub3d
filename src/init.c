@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/19 17:08:31 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:31:23 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	init(t_data *data)
 	data->textures = textures;
 	data->player->pos_x = 80;
 	data->player->pos_y = 80;
-	data->player->dir_x = 0;
-	data->player->dir_y = -1;
 	data->player->a = 0;
+	data->player->dir_x = cos(data->player->a) * 5;
+	data->player->dir_y = sin(data->player->a) * 5;
+	data->exit = false;
 	
 /* 	data->map = malloc(sizeof(char *) * 7);
 	data->map[0] = "111111";

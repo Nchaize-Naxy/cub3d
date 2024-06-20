@@ -6,57 +6,124 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/19 17:09:42 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:10:50 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	handle_input(int keysym, t_data *data)
+int	move_player(t_data *data)
 {
-	(void) data;
-	if (keysym == XK_Escape)
-		exit(0);
-	if (keysym == XK_w || keysym == XK_Up)
+	if (data->player->move_f == 1)
 	{
-		data->player->pos_y -= 3;
-		minimap(data);
-		play(data);
+		data->player->pos_x += data->player->dir_x / 100;
+		data->player->pos_y += data->player->dir_y / 100;
 	}
-	else if (keysym == XK_a || keysym == XK_Left)
+	if (data->player->move_b == 1)
 	{
-		data->player->a -= 0.1;
+		data->player->pos_x -= data->player->dir_x / 100;
+		data->player->pos_y -= data->player->dir_y / 100;
+	}
+	if (data->player->move_r == 1)
+	{
+		data->player->pos_x -= data->player->dir_x / 100;
+		data->player->pos_y += data->player->dir_y / 100;
+	}
+	if (data->player->move_l == 1)
+	{
+		data->player->pos_x += data->player->dir_x / 100;
+		data->player->pos_y += data->player->dir_y / 100;
+	}
+	if (data->player->rotate_l == 1)
+	{
+		data->player->a -= 0.01;
 		if (data->player->a < 0)
 			data->player->a += 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
 		data->player->dir_y = sin(data->player->a) * 5;
-		/*data->player->dir_x = (data->player->dir_x * cos(data->player->a)) + (data->player->dir_y * sin(data->player->a));
-		data->player->dir_y = (data->player->dir_y * cos(data->player->a)) - (data->player->dir_x * sin(data->player->a));
-		printf("dir x : %f\n", data->player->dir_x);
-		printf("dir y : %f\n", data->player->dir_y);*/
-		minimap(data);
-		play(data);
 	}
-	else if (keysym == XK_d || keysym == XK_Right)
+	if (data->player->rotate_r == 1)
 	{
-		data->player->a += 0.1;
+		data->player->a += 0.01;
 		if (data->player->a > 2 * M_PI)
 			data->player->a -= 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
 		data->player->dir_y = sin(data->player->a) * 5;
-		/*data->player->dir_x = (data->player->dir_x * cos(data->player->a)) - (data->player->dir_y * sin(data->player->a));
-		data->player->dir_y = (data->player->dir_x * sin(data->player->a)) + (data->player->dir_y * cos(data->player->a));
-		printf("dir x : %f\n", data->player->dir_x);
-		printf("dir y : %f\n", data->player->dir_y);*/
-		minimap(data);
-		play(data);
-	}	
-	else if (keysym == XK_s || keysym == XK_Down)
-	{
-		data->player->pos_y += 3;
-		minimap(data);
-		play(data);
 	}
+	return (0);
+}
+
+int	render(t_data *data)
+{
+	move_player(data);
+	minimap(data);
+	play(data);
+	return (0);
+}
+
+
+int	release_handler(int keysym, t_data *data)
+{
+	if (keysym == XK_Escape)
+		data->exit = true;
+	if (keysym == XK_w || keysym == XK_Up)
+	{
+		data->player->move_f = 0;
+	}
+	if (keysym == XK_a)
+	{
+		data->player->move_l = 0;
+	}
+	if (keysym == XK_d)
+	{
+		data->player->move_r = 0;
+	}
+	if (keysym == XK_Left)
+	{
+		data->player->rotate_l = 0;
+	}
+	if (keysym == XK_Right)
+	{
+		data->player->rotate_r = 0;
+	}
+	if (keysym == XK_s || keysym == XK_Down)
+	{
+		data->player->move_b = 0;
+	}
+	render(data);
+	return (0);
+}
+
+int	handle_input(int keysym, t_data *data)
+{
+	if (keysym == XK_Escape)
+		data->exit = true;
+	if (keysym == XK_w || keysym == XK_Up)
+	{
+		data->player->move_f = 1;
+	}
+	if (keysym == XK_a)
+	{
+		data->player->move_l = 1;
+	}
+	if (keysym == XK_d)
+	{
+		data->player->move_r = 1;
+	}
+	if (keysym == XK_Left)
+	{
+		data->player->rotate_l = 1;
+	}
+	if (keysym == XK_Right)
+	{
+		data->player->rotate_r = 1;
+	}
+	if (keysym == XK_s || keysym == XK_Down)
+	{
+		data->player->move_b = 1;
+	}
+	if (data->exit == true)
+		exit(0);
 	return (0);
 }
 
@@ -131,11 +198,12 @@ int	raycast(t_data *data)
 	data->mlx_win = mlx_new_window(data->mlx, 1920, 1080, "cub3d");
 	//if (!data->mlx_win)
 		//truc
-	minimap(data);
-	play(data);
+	render(data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &handle_input, data);
+	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
+	mlx_loop_hook(data->mlx, &render, data);
 	mlx_loop(data->mlx);
 	return (0);
 }
