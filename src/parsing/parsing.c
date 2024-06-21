@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/19 16:34:43 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:08:40 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int check_extension(char *map_name)
 
 int check_name(char *map_name)
 {
-	size_t  i;	
+/*	size_t  i;	
 	
 	i = 0;
-/* 	while (map_name && map_name[i])
+ 	while (map_name && map_name[i])
 	{
 	    if (!is_alnum(map_name[i]) || map_name[i] != 32)
 	        return (error("invalid map name"), 1);
@@ -148,10 +148,8 @@ char	**append_line(char **map, char *line, t_data *data)
 void	print_map(char **map)
 {
 	size_t i;
-	size_t j;
 
 	i = 0;
-	j = 0;
 	while (map[i])
 	{
 		printf("%s\n", map[i]);

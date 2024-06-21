@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/19 16:34:50 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:07:55 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	is_valid_ch(char c)
 	return (1);
 }
 
-int	check_empty(char **map, size_t line, size_t col, t_data *data)
+int	check_empty(char **map, int line, int col, t_data *data)
 {
-	size_t	x;
+	int	x;
 
 	x = 0;
-	while ((line + x <= data->height) && (is_valid_ch(map[line + x][col])))
+	while ((line + x <= (int) data->height) && (is_valid_ch(map[line + x][col])))
 	{
 		x++;
 		if (map[line + x][col] != '1' || map[line + x][col] != ' ')
@@ -57,8 +57,8 @@ int	check_empty(char **map, size_t line, size_t col, t_data *data)
 
 int	check_map(char **map, t_data *data)
 {
-	size_t line;
-	size_t	col;
+	int line;
+	int	col;
 
 	line = 0;
 	col = 0;
