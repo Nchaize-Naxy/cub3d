@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/20 16:03:55 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:42:35 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ int	is_valid_ch(char c);
 int parsing(char *map_name, t_data *data);
 char	*dup_map_row(const char *s);
 int	check_map(char **map, t_data *data);
+int	handle_map(char *line, t_data *data);
+int	handle_identifier(char *line, t_data *data);
+size_t	count_tab(char **tab);
+int		free_tab(char **tab);
+
 
 //utils
 size_t	ft_strlen(const char *str);

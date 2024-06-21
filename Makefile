@@ -18,6 +18,7 @@ CFILES_GNL = get_next_line.c\
 CFILES_PARSING = check_map.c\
 	ft_split.c\
 	parsing.c\
+	parse_map.c\
 
 SRCS_DIR = ./src/
 SRCS_GNL_DIR = ./src/gnl/
