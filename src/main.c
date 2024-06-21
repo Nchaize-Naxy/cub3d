@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/20 16:10:50 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:04:19 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	move_player(t_data *data)
 	}
 	if (data->player->move_r == 1)
 	{
-		data->player->pos_x -= data->player->dir_x / 100;
-		data->player->pos_y += data->player->dir_y / 100;
+		data->player->pos_x -= data->player->dir_y / 100;
+		data->player->pos_y += data->player->dir_x / 100;
 	}
 	if (data->player->move_l == 1)
 	{
-		data->player->pos_x += data->player->dir_x / 100;
-		data->player->pos_y += data->player->dir_y / 100;
+		data->player->pos_x += data->player->dir_y / 100;
+		data->player->pos_y -= data->player->dir_x / 100;
 	}
 	if (data->player->rotate_l == 1)
 	{
@@ -67,29 +67,17 @@ int	release_handler(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 		data->exit = true;
 	if (keysym == XK_w || keysym == XK_Up)
-	{
 		data->player->move_f = 0;
-	}
 	if (keysym == XK_a)
-	{
 		data->player->move_l = 0;
-	}
 	if (keysym == XK_d)
-	{
 		data->player->move_r = 0;
-	}
 	if (keysym == XK_Left)
-	{
 		data->player->rotate_l = 0;
-	}
 	if (keysym == XK_Right)
-	{
 		data->player->rotate_r = 0;
-	}
 	if (keysym == XK_s || keysym == XK_Down)
-	{
 		data->player->move_b = 0;
-	}
 	render(data);
 	return (0);
 }
@@ -99,29 +87,17 @@ int	handle_input(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 		data->exit = true;
 	if (keysym == XK_w || keysym == XK_Up)
-	{
 		data->player->move_f = 1;
-	}
 	if (keysym == XK_a)
-	{
 		data->player->move_l = 1;
-	}
 	if (keysym == XK_d)
-	{
 		data->player->move_r = 1;
-	}
 	if (keysym == XK_Left)
-	{
 		data->player->rotate_l = 1;
-	}
 	if (keysym == XK_Right)
-	{
 		data->player->rotate_r = 1;
-	}
 	if (keysym == XK_s || keysym == XK_Down)
-	{
 		data->player->move_b = 1;
-	}
 	if (data->exit == true)
 		exit(0);
 	return (0);

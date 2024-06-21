@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:53:54 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/19 16:12:19 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:07:55 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	while ((s1[i] || s2[i]) && i < n)
 	{
 		if (s1[i] != s2[i])
-		{
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		}
 		i++;
 	}
 	return (0);
