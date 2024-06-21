@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/21 15:07:21 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:16:06 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	check_empty(char **map, int line, int col, t_data *data)
 	while ((line + x <= (int) data->height) && (is_valid_ch(map[line + x][col])))
 	{
 		x++;
+		if (map[line + x][col] == ' ')
+			continue;
+		else if (map[line + x][col] == '1')
+			break;
 		if (map[line + x][col] != '1' || map[line + x][col] != ' ')
 			return (error("map has non-closed empty spaces"), 0);
 	}
@@ -35,6 +39,10 @@ int	check_empty(char **map, int line, int col, t_data *data)
 	while ((line - x >= 0) && (is_valid_ch(map[line - x][col])))
 	{
 		x++;
+		if (map[line - x][col] == ' ')
+			continue;
+		else if (map[line - x][col] == '1')
+			break;
 		if (map[line - x][col] != '1' || map[line - x][col] != ' ')
 			return (error("map has non-closed empty spaces"), 0);
 	}
