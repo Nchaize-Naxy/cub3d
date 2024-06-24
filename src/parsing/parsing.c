@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/21 13:47:35 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:15:24 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int parsing(char *map_name, t_data *data)
 	data->height = count_tab(data->map);
 	if (check_map(data->map, data) == 0)
 	{
-		write(1, "bono\n", 5);
 		free_tab(data->map);
 		return (0);
 	}
