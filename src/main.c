@@ -6,11 +6,48 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/21 12:04:19 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:41:37 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	raycast(t_data *data, float dir_x, float dir_y)
+{
+	float	x1 = 0;
+	float	y1 = 0;
+	float	x2 = 0;
+	float	y2 = 0;
+	if (dir_y <= 0 && dir_x >= 0)
+	{
+		y1 = (int)data->player->pos_y;
+		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x; 
+		x2 = ((int)data->player->pos_x + 1);
+		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+	}
+	else if (dir_y >= 0 && dir_x >= 0)
+	{
+		y1 = ((int)data->player->pos_y + 1);
+		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x; 
+		x2 = ((int)data->player->pos_x + 1);
+		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+	}
+	else if (dir_y <= 0 && dir_x <= 0)
+	{
+		y1 = (int)data->player->pos_y;
+		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x;  
+		x2 = (int)data->player->pos_x;
+		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+	}
+	else if (dir_y >= 0 && dir_x <= 0)
+	{
+		y1 = ((int)data->player->pos_y + 1);
+		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x;  
+		x2 = (int)data->player->pos_x;
+		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+	}
+	return (0);
+}
 
 int	move_player(t_data *data)
 {
@@ -57,6 +94,7 @@ int	render(t_data *data)
 {
 	move_player(data);
 	minimap(data);
+	raycast(data, data->player->dir_x, data->player->dir_y);
 	play(data);
 	return (0);
 }
@@ -73,9 +111,17 @@ int	release_handler(int keysym, t_data *data)
 	if (keysym == XK_d)
 		data->player->move_r = 0;
 	if (keysym == XK_Left)
+	{
 		data->player->rotate_l = 0;
+		printf("dir x = %f\n", data->player->dir_x);
+		printf("dir y = %f\n", data->player->dir_y);
+	}
 	if (keysym == XK_Right)
+	{
 		data->player->rotate_r = 0;
+		printf("dir x = %f\n", data->player->dir_x);
+		printf("dir y = %f\n", data->player->dir_y);
+	}
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 0;
 	render(data);
@@ -153,22 +199,22 @@ void	minimap(t_data *data)
 
 int	play(t_data *data)
 {
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x, data->player->pos_y, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x + 1, data->player->pos_y, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x + 1, data->player->pos_y + 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x - 1, data->player->pos_y, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x - 1, data->player->pos_y - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x + 1, data->player->pos_y - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x - 1, data->player->pos_y + 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x, data->player->pos_y - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x, data->player->pos_y + 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x) * 32, (data->player->pos_y) * 32, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32 + 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32 - 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32 - 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32 + 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32, data->player->pos_y * 32 - 1, RED);
+	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32, data->player->pos_y * 32 + 1, RED);
 	
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x + (data->player->dir_x * 2),
-		data->player->pos_y + (data->player->dir_y * 2), GREEN);
+	mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x * 32) + (data->player->dir_x * 2),
+		(data->player->pos_y * 32) + (data->player->dir_y * 2), GREEN);
 	return (0);
 }
 
-int	raycast(t_data *data)
+int	mlx_type_shit(t_data *data)
 {
 	data->mlx_win = NULL;
 	data->mlx_win = mlx_new_window(data->mlx, 1920, 1080, "cub3d");
@@ -194,6 +240,6 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
-	raycast(data);
+	mlx_type_shit(data);
 	return (0);
 }
