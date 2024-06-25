@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/25 16:45:08 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:04:07 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,39 @@
 
 int	raycast(t_data *data, float dir_x, float dir_y)
 {
-	float	x1 = 0;
-	float	y1 = 0;
-	float	x2 = 0;
-	float	y2 = 0;
 	if (dir_y <= 0 && dir_x >= 0)
 	{
-		y1 = (int)data->player->pos_y;
-		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x; 
-		x2 = ((int)data->player->pos_x + 1);
-		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+		data->ray.y1 = (int)data->ray.pos_y;
+		data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x; 
+		data->ray.x2 = ((int)data->ray.pos_x + 1);
+		data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
 	}
 	else if (dir_y >= 0 && dir_x >= 0)
 	{
-		y1 = ((int)data->player->pos_y + 1);
-		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x; 
-		x2 = ((int)data->player->pos_x + 1);
-		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+		data->ray.y1 = ((int)data->ray.pos_y + 1);
+		data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x; 
+		data->ray.x2 = ((int)data->ray.pos_x + 1);
+		data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
 	}
 	else if (dir_y <= 0 && dir_x <= 0)
 	{
-		y1 = (int)data->player->pos_y;
-		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x;  
-		x2 = (int)data->player->pos_x;
-		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+		data->ray.y1 = (int)data->ray.pos_y;
+		data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x;  
+		data->ray.x2 = (int)data->ray.pos_x;
+		data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
 	}
 	else if (dir_y >= 0 && dir_x <= 0)
 	{
-		y1 = ((int)data->player->pos_y + 1);
-		x1 = (y1 - data->player->pos_y) / tan(data->player->a) + data->player->pos_x;  
-		x2 = (int)data->player->pos_x;
-		y2 = (x2 - data->player->pos_x) * tan(data->player->a) + data->player->pos_y;
+		data->ray.y1 = ((int)data->ray.pos_y + 1);
+		data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x;  
+		data->ray.x2 = (int)data->ray.pos_x;
+		data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
 	}
+	/*checker les murs*/
+	printf("_____________________________\n");
+	printf("player pos : x:%f, y:%f\n", data->player->pos_x, data->player->pos_y);
+	printf("1 -> x:%f, y:%f\n", data->ray.x1, data->ray.y1);
+	printf("2 -> x:%f, y:%f\n", data->ray.x2, data->ray.y2);
 	return (0);
 }
 
@@ -87,6 +88,8 @@ int	move_player(t_data *data)
 		data->player->dir_x = cos(data->player->a) * 5;
 		data->player->dir_y = sin(data->player->a) * 5;
 	}
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
 	return (0);
 }
 

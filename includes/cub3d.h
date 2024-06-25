@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/21 14:42:35 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:00:53 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@
 # define ID_EA  "EA"
 # define ID_F   "F"
 # define ID_C   "C"
+
+typedef struct s_ray
+{
+	float	x1;
+	float	x2;
+	float	y1;
+	float	y2;
+	float	pos_x;
+	float	pos_y;
+}	t_ray;
+
 
 typedef struct s_player
 {
@@ -80,6 +91,7 @@ typedef struct s_data
 	size_t		length;
 	t_player	*player;
 	t_textures	*textures;
+	t_ray		ray;
 }	t_data;
 
 typedef struct s_parsing

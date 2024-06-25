@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/24 14:39:04 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:07:16 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	is_player_position(char c)
 
 int	handle_player_pos(size_t line, size_t col, char dir, t_data *data)
 {
-	data->player->pos_x = ((int) col) * 32 + 16;
-	data->player->pos_y = ((int) line) * 32 + 16;
+	data->player->pos_x = ((int) col) + 0.5;
+	data->player->pos_y = ((int) line) + 0.5;
 	if (dir == 'N')
 		data->player->a = (3 * M_PI) / 2;
 	if (dir == 'E')

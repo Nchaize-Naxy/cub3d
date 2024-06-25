@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/25 14:55:09 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:58:16 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ int	init(t_data *data)
 	data->player->dir_x = cos(data->player->a) * 5;
 	data->player->dir_y = sin(data->player->a) * 5;
 	data->exit = false;
+	data->ray.x1 = 0;
+	data->ray.y1 = 0;
+	data->ray.x2 = 0;
+	data->ray.y2 = 0;
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
 	
 /* 	data->map = malloc(sizeof(char *) * 7);
 	data->map[0] = "111111";
