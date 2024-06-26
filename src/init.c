@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/25 17:58:16 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/06/26 10:49:22 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ int	init(t_data *data)
 	data->ray.y2 = 0;
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
-	
-/* 	data->map = malloc(sizeof(char *) * 7);
-	data->map[0] = "111111";
-	data->map[1] = "100001";
-	data->map[2] = "100001";
-	data->map[3] = "100001";
-	data->map[4] = "100001";
-	data->map[5] = "111111";
-	data->map[6] = NULL; */
 	
 	
 	return (0);
