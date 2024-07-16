@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/25 17:00:53 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:09:17 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdint.h>
 # include <stdbool.h>
 # include "get_next_line.h"
 
@@ -52,20 +53,18 @@ typedef struct s_ray
 
 typedef struct s_player
 {
-	int		x;
-	int		y;
 	float	pos_x;
 	float	pos_y;
 	float	dir_x;
 	float	dir_y;
 	float	a;
 
-	bool	move_f;
-	bool	move_b;
-	bool	move_r;
-	bool	move_l;
-	bool	rotate_r;
-	bool	rotate_l;
+	int	move_f;
+	int	move_b;
+	int	move_r;
+	int	move_l;
+	int	rotate_r;
+	int	rotate_l;
 	
 }	t_player;
 
@@ -86,7 +85,10 @@ typedef struct s_data
 	void		*mlx_win;
 	char		**map;
 	int			map_fd;
-	Bool		exit;
+	bool		exit;
+	float		wall;
+	float		wall1;
+	float		wall2;
 	size_t		height;
 	size_t		length;
 	t_player	*player;
@@ -104,6 +106,8 @@ typedef struct s_parsing
 //functionalities
 int	init(t_data *data);
 int	play(t_data *data);
+int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
+int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
 void	minimap(t_data *data);
 
 //parsing

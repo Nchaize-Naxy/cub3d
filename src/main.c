@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/26 14:17:57 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:51:31 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,147 @@
 
 float	wall_check(t_data *data, float dir_x, float dir_y)
 {
-	if (dir_y <= 0)
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+	
+	x1 = (int)data->ray.x1;
+	y1 = (int)data->ray.y1;
+	x2 = (int)data->ray.x2;
+	y2 = (int)data->ray.y2;
+	//data->wall1 = sqrt(pow(fabs(data->ray.x1 - data->player->pos_x), 2) + pow(fabs(data->ray.y1 - data->player->pos_y), 2));
+	//data->wall2 = sqrt(pow(fabs(data->ray.x2 - data->player->pos_x), 2) + pow(fabs(data->ray.y2 - data->player->pos_y), 2));
+	//printf("--------------\n%f\n%f\n", data->wall1, data->wall2);
+	if (data->wall1 <= data->wall2)
 	{
-		if (data->map[(int)data->ray.y1 - 1][(int)data->ray.x1] == '1')
-		{}
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y <= 0 && dir_x <= 0))
+		{
+			if (data->map[y1 - 1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
+		if ((dir_y >= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			/*prblm peut etre ici*/
+			if (data->map[y1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
+		data->ray.pos_x = data->ray.x1;
+		data->ray.pos_y = data->ray.y1;
+		raycast_x_wall(data, dir_x, dir_y);
 	}
-	else
+	else if (data->wall2 < data->wall1)
 	{
-		if (data->map[(int)data->ray.y1][(int)data->ray.x1] == '1')
-		{}
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x >= 0))
+		{
+			if (data->map[y2][x2] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
+		if ((dir_y <= 0 && dir_x <= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			if (data->map[y2][x2 - 1] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
+		data->ray.pos_x = data->ray.x2;
+		data->ray.pos_y = data->ray.y2;
+		raycast_y_wall(data, dir_x, dir_y);
 	}
-	if (dir_x <= 0)
+	/*if (data->wall1 <= data->wall2)
 	{
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2 - 1] == '1')
-		{}
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y <= 0 && dir_x <= 0))
+		{
+			if (data->map[y1 - 1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
+		else if ((dir_y >= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			if (data->map[y1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
+		//si rien trouvé aussi regarder y
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x >= 0))
+		{
+			if (data->map[y2][x2] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
+		else if ((dir_y <= 0 && dir_x <= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			if (data->map[y2][x2 - 1] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
 	}
-	else
+	else if (data->wall2 < data->wall1)
 	{
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2] == '1')
-		{}
-	}
-	/*if (dir_y <= 0 && dir_x >= 0)
-	{
-		//1 : long de l'axe X donc verifier au dessus
-		if (data->map[(int)data->ray.y1 - 1][(int)data->ray.x1] == '1')
-			//y a un mur ca veux dire
-		//2 : long de l'axe Y donc regarder a droite
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2] == '1')
-			//y a un mur ca veux dire
-	}
-	else if (dir_y >= 0 && dir_x >= 0)
-	{
-		//1 : long de l'axe X donc verifier en dessous
-		if (data->map[(int)data->ray.y1][(int)data->ray.x1] == '1')
-			//y a un mur ca veux dire
-		//2 : long de l'axe Y donc regarder a droite
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2] == '1')
-			//y a un mur ca veux dire
-	}
-	else if (dir_y <= 0 && dir_x <= 0)
-	{
-		//1 : long de l'axe X donc verifier au dessus
-		if (data->map[(int)data->ray.y1 - 1][(int)data->ray.x1] == '1')
-			//y a un mur ca veux dire
-		//2 : long de l'axe Y donc regarder a gauche
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2 - 1] == '1')
-			//y a un mur ca veux dire
-	}
-	else if (dir_y >= 0 && dir_x <= 0)
-	{
-		//1 : long de l'axe X donc verifier en dessous
-		if (data->map[(int)data->ray.y1][(int)data->ray.x1] == '1')
-			//y a un mur ca veux dire
-		//2 : long de l'axe Y donc regarder a gauche
-		if (data->map[(int)data->ray.y2][(int)data->ray.x2 - 1] == '1')
-			//y a un mur ca veux dire
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x >= 0))
+		{
+			if (data->map[y2][x2] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
+		else if ((dir_y <= 0 && dir_x <= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			if (data->map[y2][x2 - 1] == '1')
+				return (data->ray.pos_x = data->ray.x2,
+					data->ray.pos_y = data->ray.y2, data->wall2);
+		}
+		//si rien trouvé aussi regarder x
+		if ((dir_y <= 0 && dir_x >= 0) || (dir_y <= 0 && dir_x <= 0))
+		{
+			if (data->map[y1 - 1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
+		else if ((dir_y >= 0 && dir_x >= 0) || (dir_y >= 0 && dir_x <= 0))
+		{
+			if (data->map[y1][x1] == '1')
+				return (data->ray.pos_x = data->ray.x1,
+					data->ray.pos_y = data->ray.y1, data->wall1);
+		}
 	}*/
+	return (0);
+}
+
+int	raycast_x_wall(t_data *data, float dir_x, float dir_y)
+{
+	(void) dir_x;
+	data->ray.y1 = (int)data->ray.y1;
+	if (dir_y >= 0)
+		data->ray.y1 += 1;
+	data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x;
+	data->wall1 = sqrt(pow(fabs(data->ray.x1 - data->player->pos_x), 2) + pow(fabs(data->ray.y1 - data->player->pos_y), 2));
+	return (0);
+}
+
+int	raycast_y_wall(t_data *data, float dir_x, float dir_y)
+{
+	(void) dir_y;
+	data->ray.x2 = (int)data->ray.pos_x;
+	if (dir_x >= 0)
+		data->ray.x2 += 1;
+	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
+	data->wall2 = sqrt(pow(fabs(data->ray.x2 - data->player->pos_x), 2) + pow(fabs(data->ray.y2 - data->player->pos_y), 2));
+	while (data->wall == 0)
 	return (0);
 }
 
 int	raycast(t_data *data, float dir_x, float dir_y)
 {
-	data->ray.y1 = (int)data->ray.pos_y;
-	if (dir_y >= 0)
-		data->ray.y1 += 1;
-	data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a) + data->ray.pos_x;  
-	data->ray.x2 = (int)data->ray.pos_x;
-	if (dir_x >= 0)
-		data->ray.x2 += 1;
-	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
-	//wall_check(data, dir_x, dir_y);
+	raycast_x_wall(data, dir_x, dir_y);
+	raycast_y_wall(data, dir_x, dir_y);
 	
-	/*printf("_____________________________\n");
-	printf("player pos : x:%f, y:%f\n", data->player->pos_x, data->player->pos_y);
-	printf("1 -> x:%f, y:%f\n", data->ray.x1, data->ray.y1);
-	printf("2 -> x:%f, y:%f\n", data->ray.x2, data->ray.y2);*/
+	//data->wall1 = sqrt(pow(fabs(data->ray.x1 - data->player->pos_x), 2) + pow(fabs(data->ray.y1 - data->player->pos_y), 2));
+	//data->wall2 = sqrt(pow(fabs(data->ray.x2 - data->player->pos_x), 2) + pow(fabs(data->ray.y2 - data->player->pos_y), 2));
+	while (data->wall == 0)
+		data->wall = wall_check(data, dir_x, dir_y);
+	
 	return (0);
 }
 
@@ -139,11 +205,12 @@ int	render(t_data *data)
 {
 	move_player(data);
 	minimap(data);
-	//while (wall = false)
-	//{
+	//while (data->wall == 0)
 		raycast(data, data->player->dir_x, data->player->dir_y);
-	//}
 	play(data);
+	data->wall = 0;
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
 	return (0);
 }
 
@@ -159,17 +226,9 @@ int	release_handler(int keysym, t_data *data)
 	if (keysym == XK_d)
 		data->player->move_r = 0;
 	if (keysym == XK_Left)
-	{
 		data->player->rotate_l = 0;
-		printf("dir x = %f\n", data->player->dir_x);
-		printf("dir y = %f\n", data->player->dir_y);
-	}
 	if (keysym == XK_Right)
-	{
 		data->player->rotate_r = 0;
-		printf("dir x = %f\n", data->player->dir_x);
-		printf("dir y = %f\n", data->player->dir_y);
-	}
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 0;
 	render(data);
