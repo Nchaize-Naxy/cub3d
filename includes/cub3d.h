@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/16 11:09:17 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:45:42 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define CYAN 65535
 # define PURPLE 16711935
 # define BLACK 3289650
+
+# define WINHEIGHT 1080
+# define WINWIDTH 1920
 
 # define ID_NO  "NO"
 # define ID_SO  "SO"
@@ -109,6 +112,8 @@ int	play(t_data *data);
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
 void	minimap(t_data *data);
+int	put_ceiling(t_data *data);
+int	put_floor(t_data *data);
 
 //parsing
 int	is_valid_ch(char c);
