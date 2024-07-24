@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/22 16:01:59 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:43:32 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,8 @@ int	main(int argc, char **argv)
 
 	if (argc > 2)
 		return (error("Too many arguments"), 1);
+	if (argc == 1)
+		return (error("Not enough arguments"), 1);
 	data = malloc(sizeof(t_data));
 	init(data);
 	if (parsing(argv[1], data) == 0)
