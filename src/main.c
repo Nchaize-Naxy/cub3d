@@ -6,13 +6,13 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/24 11:43:32 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:58:11 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-float	wall_check(t_data *data, float dir_x, float dir_y)
+float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 {
 	int	x1;
 	int	y1;
@@ -29,32 +29,32 @@ float	wall_check(t_data *data, float dir_x, float dir_y)
 		if (dir_y <= 0)
 		{
 			if (data->map[y1 - 1][x1] == '1')
-				return (data->wall1);
+				return (data->wall_color = YELLOW, data->wall1);
 		}
 		if (dir_y >= 0)
 		{
 			if (data->map[y1][x1] == '1')
-				return (data->wall1);
+				return (data->wall_color = RED, data->wall1);
 		}
 		data->ray.pos_x = data->ray.x1;
 		data->ray.pos_y = data->ray.y1;
-		raycast_x_wall(data, dir_x, dir_y);
+		raycast_x_wall(data, dir_x, dir_y, c_a);
 	}
 	else
 	{
 		if (dir_x >= 0)
 		{
 			if (data->map[y2][x2] == '1')
-				return (data->wall2);
+				return (data->wall_color = GREEN, data->wall2);
 		}
 		if (dir_x <= 0)
 		{
 			if (data->map[y2][x2 - 1] == '1')
-				return (data->wall2);
+				return (data->wall_color = BLUE, data->wall2);
 		}
 		data->ray.pos_x = data->ray.x2;
 		data->ray.pos_y = data->ray.y2;
-		raycast_y_wall(data, dir_x, dir_y);
+		raycast_y_wall(data, dir_x, dir_y, c_a);
 	}
 	return (0);
 }
@@ -80,21 +80,20 @@ int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a)
 		data->ray.x2 -= 1;
 	if (dir_x >= 0)
 		data->ray.x2 += 1;
-	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a) + data->ray.pos_y;
+	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a + c_a) + data->ray.pos_y;
 	data->wall2 = sqrt(pow(data->ray.x2 - data->player->pos_x, 2) + pow(data->ray.y2 - data->player->pos_y, 2));
 	return (0);
 }
 
-int	raycast(t_data *data, float dir_x, float dir_y)
+int	raycast(t_data *data, float dir_x, float dir_y, float c_a)
 {
-	float c_a;
-	/*c_a est l'angle plus large pour faire les autres murs*/
+	dir_x = cos(data->player->a + c_a);
+	dir_y = sin(data->player->a + c_a);
 	raycast_x_wall(data, dir_x, dir_y, c_a);
 	raycast_y_wall(data, dir_x, dir_y, c_a);
-	
 	while (data->wall == 0)
 	{
-		data->wall = wall_check(data, dir_x, dir_y);
+		data->wall = wall_check(data, dir_x, dir_y, c_a);
 	}
 	return (0);
 }
@@ -123,7 +122,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_l == 1)
 	{
-		data->player->a -= 0.01;
+		data->player->a -= 0.0001;
 		if (data->player->a < 0)
 			data->player->a += 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -131,7 +130,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_r == 1)
 	{
-		data->player->a += 0.01;
+		data->player->a += 0.0001;
 		if (data->player->a > 2 * M_PI)
 			data->player->a -= 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -142,17 +141,41 @@ int	move_player(t_data *data)
 	return (0);
 }
 
+void	my_mlx_put_pixel(t_data *data, int x, int y, int color)
+{
+	char	*pixel;
+
+	pixel = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
+	*pixel = color;
+}
+
 int	render(t_data *data)
 {
-	move_player(data);
-	minimap(data);
-	raycast(data, data->player->dir_x, data->player->dir_y);
-	play(data);
-	data->wall = 0;
-	data->ray.pos_x = data->player->pos_x;
-	data->ray.pos_y = data->player->pos_y;
-	data->wall1 = 0;
-	data->wall2 = 0;
+	float	c_a;
+	int		c_a_time;
+
+	c_a = 0;
+	c_a_time = 0;
+	//move_player(data);
+	//minimap(data);
+	while (c_a_time <= WINWIDTH)
+	{
+		move_player(data);
+		raycast(data, data->player->dir_x, data->player->dir_y, c_a);
+		play(data, c_a, c_a_time);
+		data->wall = 0;
+		data->ray.pos_x = data->player->pos_x;
+		data->ray.pos_y = data->player->pos_y;
+		data->wall1 = 0;
+		data->wall2 = 0;
+		c_a_time++;
+		if (c_a_time == 960)
+			c_a = -0.000818123;
+		if (c_a >= 0)
+			c_a += 0.000818123;
+		else
+			c_a -= 0.000818123;
+	}	
 	return (0);
 }
 
@@ -173,12 +196,6 @@ int	release_handler(int keysym, t_data *data)
 		data->player->rotate_r = 0;
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 0;
-	if (keysym != 0)
-	{
-		put_ceiling(data);
-		put_floor(data);
-	}
-	render(data);
 	return (0);
 }
 
@@ -291,23 +308,60 @@ int	put_ceiling(t_data *data)
 	return (0);
 }
 
-int	play(t_data *data)
+int	play(t_data *data, float c_a, int c_a_time)
 {
 	float	wall_height;
 	float	basic_height;
 	int	i;
 	
 	i = 0;
+	(void)c_a;
 	basic_height = 500;
 	wall_height = tan(1.0472) * data->wall;
 	while (i <= (int)(basic_height / wall_height))
 	{
-		mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2, (1080 / 2) - i, YELLOW);
-		mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2, (1080 / 2) + i, YELLOW);
+		if (c_a_time <= 960)
+		{
+			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, data->wall_color);
+			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, data->wall_color);
+		}
+		if (c_a_time > 960)
+		{
+			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, data->wall_color);
+			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, data->wall_color);
+		}
 		i++;
 	}
-	
-	mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x) * 32, (data->player->pos_y) * 32, RED);
+	while (i < WINHEIGHT)
+	{
+		/*while (i <= (int)(basic_height / wall_height))
+		{
+			if (c_a_time <= 960)
+			{
+				mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, data->wall_color);
+				mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, data->wall_color);
+			}
+			if (c_a_time > 960)
+			{
+				mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, data->wall_color);
+				mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, data->wall_color);
+			}
+			i++;
+		}*/
+		if (c_a_time <= 960)
+		{
+			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, BLACK);
+			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, WHITE);
+		}
+		if (c_a_time > 960)
+		{
+			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, BLACK);
+			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, WHITE);
+		}
+		i++;
+	}
+
+	/*mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x) * 32, (data->player->pos_y) * 32, RED);
 	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32, RED);
 	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32 + 1, RED);
 	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32, RED);
@@ -318,7 +372,7 @@ int	play(t_data *data)
 	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32, data->player->pos_y * 32 + 1, RED);
 	
 	mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x * 32) + (data->player->dir_x * 2),
-		(data->player->pos_y * 32) + (data->player->dir_y * 2), GREEN);
+		(data->player->pos_y * 32) + (data->player->dir_y * 2), GREEN);*/
 	return (0);
 }
 
@@ -328,9 +382,7 @@ int	mlx_type_shit(t_data *data)
 	data->mlx_win = mlx_new_window(data->mlx, WINWIDTH, WINHEIGHT, "cub3d");
 	//if (!data->mlx_win)
 		//truc
-	put_ceiling(data);
-	put_floor(data);
-	render(data);
+	//render(data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, &handle_input, data);
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
