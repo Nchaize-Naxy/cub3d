@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/22 15:45:42 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:38:29 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,18 @@ typedef struct s_player
 	
 }	t_player;
 
-typedef struct	s_textures
+typedef struct s_image
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+
+}	t_image;
+
+
+typedef struct s_textures
 {
 	int		i;
 	char	*N_path;
@@ -97,6 +108,10 @@ typedef struct s_data
 	t_player	*player;
 	t_textures	*textures;
 	t_ray		ray;
+	t_image		img;
+
+	int			wall_color;
+	
 }	t_data;
 
 typedef struct s_parsing
@@ -108,9 +123,9 @@ typedef struct s_parsing
 
 //functionalities
 int	init(t_data *data);
-int	play(t_data *data);
-int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
-int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
+int	play(t_data *data, float c_a, int c_a_time);
+int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a);
+int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
 void	minimap(t_data *data);
 int	put_ceiling(t_data *data);
 int	put_floor(t_data *data);
