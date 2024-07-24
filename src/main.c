@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/24 12:58:11 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:35:38 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ int	render(t_data *data)
 		data->wall2 = 0;
 		c_a_time++;
 		if (c_a_time == 960)
-			c_a = -0.000818123;
+			c_a = -0.00054541539;
 		if (c_a >= 0)
-			c_a += 0.000818123;
+			c_a += 0.00054541539;
 		else
-			c_a -= 0.000818123;
+			c_a -= 0.00054541539;
 	}	
 	return (0);
 }
@@ -311,14 +311,14 @@ int	put_ceiling(t_data *data)
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	float	wall_height;
-	float	basic_height;
 	int	i;
-	
+	float	perp_walldist;
+
 	i = 0;
 	(void)c_a;
-	basic_height = 500;
-	wall_height = tan(1.0472) * data->wall;
-	while (i <= (int)(basic_height / wall_height))
+	perp_walldist = data->wall * sin(M_PI / 2 + c_a);
+	wall_height = 1080 / perp_walldist;
+	while (i <= (int)(wall_height) / 2)
 	{
 		if (c_a_time <= 960)
 		{

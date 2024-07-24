@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/27 14:06:53 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:06:35 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	handle_identifier(char *line, t_data *data)
 	else if (!ft_strncmp(split[0], ID_WE, 3))
 		data->textures->W_path = ft_strdup(split[1]);
 	else if (!ft_strncmp(split[0], ID_F, 2))
-		data->textures->Floor_color = ft_strdup(split[1]);
+		data->textures->Floor_color = conv_rg(ft_strdup(split[1]));
 	else if (!ft_strncmp(split[0], ID_C, 2))
-		data->textures->Ceiling_color = ft_strdup(split[1]);
+		data->textures->Ceiling_color = conv_rgb(ft_strdup(split[1]));
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
 	{
 		free_tab(split);
@@ -41,6 +41,22 @@ int	handle_identifier(char *line, t_data *data)
 	}
 	free_tab(split);
 	return (1);
+}
+
+char	*conv_rgb(char *rgb)
+{
+	char **rgb_split;
+	char *hexnbr;
+	char *hexbase;
+
+	hexbase = "0123456789ABCDEF";
+	rgb_split = ft_split(rgb, ',');
+	if (!rgb_split)
+		return (0);
+	hex_nbr = ft_putnbr_base(rgb_split[0], hexbase);
+	hex_nbr = ft_strjoin(hex_nbr, ft_putnbr_base(rgb_split[1], hexbase));
+	hex_nbr = ft_strjoin(hex_nbr, ft_putnbrbase(rgb_split[2], hexbase));
+	return (hex_nbr);
 }
 
 int	check_map_line(char *line)
