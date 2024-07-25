@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/24 15:14:02 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:35:57 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ int	handle_map(char *line, t_data *data);
 int	handle_identifier(char *line, t_data *data);
 size_t	count_tab(char **tab);
 int		free_tab(char **tab);
+char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
+char	*conv_rgb(char *rgb);
 
 
 //utils
@@ -150,5 +152,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
+int	ft_atoi(const char *str);
 
 #endif

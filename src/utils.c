@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:53:54 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/21 12:07:55 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:01:39 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,38 @@ char	*dup_map_row(const char *s)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+int	is_num(char c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	long long	num;
+	size_t		i;
+	int			signe;
+
+	num = 0;
+	i = 0;
+	signe = 1;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == 43 || str [i] == 45)
+	{
+		if (str[i] == 45)
+			signe = -1;
+		i++;
+	}
+	while (str[i] && is_num(str[i]) == 1)
+	{
+		num = num * 10 + str[i] - 48;
+		i++;
+	}
+	return ((int)(num * signe));
 }

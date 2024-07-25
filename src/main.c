@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 11:25:41 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:38:08 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ int	render(t_data *data)
 		data->wall2 = 0;
 		c_a_time++;
 		if (c_a_time == 960)
-			c_a = -0.000818123;
+			c_a = -0.00054541539;
 		if (c_a >= 0)
-			c_a += 0.000818123;
+			c_a += 0.00054541539;
 		else
-			c_a -= 0.000818123;
+			c_a -= 0.00054541539;
 	}
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
 	return (0);
@@ -274,16 +274,14 @@ void	minimap(t_data *data)
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	float	wall_height;
-	float	basic_height;
 	int	i;
-	
-	//static int	j = 1;
+	float	perp_walldist;
 
 	i = 0;
 	(void)c_a;
-	basic_height = 500;
-	wall_height = tan(1.0472) * data->wall;
-	while (i <= (int)(basic_height / wall_height))
+	perp_walldist = data->wall * sin(M_PI / 2 + c_a);
+	wall_height = 1080 / perp_walldist;
+	while (i <= (int)(wall_height) / 2)
 	{
 		if (c_a_time <= 960)
 		{
@@ -336,10 +334,14 @@ int	main(int argc, char **argv)
 
 	if (argc > 2)
 		return (error("Too many arguments"), 1);
+	if (argc == 1)
+		return (error("Not enough arguments"), 1);
 	data = malloc(sizeof(t_data));
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
+	printf("Floor color is: %s\n", data->textures->Floor_color);
+	printf("Floor int is: %x\n", data->textures->Floor_color);
 	mlx_type_shit(data);
 	return (0);
 }
