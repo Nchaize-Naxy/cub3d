@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 13:16:03 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:21:41 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,13 +305,13 @@ int	play(t_data *data, float c_a, int c_a_time)
 	{
 		if (c_a_time <= 960)
 		{
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), 0x00000000);
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), 0x00FFFFFF);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), data->textures->Floor_color);
 		}
 		if (c_a_time > 960)
 		{
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, 0x00000000);
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, 0x00FFFFFF);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, data->textures->Floor_color);
 		}
 		i++;
 	}
