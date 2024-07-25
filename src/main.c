@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 11:36:20 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:16:03 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 		if (dir_y <= 0)
 		{
 			if (data->map[y1 - 1][x1] == '1')
-				return (data->wall_color = YELLOW, data->wall1);
+				return (data->wall_color = 0x00FFFF00, data->wall1);
 		}
 		if (dir_y >= 0)
 		{
 			if (data->map[y1][x1] == '1')
-				return (data->wall_color = RED, data->wall1);
+				return (data->wall_color = 0x00FF0000, data->wall1);
 		}
 		data->ray.pos_x = data->ray.x1;
 		data->ray.pos_y = data->ray.y1;
@@ -45,12 +45,12 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 		if (dir_x >= 0)
 		{
 			if (data->map[y2][x2] == '1')
-				return (data->wall_color = GREEN, data->wall2);
+				return (data->wall_color = 0x0000FF00, data->wall2);
 		}
 		if (dir_x <= 0)
 		{
 			if (data->map[y2][x2 - 1] == '1')
-				return (data->wall_color = BLUE, data->wall2);
+				return (data->wall_color = 0x000000FF, data->wall2);
 		}
 		data->ray.pos_x = data->ray.x2;
 		data->ray.pos_y = data->ray.y2;
@@ -122,7 +122,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_l == 1)
 	{
-		data->player->a -= 0.0001;
+		data->player->a -= 0.01;
 		if (data->player->a < 0)
 			data->player->a += 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -130,7 +130,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_r == 1)
 	{
-		data->player->a += 0.0001;
+		data->player->a += 0.01;
 		if (data->player->a > 2 * M_PI)
 			data->player->a -= 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -141,12 +141,9 @@ int	move_player(t_data *data)
 	return (0);
 }
 
-void	my_mlx_put_pixel(t_data *data, int x, int y, int color)
+void my_mlx_put_pixel(t_data *data, int x, int y, int color)																																	
 {
-	char	*pixel;
-
-	pixel = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
-	*pixel = color;
+	((unsigned int*)data->img.addr)[y*(data->img.line_length >> 2) + x] = color;
 }
 
 int	render(t_data *data)
@@ -156,11 +153,15 @@ int	render(t_data *data)
 
 	c_a = 0;
 	c_a_time = 0;
-	//move_player(data);
+	move_player(data);
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
+	data->img.img = mlx_new_image(data->mlx, 1920, 1080);
+	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length,
+						&data->img.endian);
 	//minimap(data);
 	while (c_a_time <= WINWIDTH)
 	{
-		move_player(data);
 		raycast(data, data->player->dir_x, data->player->dir_y, c_a);
 		play(data, c_a, c_a_time);
 		data->wall = 0;
@@ -175,7 +176,13 @@ int	render(t_data *data)
 			c_a += 0.00054541539;
 		else
 			c_a -= 0.00054541539;
-	}	
+	}
+	data->ray.x1 = data->player->pos_x;
+	data->ray.y1 = data->player->pos_y;
+	data->ray.x2 = data->player->pos_x;
+	data->ray.y2 = data->player->pos_y;
+	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
+	mlx_destroy_image(data->mlx, data->img.img);
 	return (0);
 }
 
@@ -234,12 +241,14 @@ void	putcase(t_data *data, int i, int j, int color)
 	
 	x = 0;
 	y = 0;
+	i *=32;
+	j *=32;
 	while (y <= 32)
 	{
 		x = 0;
 		while (x <= 32)
 		{
-			mlx_pixel_put(data->mlx, data->mlx_win, x + (32 * i), y + (32 * j), color);
+			my_mlx_put_pixel(data, x + i, y + j, color);
 			x++;
 		}
 		y++;
@@ -268,46 +277,6 @@ void	minimap(t_data *data)
 	}
 }
 
-int	put_floor(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 541;
-	while (j <= 1080)
-	{
-		i = 0;
-		while (i <= WINWIDTH)
-		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, i, j, WHITE);
-			i++;
-		}
-		j++;
-	}
-	return (0);
-}
-
-int	put_ceiling(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (j <= 540)
-	{
-		i = 0;
-		while (i <= WINWIDTH)
-		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, i, j, BLACK);
-			i++;
-		}
-		j++;
-	}
-	return (0);
-}
-
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	float	wall_height;
@@ -318,61 +287,34 @@ int	play(t_data *data, float c_a, int c_a_time)
 	(void)c_a;
 	perp_walldist = data->wall * sin(M_PI / 2 + c_a);
 	wall_height = 1080 / perp_walldist;
-	while (i <= (int)(wall_height) / 2)
+	while (i <= (int)(wall_height) / 2 && i < 540)
 	{
 		if (c_a_time <= 960)
 		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, data->wall_color);
-			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, data->wall_color);
+			my_mlx_put_pixel(data, 960 + c_a_time, (540) - i, data->wall_color);
+			my_mlx_put_pixel(data, 960 + c_a_time, (540) + i, data->wall_color);
 		}
 		if (c_a_time > 960)
 		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, data->wall_color);
-			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, data->wall_color);
+			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) - i, data->wall_color);
+			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) + i, data->wall_color);
 		}
 		i++;
 	}
-	while (i < WINHEIGHT)
+	while (i < WINHEIGHT / 2)
 	{
-		/*while (i <= (int)(basic_height / wall_height))
-		{
-			if (c_a_time <= 960)
-			{
-				mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, data->wall_color);
-				mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, data->wall_color);
-			}
-			if (c_a_time > 960)
-			{
-				mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, data->wall_color);
-				mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, data->wall_color);
-			}
-			i++;
-		}*/
 		if (c_a_time <= 960)
 		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) - i, BLACK);
-			mlx_pixel_put(data->mlx,  data->mlx_win, 1920 / 2 + c_a_time, (1080 / 2) + i, WHITE);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), 0x00000000);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), 0x00FFFFFF);
 		}
 		if (c_a_time > 960)
 		{
-			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) - i, BLACK);
-			mlx_pixel_put(data->mlx,  data->mlx_win, (1920 / 2) + (960 - c_a_time), (1080 / 2) + i, WHITE);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, 0x00000000);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, 0x00FFFFFF);
 		}
 		i++;
 	}
-
-	/*mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x) * 32, (data->player->pos_y) * 32, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32 + 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32 - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 + 1, data->player->pos_y * 32 - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32 - 1, data->player->pos_y * 32 + 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32, data->player->pos_y * 32 - 1, RED);
-	mlx_pixel_put(data->mlx, data->mlx_win, data->player->pos_x * 32, data->player->pos_y * 32 + 1, RED);
-	
-	mlx_pixel_put(data->mlx, data->mlx_win, (data->player->pos_x * 32) + (data->player->dir_x * 2),
-		(data->player->pos_y * 32) + (data->player->dir_y * 2), GREEN);*/
 	return (0);
 }
 
