@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/24 12:38:29 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:14:02 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
 void	minimap(t_data *data);
 int	put_ceiling(t_data *data);
 int	put_floor(t_data *data);
+inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing
 int	is_valid_ch(char c);
