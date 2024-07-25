@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 11:38:08 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:57:35 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_l == 1)
 	{
-		data->player->a -= 0.0001;
+		data->player->a -= 0.01;
 		if (data->player->a < 0)
 			data->player->a += 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -130,7 +130,7 @@ int	move_player(t_data *data)
 	}
 	if (data->player->rotate_r == 1)
 	{
-		data->player->a += 0.0001;
+		data->player->a += 0.01;
 		if (data->player->a > 2 * M_PI)
 			data->player->a -= 2 * M_PI;
 		data->player->dir_x = cos(data->player->a) * 5;
@@ -153,14 +153,15 @@ int	render(t_data *data)
 
 	c_a = 0;
 	c_a_time = 0;
-	//move_player(data);
+	move_player(data);
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
 	data->img.img = mlx_new_image(data->mlx, 1920, 1080);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length,
 						&data->img.endian);
 	//minimap(data);
 	while (c_a_time <= WINWIDTH)
 	{
-		move_player(data);
 		raycast(data, data->player->dir_x, data->player->dir_y, c_a);
 		play(data, c_a, c_a_time);
 		data->wall = 0;
@@ -176,7 +177,12 @@ int	render(t_data *data)
 		else
 			c_a -= 0.00054541539;
 	}
+	data->ray.x1 = data->player->pos_x;
+	data->ray.y1 = data->player->pos_y;
+	data->ray.x2 = data->player->pos_x;
+	data->ray.y2 = data->player->pos_y;
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
+	mlx_destroy_image(data->mlx, data->img.img);
 	return (0);
 }
 
@@ -281,7 +287,7 @@ int	play(t_data *data, float c_a, int c_a_time)
 	(void)c_a;
 	perp_walldist = data->wall * sin(M_PI / 2 + c_a);
 	wall_height = 1080 / perp_walldist;
-	while (i <= (int)(wall_height) / 2)
+	while (i <= (int)(wall_height) / 2 && i < 540)
 	{
 		if (c_a_time <= 960)
 		{
@@ -340,8 +346,6 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
-	printf("Floor color is: %s\n", data->textures->Floor_color);
-	printf("Floor int is: %x\n", data->textures->Floor_color);
 	mlx_type_shit(data);
 	return (0);
 }
