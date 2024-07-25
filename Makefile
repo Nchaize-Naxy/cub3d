@@ -19,6 +19,7 @@ CFILES_PARSING = check_map.c\
 	ft_split.c\
 	parsing.c\
 	parse_map.c\
+	conv_base.c\
 
 SRCS_DIR = ./src/
 SRCS_GNL_DIR = ./src/gnl/

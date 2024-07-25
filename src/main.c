@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/24 15:35:38 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:28:58 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,6 +404,8 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
+	printf("Floor color is: %s\n", data->textures->Floor_color);
+	printf("Floor int is: %x\n", data->textures->Floor_color);
 	mlx_type_shit(data);
 	return (0);
 }
