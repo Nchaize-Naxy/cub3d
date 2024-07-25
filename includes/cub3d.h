@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 11:12:49 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:37:47 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ typedef struct s_textures
 	char	*S_path;
 	char	*W_path;
 	char	*E_path;
-	char	*Floor_color;
-	char	*Ceiling_color;
+	int		Floor_color;
+	int		Ceiling_color;
 }	t_textures;
 
 typedef struct s_data
@@ -140,7 +140,7 @@ int	handle_identifier(char *line, t_data *data);
 size_t	count_tab(char **tab);
 int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
-char	*conv_rgb(char *rgb);
+int	conv_rgb(char *rgb);
 
 
 //utils
