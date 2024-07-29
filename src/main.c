@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 12:57:35 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:47:21 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,42 @@ int	raycast(t_data *data, float dir_x, float dir_y, float c_a)
 
 int	move_player(t_data *data)
 {
+	float	move_x;
+	float	move_y;
+	
+	move_x = data->player->dir_x / 100;
+	move_y = data->player->dir_y / 100;
 	if (data->player->move_f == 1)
 	{
-		data->player->pos_x += data->player->dir_x / 100;
-		data->player->pos_y += data->player->dir_y / 100;
+		if (data->map[(int)(data->player->pos_y + move_y)][(int)(data->player->pos_x + move_x)] != '1')
+		{
+			data->player->pos_x += move_x;
+			data->player->pos_y += move_y;
+		}
 	}
 	if (data->player->move_b == 1)
 	{
-		data->player->pos_x -= data->player->dir_x / 100;
-		data->player->pos_y -= data->player->dir_y / 100;
+		if (data->map[(int)(data->player->pos_y - move_y)][(int)(data->player->pos_x - move_x)] != '1')
+		{
+			data->player->pos_x -= move_x;
+			data->player->pos_y -= move_y;
+		}
 	}
 	if (data->player->move_r == 1)
 	{
-		data->player->pos_x -= data->player->dir_y / 100;
-		data->player->pos_y += data->player->dir_x / 100;
+		if (data->map[(int)(data->player->pos_y + move_x)][(int)(data->player->pos_x - move_y)] != '1')
+		{
+			data->player->pos_x -= move_y;
+			data->player->pos_y += move_x;
+		}
 	}
 	if (data->player->move_l == 1)
 	{
-		data->player->pos_x += data->player->dir_y / 100;
-		data->player->pos_y -= data->player->dir_x / 100;
+		if (data->map[(int)(data->player->pos_y - move_x)][(int)(data->player->pos_x + move_y)] != '1')
+		{
+			data->player->pos_x += move_y;
+			data->player->pos_y -= move_x;
+		}
 	}
 	if (data->player->rotate_l == 1)
 	{
