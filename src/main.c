@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/29 10:47:21 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:06:36 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	move_player(t_data *data)
 	return (0);
 }
 
-void my_mlx_put_pixel(t_data *data, int x, int y, int color)
+void my_mlx_put_pixel(t_data *data, int x, int y, int color)																																	
 {
 	((unsigned int*)data->img.addr)[y*(data->img.line_length >> 2) + x] = color;
 }
@@ -322,13 +322,13 @@ int	play(t_data *data, float c_a, int c_a_time)
 	{
 		if (c_a_time <= 960)
 		{
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), 0x00000000);
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), 0x00FFFFFF);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), data->textures->Floor_color);
 		}
 		if (c_a_time > 960)
 		{
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, 0x00000000);
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, 0x00FFFFFF);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, data->textures->Floor_color);
 		}
 		i++;
 	}
@@ -363,6 +363,8 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
+	printf("Floor color is: %d\n", data->textures->Floor_color);
+	printf("Celing color is: %d\n", data->textures->Ceiling_color);
 	mlx_type_shit(data);
 	return (0);
 }

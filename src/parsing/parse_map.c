@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/25 11:16:49 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:43:55 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	handle_identifier(char *line, t_data *data)
 	return (1);
 }
 
-char	*conv_rgb(char *rgb)
+int	conv_rgb(char *rgb)
 {
 	char **rgb_split;
 	char *hex_nbr;
@@ -56,9 +56,12 @@ char	*conv_rgb(char *rgb)
 	if (!rgb_split)
 		return (0);
 	hex_nbr = ft_convert_base(rgb_split[0], tenbase, hexbase);
+	printf("Hex number 1 is: %s\n", hex_nbr);
 	hex_nbr = ft_strjoin(hex_nbr, ft_convert_base(rgb_split[1], tenbase, hexbase));
+	printf("Hex number 2 is: %s\n", hex_nbr);
 	hex_nbr = ft_strjoin(hex_nbr, ft_convert_base(rgb_split[2], tenbase, hexbase));
-	return (hex_nbr);
+	printf("Hex number 3 is: %s\n", hex_nbr);
+	return (atoi(ft_convert_base(hex_nbr, hexbase, tenbase)));
 }
 
 int	check_map_line(char *line)

@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:01:36 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/25 11:13:20 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:54:16 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_putnbr_code(char *code, unsigned int int_nbr, char *base_to, int off)
 	i_nb = 0;
 	i = 0;
 	pow = power(int_nbr, str_len(base_to));
+	if (pow == 1)
+		pow++;
 	len = str_len(base_to);
 	while (nb != 0)
 	{
@@ -77,19 +79,20 @@ char	*cas_zero(char *nbr, char *base_from, char *base_to)
 	int		i;
 
 	i = 0;
-	code = malloc(sizeof(char) * 2);
+	code = malloc(sizeof(char) * 3);
 	if (!code)
 		return ((void *)0);
 	while (nbr[i] == 32 || nbr[i] == 43 || nbr[i] == 45 
 		|| (nbr[i] >= 9 && nbr[i] <= 13))
 		i++;
+	code[0] = '0';
 	if (nbr[i] == base_from[0])
 	{
-		code[0] = base_to[0];
+		code[1] = base_to[0];
 	}
 	else
-		code[0] = '0';
-	code[1] = '\0';
+		code[1] = '0';
+	code[2] = '\0';
 	return (code);
 }
 
@@ -116,8 +119,17 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	else
 		int_nbr = nb;
 	pow = power(int_nbr, str_len(base_to));
-	code = malloc(sizeof(char) * (pow + signe));
-	code[pow + signe - 1] = '\0';
+	if (pow == 1)
+	{
+		code = malloc(sizeof(char) * (pow + signe + 1));
+		code[0] = '0';
+		code[pow + signe] = '\0';
+	}
+	else
+	{
+		code = malloc(sizeof(char) * (pow + signe));
+		code[pow + signe - 1] = '\0';
+	}
 	return (converter(int_nbr, base_to, code, signe));
 }
 

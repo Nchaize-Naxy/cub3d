@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/06/28 15:11:09 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:37:02 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	init(t_data *data)
 	textures->S_path = NULL;
 	textures->W_path = NULL;
 	textures->E_path = NULL;
-	textures->Floor_color = NULL;
-	textures->Ceiling_color = NULL;
+	textures->Floor_color = 0;
+	textures->Ceiling_color = 0;
 	data->map = NULL;
 	data->player = malloc(sizeof(t_player));
 	data->mlx = mlx_init();
