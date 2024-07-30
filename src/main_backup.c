@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_backup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 11:50:59 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:05:00 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,15 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 	//printf("--------------\nwall 1 : %f\nwith x1 y1 : %d, %d\nwall 2 : %f\nwith x2 y2 : %d, %d\n--------------\ndir x : %f\ndir y : %f\n--------------\n\n", data->wall1, x1, y1, data->wall2, x2, y2, dir_x, dir_y);
 	if (data->wall1 <= data->wall2)
 	{
-		data->ray.wall_x = x1;
-		data->ray.wall_y = y1;
 		if (dir_y <= 0)
 		{
 			if (data->map[y1 - 1][x1] == '1')
-				return (data->wall_color = 0x00FFFF00, data->wall_dir = S, data->wall1);
+				return (data->wall_color = 0x00FFFF00, data->wall1);
 		}
 		if (dir_y >= 0)
 		{
 			if (data->map[y1][x1] == '1')
-				return (data->wall_color = 0x00FF0000, data->wall_dir = N, data->wall1);
+				return (data->wall_color = 0x00FF0000, data->wall1);
 		}
 		data->ray.pos_x = data->ray.x1;
 		data->ray.pos_y = data->ray.y1;
@@ -44,17 +42,15 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 	}
 	else
 	{
-		data->ray.wall_x = x2;
-		data->ray.wall_y = y2;
 		if (dir_x >= 0)
 		{
 			if (data->map[y2][x2] == '1')
-				return (data->wall_color = 0x0000FF00, data->wall_dir = E, data->wall2);
+				return (data->wall_color = 0x0000FF00, data->wall2);
 		}
 		if (dir_x <= 0)
 		{
 			if (data->map[y2][x2 - 1] == '1')
-				return (data->wall_color = 0x000000FF, data->wall_dir = W, data->wall2);
+				return (data->wall_color = 0x000000FF, data->wall2);
 		}
 		data->ray.pos_x = data->ray.x2;
 		data->ray.pos_y = data->ray.y2;
@@ -298,18 +294,6 @@ void	minimap(t_data *data)
 	}
 }
 
-int	find_pixel_tx(t_data *data)
-{
-	float x;
-	float y;
-	
-	if (data->wall_dir == N || data->wall_dir == S)
-		x = data->ray.wall_x - fabs(data->ray.wall_x);
-	else if (data->wall_dir == E || data->wall_dir == W)
-		y = data->ray.wall_y - fabs(data->ray.wall_y);
-	return (0);
-}
-
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;
@@ -318,7 +302,7 @@ int	play(t_data *data, float c_a, int c_a_time)
 
 	i = 0;
 	perp_walldist = (data->wall * sin(M_PI / 2 + c_a));
-	wall_height = round(1080 / perp_walldist);
+	wall_height = round(1080 * (tan(M_PI/6)) / perp_walldist);
 	while (i < (wall_height) / 2 && i < 540)
 	{
 		if (c_a_time < 960)
@@ -378,8 +362,8 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
-	printf("Floor color out of init is: %d\n", data->textures->Floor_color);
-	printf("Celing color out of init is: %d\n", data->textures->Ceiling_color);
+	printf("Floor color is: %d\n", data->textures->Floor_color);
+	printf("Celing color is: %d\n", data->textures->Ceiling_color);
 	mlx_type_shit(data);
 	return (0);
 }

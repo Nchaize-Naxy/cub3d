@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 13:16:27 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:48:42 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,18 @@
 # define ID_EA  "EA"
 # define ID_F   "F"
 # define ID_C   "C"
-
+# define S		0
+# define N		1
+# define E		2
+# define W		3
 typedef struct s_ray
 {
 	float	x1;
 	float	x2;
 	float	y1;
 	float	y2;
+	float	wall_x;
+	float	wall_y;
 	float	pos_x;
 	float	pos_y;
 }	t_ray;
@@ -89,6 +94,10 @@ typedef struct s_textures
 	char	*S_path;
 	char	*W_path;
 	char	*E_path;
+	void	*N_img;
+	void	*S_img;
+	void	*W_img;
+	void	*E_img;
 	int		Floor_color;
 	int		Ceiling_color;
 }	t_textures;
@@ -109,6 +118,7 @@ typedef struct s_data
 	t_textures	*textures;
 	t_ray		ray;
 	t_image		img;
+	int			wall_dir;
 
 	int			wall_color;
 	

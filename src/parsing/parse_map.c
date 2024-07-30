@@ -6,34 +6,41 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/25 11:43:55 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:53:03 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
 int	handle_identifier(char *line, t_data *data)
 {
 	char **split;
-
+	int	size;
+	
+	size = 250;
 	split = ft_split(line, ' ');
+
+	printf("Line is: %s\n", line);
+	printf("Texture path is %s\n", split[1]);
 	if (count_tab(split) > 2)
 		return (error("too many arguments found in a single line"), 0);
 	if (!split || !split[0])
 		return (0);
 	else if (!ft_strncmp(split[0], ID_EA, 3))
-		data->textures->E_path = ft_strdup(split[1]);
+	{
+		write(1,"a\n", 2);
+		data->textures->E_img = mlx_xpm_to_image(data->mlx, &split[1], &size, &size);
+	}
 	else if (!ft_strncmp(split[0], ID_SO, 3))
-		data->textures->S_path = ft_strdup(split[1]);
+		data->textures->S_img = mlx_xpm_to_image(data->mlx, &split[1], &size, &size);
 	else if (!ft_strncmp(split[0], ID_NO, 3))
-		data->textures->N_path = ft_strdup(split[1]);
+		data->textures->N_img = mlx_xpm_to_image(data->mlx, &split[1], &size, &size);
 	else if (!ft_strncmp(split[0], ID_WE, 3))
-		data->textures->W_path = ft_strdup(split[1]);
+		data->textures->W_img = mlx_xpm_to_image(data->mlx, &split[1], &size, &size);
 	else if (!ft_strncmp(split[0], ID_F, 2))
-		data->textures->Floor_color = conv_rgb(ft_strdup(split[1]));
+		data->textures->Floor_color = conv_rgb(split[1]);
 	else if (!ft_strncmp(split[0], ID_C, 2))
-		data->textures->Ceiling_color = conv_rgb(ft_strdup(split[1]));
+		data->textures->Ceiling_color = conv_rgb(split[1]);
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
 	{
 		free_tab(split);

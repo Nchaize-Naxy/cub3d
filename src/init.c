@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 11:37:02 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:43:08 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	init(t_data *data)
 	data->ray.y2 = data->player->pos_y;
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
-	
+	data->ray.wall_x = data->player->pos_x;
+	data->ray.wall_y = data->player->pos_y;
 	
 	return (0);
 }

@@ -1,11 +1,12 @@
-NO ./NO_texture
-
-
 
 F    80,80,80
 C  100,150,240
 
-EA                                ./EA_texure
+EA                                ./metalsheets.xpm
+WE                               ./metalsheets.xpm
+NO                              ./metalsheets.xpm
+SO                                ./metalsheets.xpm
+
 
 11111111111111111111111111111111111
 11110000000000000000001111111111111
