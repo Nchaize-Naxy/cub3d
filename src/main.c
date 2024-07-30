@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 12:40:54 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:03:51 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ void	minimap(t_data *data)
 	}
 }
 
-int	find_pixel_tx(t_data *data)
+/* int	find_pixel_tx(t_data *data)
 {
 	float x;
 	float y;
@@ -307,7 +307,7 @@ int	find_pixel_tx(t_data *data)
 		y = data->ray.wall_y - fabs(data->ray.wall_y);
 	return (0);
 }
-
+ */
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 13:43:18 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:56:15 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ typedef struct s_player
 	
 }	t_player;
 
+typedef struct	s_image
+{
+	char	*addr;
+	void	*img;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_image;
+
 typedef struct	s_tx_info
 {
 	char	*info;
@@ -112,7 +121,7 @@ typedef struct s_data
 	t_textures	*textures;
 	t_ray		ray;
 	int			wall_dir;
-
+	t_image		img;
 	int			wall_color;
 	
 }	t_data;
@@ -129,7 +138,7 @@ int	init(t_data *data);
 int	play(t_data *data, float c_a, int c_a_time);
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a);
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
-inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
+void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing
 int	is_valid_ch(char c);
