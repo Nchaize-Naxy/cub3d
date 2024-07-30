@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 12:36:11 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:40:54 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,6 @@ int	find_pixel_tx(t_data *data)
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;
-	int	wall_height;
 	int	i;
 	int	half_width;
 	int	half_height;
@@ -323,18 +322,13 @@ int	play(t_data *data, float c_a, int c_a_time)
 	printf("%d\n", half_width);
 	wall_height = round(WINWIDTH / data->wall);
 	while (i <= (wall_height) / 2 && i < half_height)
-	perp_walldist = (data->wall * sin(M_PI / 2 + c_a));
-	wall_height = round(1080 / perp_walldist);
-	while (i < (wall_height) / 2 && i < 540)
 	{
 		if (c_a_time <= half_width)
-		if (c_a_time < 960)
 		{
 			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, data->wall_color);
 			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, data->wall_color);
 		}
 		if (c_a_time > half_width)
-		if (c_a_time >= 960)
 		{
 			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, data->wall_color);
 			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, data->wall_color);
@@ -386,8 +380,6 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
-	printf("Floor color out of init is: %d\n", data->textures->Floor_color);
-	printf("Celing color out of init is: %d\n", data->textures->Ceiling_color);
 	mlx_type_shit(data);
 	return (0);
 }

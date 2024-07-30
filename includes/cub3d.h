@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 12:34:13 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:43:18 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,22 @@ typedef struct s_player
 	
 }	t_player;
 
-typedef struct s_image
+typedef struct	s_tx_info
 {
+	char	*info;
 	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		bits_px;
+	int		size_line;
 	int		endian;
+}	t_tx_info;
 
-}	t_image;
-
-
-typedef struct s_textures
+typedef struct	s_textures
 {
-	int		i;
-	char	*N_path;
-	char	*S_path;
-	char	*W_path;
-	char	*E_path;
-	void	*N_img;
-	void	*S_img;
-	void	*W_img;
-	void	*E_img;
+	int			i;
+	t_tx_info	*NO;
+	t_tx_info	*SO;
+	t_tx_info	*EA;
+	t_tx_info	*WE;
 	int		Floor_color;
 	int		Ceiling_color;
 }	t_textures;
@@ -117,7 +111,6 @@ typedef struct s_data
 	t_player	*player;
 	t_textures	*textures;
 	t_ray		ray;
-	t_image		img;
 	int			wall_dir;
 
 	int			wall_color;
@@ -160,5 +153,9 @@ char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
 int	ft_atoi(const char *str);
+
+//textures
+int	init_textures(t_data *data);
+
 
 #endif
