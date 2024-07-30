@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/29 14:43:08 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:34:29 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	init_player(t_data *data)
 	data->player->pos_x = 0;
 	data->player->pos_y = 0;
 	data->player->a = 0;
-	data->player->dir_x = cos(data->player->a) * 5;
-	data->player->dir_y = sin(data->player->a) * 5;
+	data->player->dir_x = cos(data->player->a);
+	data->player->dir_y = sin(data->player->a);
 	data->player->move_f = 0;
 	data->player->move_b = 0;
 	data->player->move_r = 0;

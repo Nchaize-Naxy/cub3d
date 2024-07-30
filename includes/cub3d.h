@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 11:48:42 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:34:13 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,6 @@ int	init(t_data *data);
 int	play(t_data *data, float c_a, int c_a_time);
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a);
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
-void	minimap(t_data *data);
-int	put_ceiling(t_data *data);
-int	put_floor(t_data *data);
 inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing

@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 11:50:59 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:36:11 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,50 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a)
 {
-	(void) dir_x;
+	(void) c_a;
 	data->ray.y1 = (int)data->ray.pos_y;
 	if ((data->ray.pos_y != data->player->pos_y) && (dir_y <= 0))
 		data->ray.y1 -= 1;
 	if (dir_y >= 0)
 		data->ray.y1 += 1;
-	data->ray.x1 = (data->ray.y1 - data->ray.pos_y) / tan(data->player->a + c_a) + data->ray.pos_x;
-	data->wall1 = sqrt(pow(data->ray.x1 - data->player->pos_x, 2) + pow(data->ray.y1 - data->player->pos_y, 2));
+	data->ray.x1 = (data->ray.y1 - data->ray.pos_y) * (dir_x / dir_y) + data->ray.pos_x;
+	data->wall1 = sqrt(pow(data->ray.x1 - data->player->pos_x, 2) + pow(data->ray.y1 - data->player->pos_y, 2) / (dir_x * dir_x + dir_y * dir_y));
 	return (0);
 }
 
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a)
 {
-	(void) dir_y;
+	(void) c_a;
 	data->ray.x2 = (int)data->ray.pos_x;
 	if ((data->ray.pos_x != data->player->pos_x) && (dir_x <= 0))
 		data->ray.x2 -= 1;
 	if (dir_x >= 0)
 		data->ray.x2 += 1;
-	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) * tan(data->player->a + c_a) + data->ray.pos_y;
-	data->wall2 = sqrt(pow(data->ray.x2 - data->player->pos_x, 2) + pow(data->ray.y2 - data->player->pos_y, 2));
+	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) / (dir_x / dir_y) + data->ray.pos_y;
+	data->wall2 = sqrt(pow(data->ray.x2 - data->player->pos_x, 2) + pow(data->ray.y2 - data->player->pos_y, 2) / (dir_x * dir_x + dir_y * dir_y));
 	return (0);
 }
 
-int	raycast(t_data *data, float dir_x, float dir_y, float c_a)
+int	raycast(t_data *data, float dir_x, float dir_y, int c_a_time)
 {
-	dir_x = cos(data->player->a + c_a);
-	dir_y = sin(data->player->a + c_a);
-	raycast_x_wall(data, dir_x, dir_y, c_a);
-	raycast_y_wall(data, dir_x, dir_y, c_a);
+	dir_x = cos(data->player->a) - (c_a_time * sin(data->player->a)) / WINWIDTH;
+	dir_y = sin(data->player->a) + (c_a_time * cos(data->player->a)) / WINWIDTH;
+	raycast_x_wall(data, dir_x, dir_y, 0);
+	raycast_y_wall(data, dir_x, dir_y, 0);
 	while (data->wall == 0)
 	{
-		data->wall = wall_check(data, dir_x, dir_y, c_a);
+		data->wall = wall_check(data, dir_x, dir_y, 0);
 	}
 	return (0);
+}
+
+void	reset_raycast(t_data *data)
+{
+	data->wall = 0;
+	data->ray.pos_x = data->player->pos_x;
+	data->ray.pos_y = data->player->pos_y;
+	data->wall1 = 0;
+	data->wall2 = 0;
 }
 
 int	move_player(t_data *data)
@@ -107,55 +116,53 @@ int	move_player(t_data *data)
 	float	move_x;
 	float	move_y;
 	
-	move_x = data->player->dir_x / 100;
-	move_y = data->player->dir_y / 100;
+	move_x = data->player->dir_x * 5 / 100;
+	move_y = data->player->dir_y * 5 / 100;
 	if (data->player->move_f == 1)
 	{
-		if (data->map[(int)(data->player->pos_y + move_y)][(int)(data->player->pos_x + move_x)] != '1')
-		{
+		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x + move_x)] != '1')
 			data->player->pos_x += move_x;
+		if (data->map[(int)(data->player->pos_y + move_y)][(int)(data->player->pos_x)] != '1')
 			data->player->pos_y += move_y;
-		}
 	}
 	if (data->player->move_b == 1)
 	{
-		if (data->map[(int)(data->player->pos_y - move_y)][(int)(data->player->pos_x - move_x)] != '1')
-		{
+		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x - move_x)] != '1')
 			data->player->pos_x -= move_x;
+		if (data->map[(int)(data->player->pos_y - move_y)][(int)(data->player->pos_x)] != '1')
 			data->player->pos_y -= move_y;
-		}
 	}
 	if (data->player->move_r == 1)
 	{
-		if (data->map[(int)(data->player->pos_y + move_x)][(int)(data->player->pos_x - move_y)] != '1')
-		{
+		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x - move_y)] != '1')
 			data->player->pos_x -= move_y;
+		if (data->map[(int)(data->player->pos_y + move_x)][(int)(data->player->pos_x)] != '1')
 			data->player->pos_y += move_x;
-		}
 	}
 	if (data->player->move_l == 1)
 	{
-		if (data->map[(int)(data->player->pos_y - move_x)][(int)(data->player->pos_x + move_y)] != '1')
-		{
+		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x + move_y)] != '1')
 			data->player->pos_x += move_y;
+		if (data->map[(int)(data->player->pos_y - move_x)][(int)(data->player->pos_x)] != '1')
 			data->player->pos_y -= move_x;
-		}
 	}
 	if (data->player->rotate_l == 1)
 	{
 		data->player->a -= 0.02;
+		data->player->a -= 0.02;
 		if (data->player->a < 0)
 			data->player->a += 2 * M_PI;
-		data->player->dir_x = cos(data->player->a) * 5;
-		data->player->dir_y = sin(data->player->a) * 5;
+		data->player->dir_x = cos(data->player->a);
+		data->player->dir_y = sin(data->player->a);
 	}
 	if (data->player->rotate_r == 1)
 	{
 		data->player->a += 0.02;
+		data->player->a += 0.02;
 		if (data->player->a > 2 * M_PI)
 			data->player->a -= 2 * M_PI;
-		data->player->dir_x = cos(data->player->a) * 5;
-		data->player->dir_y = sin(data->player->a) * 5;
+		data->player->dir_x = cos(data->player->a);
+		data->player->dir_y = sin(data->player->a);
 	}
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
@@ -173,30 +180,21 @@ int	render(t_data *data)
 	int		c_a_time;
 
 	c_a = 0;
-	c_a_time = 0;
+	c_a_time = -(WINWIDTH / 2);
 	move_player(data);
+	/*inutile*/
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
-	data->img.img = mlx_new_image(data->mlx, 1920, 1080);
+	//
+	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length,
 						&data->img.endian);
-	//minimap(data);
-	while (c_a_time <= WINWIDTH)
+	while (c_a_time <= WINWIDTH / 2)
 	{
-		raycast(data, data->player->dir_x, data->player->dir_y, c_a);
+		raycast(data, data->player->dir_x, data->player->dir_y, c_a_time); 
 		play(data, c_a, c_a_time);
-		data->wall = 0;
-		data->ray.pos_x = data->player->pos_x;
-		data->ray.pos_y = data->player->pos_y;
-		data->wall1 = 0;
-		data->wall2 = 0;
+		reset_raycast(data);
 		c_a_time++;
-		if (c_a_time == 960)
-			c_a = -0.00054541539;
-		if (c_a >= 0)
-			c_a += 0.00054541539;
-		else
-			c_a -= 0.00054541539;
 	}
 	data->ray.x1 = data->player->pos_x;
 	data->ray.y1 = data->player->pos_y;
@@ -313,37 +311,47 @@ int	find_pixel_tx(t_data *data)
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;
+	int	wall_height;
 	int	i;
-	float	perp_walldist;
+	int	half_width;
+	int	half_height;
 
 	i = 0;
+	(void)c_a;
+	half_width = WINWIDTH / 2;
+	half_height = WINHEIGHT / 2;
+	printf("%d\n", half_width);
+	wall_height = round(WINWIDTH / data->wall);
+	while (i <= (wall_height) / 2 && i < half_height)
 	perp_walldist = (data->wall * sin(M_PI / 2 + c_a));
 	wall_height = round(1080 / perp_walldist);
 	while (i < (wall_height) / 2 && i < 540)
 	{
+		if (c_a_time <= half_width)
 		if (c_a_time < 960)
 		{
-			my_mlx_put_pixel(data, 960 + c_a_time, (540) - i, data->wall_color);
-			my_mlx_put_pixel(data, 960 + c_a_time, (540) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, data->wall_color);
 		}
+		if (c_a_time > half_width)
 		if (c_a_time >= 960)
 		{
-			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) - i, data->wall_color);
-			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, data->wall_color);
 		}
 		i++;
 	}
-	while (i < WINHEIGHT / 2)
+	while (i < half_height)
 	{
-		if (c_a_time <= 960)
+		if (c_a_time <= half_width)
 		{
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), data->textures->Ceiling_color);
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), data->textures->Floor_color);
+			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i), data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i), data->textures->Floor_color);
 		}
-		if (c_a_time > 960)
+		if (c_a_time > half_width)
 		{
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, data->textures->Ceiling_color);
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, data->textures->Floor_color);
+			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) - i, data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) + i, data->textures->Floor_color);
 		}
 		i++;
 	}
