@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/25 13:16:27 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:28:58 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
+	float	n_a;
 
 	int	move_f;
 	int	move_b;
@@ -126,9 +127,6 @@ int	init(t_data *data);
 int	play(t_data *data, float c_a, int c_a_time);
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a);
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
-void	minimap(t_data *data);
-int	put_ceiling(t_data *data);
-int	put_floor(t_data *data);
 inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing
