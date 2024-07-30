@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 10:48:13 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:49:52 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a)
 	if (dir_y >= 0)
 		data->ray.y1 += 1;
 	data->ray.x1 = (data->ray.y1 - data->ray.pos_y) * (dir_x / dir_y) + data->ray.pos_x;
-	data->wall1 = sqrt(pow(data->ray.x1 - data->player->pos_x, 2) + pow(data->ray.y1 - data->player->pos_y, 2));
+	data->wall1 = sqrt(pow(data->ray.x1 - data->player->pos_x, 2) + pow(data->ray.y1 - data->player->pos_y, 2) / (dir_x * dir_x + dir_y * dir_y));
 	return (0);
 }
 
@@ -81,7 +81,7 @@ int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a)
 	if (dir_x >= 0)
 		data->ray.x2 += 1;
 	data->ray.y2 = (data->ray.x2 - data->ray.pos_x) / (dir_x / dir_y) + data->ray.pos_y;
-	data->wall2 = sqrt(pow(data->ray.x2 - data->player->pos_x, 2) + pow(data->ray.y2 - data->player->pos_y, 2));
+	data->wall2 = sqrt(pow(data->ray.x2 - data->player->pos_x, 2) + pow(data->ray.y2 - data->player->pos_y, 2) / (dir_x * dir_x + dir_y * dir_y));
 	return (0);
 }
 
@@ -95,7 +95,6 @@ int	raycast(t_data *data, float dir_x, float dir_y, int c_a_time)
 	{
 		data->wall = wall_check(data, dir_x, dir_y, 0);
 	}
-	data->player->n_a = (fabs((dir_y + data->player->dir_x) / (dir_x - data->player->dir_y)));
 	return (0);
 }
 
@@ -175,13 +174,13 @@ int	render(t_data *data)
 	int		c_a_time;
 
 	c_a = 0;
-	c_a_time = - (WINWIDTH / 2);
+	c_a_time = -(WINWIDTH / 2);
 	move_player(data);
 	/*inutile*/
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
 	//
-	data->img.img = mlx_new_image(data->mlx, 1920, 1080);
+	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel, &data->img.line_length,
 						&data->img.endian);
 	while (c_a_time <= WINWIDTH / 2)
@@ -190,12 +189,6 @@ int	render(t_data *data)
 		play(data, c_a, c_a_time);
 		reset_raycast(data);
 		c_a_time++;
-		//if (c_a_time == 960)
-		//	c_a = atan((960 - c_a_time) / 1);
-		//if (c_a >= 0)
-			//c_a = atan(c_a_time / 1);
-		//else
-		//	c_a = atan((960 - c_a_time) / 1);;
 	}
 	data->ray.x1 = data->player->pos_x;
 	data->ray.y1 = data->player->pos_y;
@@ -258,37 +251,40 @@ int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;
 	int	i;
-	float	perp_walldist;
+	int	half_width;
+	int	half_height;
 
 	i = 0;
 	(void)c_a;
-	perp_walldist = data->wall * (data->player->n_a / sqrt(1 + pow(data->player->n_a, 2)));
-	wall_height = round(1080 / perp_walldist);
-	while (i <= (wall_height) / 2 && i < 540)
+	half_width = WINWIDTH / 2;
+	half_height = WINHEIGHT / 2;
+	printf("%d\n", half_width);
+	wall_height = round(WINWIDTH / data->wall);
+	while (i <= (wall_height) / 2 && i < half_height)
 	{
-		if (c_a_time <= 960)
+		if (c_a_time <= half_width)
 		{
-			my_mlx_put_pixel(data, 960 + c_a_time, (540) - i, data->wall_color);
-			my_mlx_put_pixel(data, 960 + c_a_time, (540) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, data->wall_color);
 		}
-		if (c_a_time > 960)
+		if (c_a_time > half_width)
 		{
-			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) - i, data->wall_color);
-			my_mlx_put_pixel(data, 960 + (960 - c_a_time), (540) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, data->wall_color);
 		}
 		i++;
 	}
-	while (i < WINHEIGHT / 2)
+	while (i < half_height)
 	{
-		if (c_a_time <= 960)
+		if (c_a_time <= half_width)
 		{
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) - i), data->textures->Ceiling_color);
-			my_mlx_put_pixel(data, (960 + c_a_time), ((540) + i), data->textures->Floor_color);
+			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i), data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i), data->textures->Floor_color);
 		}
-		if (c_a_time > 960)
+		if (c_a_time > half_width)
 		{
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) - i, data->textures->Ceiling_color);
-			my_mlx_put_pixel(data, (960) + (960 - c_a_time), (540) + i, data->textures->Floor_color);
+			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) - i, data->textures->Ceiling_color);
+			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) + i, data->textures->Floor_color);
 		}
 		i++;
 	}

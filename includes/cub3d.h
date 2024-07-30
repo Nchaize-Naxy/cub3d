@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/29 15:28:58 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:23:40 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
-	float	n_a;
 
 	int	move_f;
 	int	move_b;

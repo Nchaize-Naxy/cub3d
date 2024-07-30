@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/28 15:33:54 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:09:24 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ int	handle_player_pos(size_t line, size_t col, char dir, t_data *data)
 		data->player->a = M_PI;
 	if (dir == 'S')
 		data->player->a = M_PI / 2;
-	data->player->dir_x = cos(data->player->a) * 5;
-	data->player->dir_y = sin(data->player->a) * 5;
+	data->player->dir_x = cos(data->player->a);
+	data->player->dir_y = sin(data->player->a);
 	data->ray.x1 = data->player->pos_x;
 	data->ray.y1 = data->player->pos_y;
 	data->ray.x2 = data->player->pos_x;
