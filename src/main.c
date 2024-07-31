@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 17:03:51 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/07/31 22:57:02 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,18 +296,36 @@ void	minimap(t_data *data)
 	}
 }
 
-/* int	find_pixel_tx(t_data *data)
+int	get_pixel(t_data *data, int wall_height, int i)
 {
 	float x;
-	float y;
-	
+	int	tx_x;
+	int	tx_y;
+	char	*tx_info;
+	t_tx_info	*texture;
+
 	if (data->wall_dir == N || data->wall_dir == S)
+	{
+		if (data->wall_dir == N)
+			texture = data->textures->NO;
+		if (data->wall_dir == S)
+			texture = data->textures->SO;
 		x = data->ray.wall_x - fabs(data->ray.wall_x);
+	}
 	else if (data->wall_dir == E || data->wall_dir == W)
-		y = data->ray.wall_y - fabs(data->ray.wall_y);
-	return (0);
+	{
+		if (data->wall_dir == E)
+			texture = data->textures->EA;
+		if (data->wall_dir == W)
+			texture = data->textures->WE;
+		x = data->ray.wall_y - fabs(data->ray.wall_y);
+	}
+	tx_info = texture->info;
+	tx_x = texture->width * x;
+	tx_y = (texture->height / wall_height) * (i + texture->height / 2);
+	return (tx_info[texture->height * tx_y + tx_x]);
 }
- */
+
 int	play(t_data *data, float c_a, int c_a_time)
 {
 	int	wall_height;
@@ -325,13 +343,13 @@ int	play(t_data *data, float c_a, int c_a_time)
 	{
 		if (c_a_time <= half_width)
 		{
-			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, data->wall_color);
-			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, i));
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i));
 		}
 		if (c_a_time > half_width)
 		{
-			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, data->wall_color);
-			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, data->wall_color);
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, get_pixel(data, wall_height, i));
+			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, get_pixel(data, wall_height, i));
 		}
 		i++;
 	}
@@ -354,6 +372,7 @@ int	play(t_data *data, float c_a, int c_a_time)
 
 int	mlx_type_shit(t_data *data)
 {
+	printf("EA info is : %s, length is: %zu\n", data->textures->EA->info, ft_strlen(data->textures->EA->info));
 	data->mlx_win = NULL;
 	data->mlx_win = mlx_new_window(data->mlx, WINWIDTH, WINHEIGHT, "cub3d");
 	//if (!data->mlx_win)
@@ -380,6 +399,7 @@ int	main(int argc, char **argv)
 	init(data);
 	if (parsing(argv[1], data) == 0)
 		return (1);
+	write(1, "a\n", 2);
 	mlx_type_shit(data);
 	return (0);
 }

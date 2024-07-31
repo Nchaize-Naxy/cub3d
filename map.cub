@@ -1,11 +1,10 @@
 
 F    80,80,80
 C  100,150,240
-
-EA                                ./metalsheets.xpm
-WE                               ./metalsheets.xpm
-NO                              ./metalsheets.xpm
-SO                                ./metalsheets.xpm
+EA            metalsheets.xpm
+WE                               metalsheets.xpm
+NO                              metalsheets.xpm
+SO                              metalsheets.xpm
 
 
 11111111111111111111111111111111111

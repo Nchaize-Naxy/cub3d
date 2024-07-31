@@ -3,57 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/30 14:06:38 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:24:55 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+char	*no_back_n(char *string)
+{
+	size_t	i;
+
+	i = 0;
+	while (string && string[i])
+	{
+		if (string[i] == '\n')
+			return (ft_strndup(string, i));
+		i++;
+	}
+	return (string);
+}
+
 int	handle_identifier(char *line, t_data *data)
 {
 	char **split;
-	int	size;
 	t_tx_info	*texture;
-	
-	size = 250;
+	char	*file;
+
 	split = ft_split(line, ' ');
+	file = no_back_n(split[1]);
 	if (count_tab(split) > 2)
 		return (error("too many arguments found in a single line"), 0);
 	if (!split || !split[0])
 		return (0);
-	else if (!ft_strncmp(split[0], ID_EA, 3))
+	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
 	{
-		data->textures->EA->img = mlx_xpm_file_to_image(data->mlx, split[1], &size, &size);
-		data->textures->EA->info = mlx_get_data_addr(data->textures->EA->img, &data->textures->EA->bits_px, &data->textures->EA->size_line, &data->textures->EA->endian);
+		texture = data->textures->EA;
+		texture->img = mlx_xpm_file_to_image(data->mlx, "metalsheets.xpm", &(texture->width), &(texture->height));
+		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+		write(1, "f\n", 2);
 	}
-	else if (!ft_strncmp(split[0], ID_SO, 3))
+	else if (!ft_strncmp(split[0], ID_SO, 2))
 	{
 		texture = data->textures->SO;
-		texture->img = mlx_xpm_file_to_image(data->mlx, split[1], &size, &size);
+		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
+		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	}
-	else if (!ft_strncmp(split[0], ID_NO, 3))
+	else if (!ft_strncmp(split[0], ID_NO, 2))
 	{
 		texture = data->textures->NO;
-		texture->img = mlx_xpm_file_to_image(data->mlx, split[1], &size, &size);
+		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
+		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	}
-	else if (!ft_strncmp(split[0], ID_WE, 3))
+	else if (!ft_strncmp(split[0], ID_WE, 2))
 	{
 		texture = data->textures->WE;
-		texture->img = mlx_xpm_file_to_image(data->mlx, split[1], &size, &size);
+		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
+		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	}
-	else if (!ft_strncmp(split[0], ID_F, 2))
-		data->textures->Floor_color = conv_rgb(split[1]);
-	else if (!ft_strncmp(split[0], ID_C, 2))
-		data->textures->Ceiling_color = conv_rgb(split[1]);
+	else if (!ft_strncmp(split[0], ID_F, 1))
+		data->textures->Floor_color = conv_rgb(file);
+	else if (!ft_strncmp(split[0], ID_C, 1))
+		data->textures->Ceiling_color = conv_rgb(file);
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
 	{
 		free_tab(split);
+		free(file);
 		return (0);
 	}
 	free_tab(split);
+	free(file);
 	return (1);
 }
 

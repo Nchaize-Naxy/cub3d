@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 17:00:16 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/07/31 01:23:28 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ int	init_textures(t_data *data)
 	data->textures->NO = malloc(sizeof(t_tx_info));
 	data->textures->SO = malloc(sizeof(t_tx_info));
 	data->textures->EA = malloc(sizeof(t_tx_info));
+	data->textures->EA->info = NULL;
+	data->textures->EA->bits_px = 0;
+	data->textures->EA->size_line = 0;
+	data->textures->EA->endian = 0;
+	data->textures->EA->height = 0;
+	data->textures->EA->img = NULL;
+	data->textures->EA->width = 0;
 	data->textures->WE = malloc(sizeof(t_tx_info));
 	return (0);
 }

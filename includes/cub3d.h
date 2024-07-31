@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 16:56:15 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/07/31 19:27:02 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define N		1
 # define E		2
 # define W		3
+
 typedef struct s_ray
 {
 	float	x1;
@@ -89,6 +90,8 @@ typedef struct	s_tx_info
 {
 	char	*info;
 	void	*img;
+	int		width;
+	int		height;
 	int		bits_px;
 	int		size_line;
 	int		endian;
@@ -162,6 +165,7 @@ char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
 int	ft_atoi(const char *str);
+char	*ft_strndup(const char *s, size_t n);
 
 //textures
 int	init_textures(t_data *data);
