@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/31 22:57:02 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/26 16:39:56 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,21 +296,27 @@ void	minimap(t_data *data)
 	}
 }
 
+/* int	get_color_value(t_data *data, char c)
+{
+	
+} */
+
 int	get_pixel(t_data *data, int wall_height, int i)
 {
 	float x;
 	int	tx_x;
 	int	tx_y;
-	char	*tx_info;
 	t_tx_info	*texture;
+	char	*start;
 
+	texture = NULL;
 	if (data->wall_dir == N || data->wall_dir == S)
 	{
 		if (data->wall_dir == N)
 			texture = data->textures->NO;
 		if (data->wall_dir == S)
 			texture = data->textures->SO;
-		x = data->ray.wall_x - fabs(data->ray.wall_x);
+		x = data->ray.pos_x - fabs(data->ray.pos_x);
 	}
 	else if (data->wall_dir == E || data->wall_dir == W)
 	{
@@ -318,12 +324,17 @@ int	get_pixel(t_data *data, int wall_height, int i)
 			texture = data->textures->EA;
 		if (data->wall_dir == W)
 			texture = data->textures->WE;
-		x = data->ray.wall_y - fabs(data->ray.wall_y);
+		x = data->ray.pos_y - fabs(data->ray.pos_y);
 	}
-	tx_info = texture->info;
+	if (!texture)
+	{
+		write(1, "no texture\n", 11);
+		return (0);
+	}
 	tx_x = texture->width * x;
-	tx_y = (texture->height / wall_height) * (i + texture->height / 2);
-	return (tx_info[texture->height * tx_y + tx_x]);
+	tx_y = (texture->height / 2) + (i * texture->height / wall_height);
+	start = texture->info;
+	return (mlx_int_get_text_rgb((start + texture->size_line * tx_y + 10000 + tx_x * (texture->bits_px / 8)), NULL));
 }
 
 int	play(t_data *data, float c_a, int c_a_time)
@@ -337,7 +348,7 @@ int	play(t_data *data, float c_a, int c_a_time)
 	(void)c_a;
 	half_width = WINWIDTH / 2;
 	half_height = WINHEIGHT / 2;
-	printf("%d\n", half_width);
+	//printf("%d\n", half_width);
 	wall_height = round(WINWIDTH / data->wall);
 	while (i <= (wall_height) / 2 && i < half_height)
 	{

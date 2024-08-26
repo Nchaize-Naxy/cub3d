@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/31 01:23:28 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/26 13:54:55 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,29 @@ int	init(t_data *data)
 	return (0);
 }
 
+t_tx_info	*init_pole()
+{
+	t_tx_info *pole;
+
+	pole = malloc(sizeof(t_tx_info));
+	pole->info = NULL;
+	pole->bits_px = 0;
+	pole->size_line = 0;
+	pole->endian = 0;
+	pole->height = 0;
+	pole->img = NULL;
+	pole->width = 0;
+	return (pole);
+}
+
 int	init_textures(t_data *data)
 {
 	data->textures = malloc(sizeof(t_textures));
 	data->textures->Floor_color = 0;
 	data->textures->Ceiling_color = 0;
-	data->textures->NO = malloc(sizeof(t_tx_info));
-	data->textures->SO = malloc(sizeof(t_tx_info));
-	data->textures->EA = malloc(sizeof(t_tx_info));
-	data->textures->EA->info = NULL;
-	data->textures->EA->bits_px = 0;
-	data->textures->EA->size_line = 0;
-	data->textures->EA->endian = 0;
-	data->textures->EA->height = 0;
-	data->textures->EA->img = NULL;
-	data->textures->EA->width = 0;
-	data->textures->WE = malloc(sizeof(t_tx_info));
+	data->textures->NO = init_pole();
+	data->textures->SO = init_pole();
+	data->textures->EA = init_pole();
+	data->textures->WE = init_pole();
 	return (0);
 }

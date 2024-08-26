@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/31 20:24:55 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/26 14:08:09 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,41 @@ char	*no_back_n(char *string)
 	return (string);
 }
 
+int	get_texture(t_data *data, t_tx_info *texture, char *file)
+{
+	texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
+	texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+	return (1);
+}
+
 int	handle_identifier(char *line, t_data *data)
 {
 	char **split;
-	t_tx_info	*texture;
 	char	*file;
 
 	split = ft_split(line, ' ');
 	file = no_back_n(split[1]);
+	//printf("path is : %s\n", file);
 	if (count_tab(split) > 2)
 		return (error("too many arguments found in a single line"), 0);
 	if (!split || !split[0])
 		return (0);
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
 	{
-		texture = data->textures->EA;
-		texture->img = mlx_xpm_file_to_image(data->mlx, "metalsheets.xpm", &(texture->width), &(texture->height));
-		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
-		write(1, "f\n", 2);
+		get_texture(data, data->textures->EA, file);
+		write(1, "fetching texture EA\n", 20);
 	}
 	else if (!ft_strncmp(split[0], ID_SO, 2))
 	{
-		texture = data->textures->SO;
-		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
-		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+		get_texture(data, data->textures->SO, file);
 	}
 	else if (!ft_strncmp(split[0], ID_NO, 2))
 	{
-		texture = data->textures->NO;
-		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
-		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+		get_texture(data, data->textures->NO, file);
 	}
 	else if (!ft_strncmp(split[0], ID_WE, 2))
 	{
-		texture = data->textures->WE;
-		texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
-		texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+		get_texture(data, data->textures->WE, file);
 	}
 	else if (!ft_strncmp(split[0], ID_F, 1))
 		data->textures->Floor_color = conv_rgb(file);
