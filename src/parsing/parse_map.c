@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/26 14:08:09 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:12:54 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*no_back_n(char *string)
 int	get_texture(t_data *data, t_tx_info *texture, char *file)
 {
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
-	texture->info = mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
+	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	return (1);
 }
 
@@ -37,7 +37,7 @@ int	handle_identifier(char *line, t_data *data)
 {
 	char **split;
 	char	*file;
-
+	//int i;
 	split = ft_split(line, ' ');
 	file = no_back_n(split[1]);
 	//printf("path is : %s\n", file);
@@ -48,6 +48,12 @@ int	handle_identifier(char *line, t_data *data)
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
 	{
 		get_texture(data, data->textures->EA, file);
+/* 		i = 0;
+		while (i < 10)
+		{
+			printf("%d is %d\n", i, data->textures->EA->info[i]);
+			i++;
+		} */
 		write(1, "fetching texture EA\n", 20);
 	}
 	else if (!ft_strncmp(split[0], ID_SO, 2))

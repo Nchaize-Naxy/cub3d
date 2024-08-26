@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/26 16:39:56 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:48:14 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,16 +307,17 @@ int	get_pixel(t_data *data, int wall_height, int i)
 	int	tx_x;
 	int	tx_y;
 	t_tx_info	*texture;
-	char	*start;
+	static int j = 1;
 
 	texture = NULL;
+	x = 1;
 	if (data->wall_dir == N || data->wall_dir == S)
 	{
 		if (data->wall_dir == N)
 			texture = data->textures->NO;
 		if (data->wall_dir == S)
 			texture = data->textures->SO;
-		x = data->ray.pos_x - fabs(data->ray.pos_x);
+		x = data->ray.wall_x- fabs(data->ray.wall_x);
 	}
 	else if (data->wall_dir == E || data->wall_dir == W)
 	{
@@ -324,17 +325,21 @@ int	get_pixel(t_data *data, int wall_height, int i)
 			texture = data->textures->EA;
 		if (data->wall_dir == W)
 			texture = data->textures->WE;
-		x = data->ray.pos_y - fabs(data->ray.pos_y);
+		x = data->ray.wall_y - fabs(data->ray.wall_y);
 	}
 	if (!texture)
 	{
 		write(1, "no texture\n", 11);
 		return (0);
 	}
+	if (j == 1)
+	{
+		printf("x is %f\n", x);
+		j++;
+	}
 	tx_x = texture->width * x;
 	tx_y = (texture->height / 2) + (i * texture->height / wall_height);
-	start = texture->info;
-	return (mlx_int_get_text_rgb((start + texture->size_line * tx_y + 10000 + tx_x * (texture->bits_px / 8)), NULL));
+	return (texture->info[tx_y + tx_x]);
 }
 
 int	play(t_data *data, float c_a, int c_a_time)
@@ -354,7 +359,7 @@ int	play(t_data *data, float c_a, int c_a_time)
 	{
 		if (c_a_time <= half_width)
 		{
-			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, i));
+			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, -i));
 			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i));
 		}
 		if (c_a_time > half_width)
@@ -383,7 +388,6 @@ int	play(t_data *data, float c_a, int c_a_time)
 
 int	mlx_type_shit(t_data *data)
 {
-	printf("EA info is : %s, length is: %zu\n", data->textures->EA->info, ft_strlen(data->textures->EA->info));
 	data->mlx_win = NULL;
 	data->mlx_win = mlx_new_window(data->mlx, WINWIDTH, WINHEIGHT, "cub3d");
 	//if (!data->mlx_win)
