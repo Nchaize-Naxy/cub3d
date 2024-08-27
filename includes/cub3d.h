@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 11:23:40 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:54:31 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
-
+	
+	int	m_x;
 	int	move_f;
 	int	move_b;
 	int	move_r;
@@ -123,9 +124,9 @@ typedef struct s_parsing
 
 //functionalities
 int	init(t_data *data);
-int	play(t_data *data, float c_a, int c_a_time);
-int	raycast_x_wall(t_data *data, float dir_x, float dir_y, float c_a);
-int	raycast_y_wall(t_data *data, float dir_x, float dir_y, float c_a);
+int	play(t_data *data, int c_a_time);
+int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
+int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
 inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing

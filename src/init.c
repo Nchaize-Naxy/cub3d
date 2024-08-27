@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/30 11:09:33 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:45:44 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	init_player(t_data *data)
 	data->player->move_l = 0;
 	data->player->rotate_r = 0;
 	data->player->rotate_l = 0;
+	data->player->m_x = 0;
 	return (0);
 }
 
@@ -54,7 +55,6 @@ int	init(t_data *data)
 	data->ray.y2 = data->player->pos_y;
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
-	
 	
 	return (0);
 }
