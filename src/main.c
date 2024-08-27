@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/27 16:22:56 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:30:10 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,17 +285,22 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 			texture = data->textures->NO;
 		if (data->wall_dir == S)
 			texture = data->textures->SO;
-		x_int = (int) data->ray.pos_y;
+		x_int = (int) data->ray.pos_x;
 		x = (data->ray.pos_x - x_int);
 	}
 	else if (data->wall_dir == E || data->wall_dir == W)
 	{
+		x_int = (int) data->ray.pos_y;
 		if (data->wall_dir == E)
+		{
 			texture = data->textures->EA;
+			x = ((data->ray.pos_y - x_int));
+		}
 		if (data->wall_dir == W)
+		{
 			texture = data->textures->WE;
-		x_int = (int) data->ray.pos_x;
-		x = (1 - (data->ray.pos_y - x_int));
+			x = (1 - (data->ray.pos_y - x_int));
+		}
 	}
 	if (!texture)
 	{
@@ -329,14 +334,21 @@ int	play(t_data *data, int c_a_time)
 	i = 0;
 	half_width = WINWIDTH / 2;
 	half_height = WINHEIGHT / 2;
-	wall_height = round(WINWIDTH / data->wall);
-	while (i <= (wall_height) / 2 && i < half_height)
+	//printf("%d\n", half_width);
+/* 	if (data->wall < 1.0)
+		wall_height = round(WINWIDTH / (1 - data->wall));
+	else */
+	wall_height = round((WINWIDTH / data->wall));
+	//printf("WINWIDTH is %d, data-> wall is %f, wall_height is %d\n", WINWIDTH, data->wall, wall_height);
+	//printf("c_a_time is %d\n", c_a_time);
+
+	while (i <= (wall_height) / 2 && i <= half_height)
 	{
 		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, -i, c_a_time));
 		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i, c_a_time));
 		i++;
 	}
-	while (i < half_height)
+	while (i <= half_height)
 	{
 		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i), data->textures->Ceiling_color);
 		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i), data->textures->Floor_color);
