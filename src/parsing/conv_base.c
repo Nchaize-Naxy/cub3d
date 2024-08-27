@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conv_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:01:36 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/07/25 11:54:16 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:56:49 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ void	ft_putnbr_code(char *code, unsigned int int_nbr, char *base_to, int off)
 {
 	int						i;
 	int						len;
-	int						i_nb;
 	int						pow;
 	unsigned int			nb;
 
 	nb = int_nbr;
-	i_nb = 0;
 	i = 0;
 	pow = power(int_nbr, str_len(base_to));
 	if (pow == 1)

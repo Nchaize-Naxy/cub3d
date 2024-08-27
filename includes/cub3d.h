@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/07/31 12:54:31 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:40:05 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 # define ID_EA  "EA"
 # define ID_F   "F"
 # define ID_C   "C"
+# define S		0
+# define N		1
+# define E		2
+# define W		3
 
 typedef struct s_ray
 {
@@ -49,6 +53,8 @@ typedef struct s_ray
 	float	x2;
 	float	y1;
 	float	y2;
+	float	wall_x;
+	float	wall_y;
 	float	pos_x;
 	float	pos_y;
 }	t_ray;
@@ -72,24 +78,33 @@ typedef struct s_player
 	
 }	t_player;
 
-typedef struct s_image
+typedef struct	s_image
 {
-	void	*img;
 	char	*addr;
+	void	*img;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-
 }	t_image;
 
-
-typedef struct s_textures
+typedef struct	s_tx_info
 {
-	int		i;
-	char	*N_path;
-	char	*S_path;
-	char	*W_path;
-	char	*E_path;
+	int	*info;
+	void	*img;
+	int		width;
+	int		height;
+	int		bits_px;
+	int		size_line;
+	int		endian;
+}	t_tx_info;
+
+typedef struct	s_textures
+{
+	int			i;
+	t_tx_info	*NO;
+	t_tx_info	*SO;
+	t_tx_info	*EA;
+	t_tx_info	*WE;
 	int		Floor_color;
 	int		Ceiling_color;
 }	t_textures;
@@ -109,8 +124,8 @@ typedef struct s_data
 	t_player	*player;
 	t_textures	*textures;
 	t_ray		ray;
+	int			wall_dir;
 	t_image		img;
-
 	int			wall_color;
 	
 }	t_data;
@@ -151,5 +166,10 @@ char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
 int	ft_atoi(const char *str);
+char	*ft_strndup(const char *s, size_t n);
+
+//textures
+int	init_textures(t_data *data);
+
 
 #endif

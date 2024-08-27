@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/24 14:15:24 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:42:37 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ int parsing(char *map_name, t_data *data)
     if (check_name(map_name) == 0)
     {
 		data->map_fd = open(map_name, O_RDONLY);
-        printf("map fd: %d\n", data->map_fd);
-		printf("map name : %s\n", map_name);
 		if (data->map_fd == -1)
             return (error("error opening map file\n"), 0);
 		read_file(data);
