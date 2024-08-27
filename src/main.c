@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/27 10:18:59 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/27 15:28:40 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 		if (dir_y <= 0)
 		{
 			if (data->map[y1 - 1][x1] == '1')
-				return (data->wall_color = 0x00FFFF00, data->wall_dir = S, data->wall1);
+				return (data->ray.pos_x = data->ray.x1, data->ray.pos_y = data->ray.y1, data->wall_color = 0x00FFFF00, data->wall_dir = S, data->wall1);
 		}
 		if (dir_y >= 0)
 		{
 			if (data->map[y1][x1] == '1')
-				return (data->wall_color = 0x00FF0000, data->wall_dir = N, data->wall1);
+				return (data->ray.pos_x = data->ray.x1, data->ray.pos_y = data->ray.y1, data->wall_color = 0x00FF0000, data->wall_dir = N, data->wall1);
 		}
 		data->ray.pos_x = data->ray.x1;
 		data->ray.pos_y = data->ray.y1;
@@ -49,12 +49,12 @@ float	wall_check(t_data *data, float dir_x, float dir_y, float c_a)
 		if (dir_x >= 0)
 		{
 			if (data->map[y2][x2] == '1')
-				return (data->wall_color = 0x0000FF00, data->wall_dir = E, data->wall2);
+				return (data->ray.pos_x = data->ray.x2, data->ray.pos_y = data->ray.y2, data->wall_color = 0x0000FF00, data->wall_dir = E, data->wall2);
 		}
 		if (dir_x <= 0)
 		{
 			if (data->map[y2][x2 - 1] == '1')
-				return (data->wall_color = 0x000000FF, data->wall_dir = W, data->wall2);
+				return (data->ray.pos_x = data->ray.x2, data->ray.pos_y = data->ray.y2, data->wall_color = 0x000000FF, data->wall_dir = W, data->wall2);
 		}
 		data->ray.pos_x = data->ray.x2;
 		data->ray.pos_y = data->ray.y2;
@@ -303,7 +303,8 @@ void	minimap(t_data *data)
 
 int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 {
-	float x;
+	double x;
+	int	x_int;
 	int	tx_x;
 	int	tx_y;
 	t_tx_info	*texture;
@@ -317,7 +318,8 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 			texture = data->textures->NO;
 		if (data->wall_dir == S)
 			texture = data->textures->SO;
-		x = data->ray.pos_x- fabs(data->ray.pos_x);
+		x_int = (int) data->ray.pos_y;
+		x = (data->ray.pos_x - x_int);
 	}
 	else if (data->wall_dir == E || data->wall_dir == W)
 	{
@@ -325,25 +327,29 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 			texture = data->textures->EA;
 		if (data->wall_dir == W)
 			texture = data->textures->WE;
-		x = data->ray.pos_x - fabs(data->ray.pos_x);
+		x_int = (int) data->ray.pos_x;
+		x = (1 - (data->ray.pos_y - x_int));
 	}
 	if (!texture)
 	{
 		write(1, "no texture\n", 11);
 		return (0);
 	}
+	//printf("x is %f\n", x);
 	(void) j;
-/* 	if (j %10 == 0)
+/* 	if (j %100 == 0)
 	{
+		printf("wall height is %d\n", wall_height);
 		printf("ray.pos_x is %f\nray.pos_y is %f\n", data->ray.pos_x, data->ray.pos_y);
 		printf("ray.wall_x is %f\nray.wall_y is %f\n", data->ray.wall_x, data->ray.wall_y);
-		printf("x is %f\n", x);
-	}
-	j++; */
+		printf("x is %f\nx_int is %d\n", x, x_int);
+		printf("wall dir is %d\n", data->wall_dir);
+	} */
+	j++;
 	(void) c_a_time;
 	tx_x = texture->width * x;
 	tx_y = (texture->height / 2) + (i * texture->height / wall_height);
-	return (texture->info[tx_y + tx_x]);
+	return (texture->info[tx_y * (texture->width) + tx_x]);
 }
 
 int	play(t_data *data, float c_a, int c_a_time)
@@ -352,31 +358,28 @@ int	play(t_data *data, float c_a, int c_a_time)
 	int	i;
 	int	half_width;
 	int	half_height;
+	//static int count = 0;
 
 	i = 0;
 	(void)c_a;
 	half_width = WINWIDTH / 2;
 	half_height = WINHEIGHT / 2;
 	//printf("%d\n", half_width);
-	wall_height = round(WINWIDTH / data->wall);
+/* 	if (data->wall < 1.0)
+		wall_height = round(WINWIDTH / (1 - data->wall));
+	else */
+	wall_height = round((WINWIDTH / data->wall));
+	//printf("WINWIDTH is %d, data-> wall is %f, wall_height is %d\n", WINWIDTH, data->wall, wall_height);
 	//printf("c_a_time is %d\n", c_a_time);
+	if (c_a_time == 0/*count % 1920 == 0*/)
+	{
+		printf("player x is %f, player y is %f\nc_a_time is %d\n", data->player->pos_x, data->player->pos_y, c_a_time);
+		printf("ray.pos_y is %f, ray pos_x is %f, wall_dir is %d\n", data->ray.pos_y, data->ray.pos_x, data->wall_dir);
+	}
 	while (i <= (wall_height) / 2 && i < half_height)
 	{
-/* 		if (c_a_time <= half_width)
-		{
-			if (c_a_time % 2 == 0)
-				my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, 0x00ff00);
-			else
-				my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, 0x0000ff);
-			my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i, c_a_time));
-		} */
 		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, -i, c_a_time));
 		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i, c_a_time));
-/* 		if (c_a_time > half_width)
-		{
-			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) - i, get_pixel(data, wall_height, i));
-			my_mlx_put_pixel(data, half_width + (half_width - c_a_time), (half_height) + i, get_pixel(data, wall_height, i));
-		} */
 		i++;
 	}
 	while (i < half_height)
@@ -385,11 +388,6 @@ int	play(t_data *data, float c_a, int c_a_time)
 		{
 			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i), data->textures->Ceiling_color);
 			my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i), data->textures->Floor_color);
-		}
-		if (c_a_time > half_width)
-		{
-			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) - i, data->textures->Ceiling_color);
-			my_mlx_put_pixel(data, (half_width) + (half_width - c_a_time), (half_height) + i, data->textures->Floor_color);
 		}
 		i++;
 	}
