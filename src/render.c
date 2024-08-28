@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/28 09:21:50 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/28 12:29:46 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ int	on_destroy(t_data *data)
 	return (0);
 }
 
-/* int	get_color_value(t_data *data, char c)
-{
-	
-} */
-
 int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 {
 	double x;
@@ -60,7 +55,6 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 	int	tx_x;
 	int	tx_y;
 	t_tx_info	*texture;
-	static int j = 1;
 
 	texture = NULL;
 	x = 1;
@@ -87,22 +81,6 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 			x = (1 - (data->ray.pos_y - x_int));
 		}
 	}
-	if (!texture)
-	{
-		write(1, "no texture\n", 11);
-		return (0);
-	}
-	//printf("x is %f\n", x);
-	(void) j;
-/* 	if (j %100 == 0)
-	{
-		printf("wall height is %d\n", wall_height);
-		printf("ray.pos_x is %f\nray.pos_y is %f\n", data->ray.pos_x, data->ray.pos_y);
-		printf("ray.wall_x is %f\nray.wall_y is %f\n", data->ray.wall_x, data->ray.wall_y);
-		printf("x is %f\nx_int is %d\n", x, x_int);
-		printf("wall dir is %d\n", data->wall_dir);
-	} */
-	j++;
 	(void) c_a_time;
 	tx_x = texture->width * x;
 	tx_y = (texture->height / 2) + (i * texture->height / wall_height);
@@ -119,14 +97,7 @@ int	play(t_data *data, int c_a_time)
 	i = 0;
 	half_width = WINWIDTH / 2;
 	half_height = WINHEIGHT / 2;
-	//printf("%d\n", half_width);
-/* 	if (data->wall < 1.0)
-		wall_height = round(WINWIDTH / (1 - data->wall));
-	else */
 	wall_height = round((WINWIDTH / data->wall));
-	//printf("WINWIDTH is %d, data-> wall is %f, wall_height is %d\n", WINWIDTH, data->wall, wall_height);
-	//printf("c_a_time is %d\n", c_a_time);
-
 	while (i <= (wall_height) / 2 && i <= half_height)
 	{
 		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, -i, c_a_time));
