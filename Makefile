@@ -11,15 +11,21 @@ HEADERS = ./includes/cub3d.h\
 CFILES = main.c\
 	init.c\
 	utils.c\
+	raycast.c\
+	movement.c\
+	render.c\
 
 CFILES_GNL = get_next_line.c\
 	get_next_line_utils.c\
 
-CFILES_PARSING = check_map.c\
+CFILES_PARSING = \
+	check_map.c\
+	check_empty.c\
 	ft_split.c\
 	parsing.c\
 	parse_map.c\
 	conv_base.c\
+	conv_base_utils.c\
 
 SRCS_DIR = ./src/
 SRCS_GNL_DIR = ./src/gnl/

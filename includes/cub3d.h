@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/27 15:40:05 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:23:31 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ typedef struct s_data
 	int			wall_dir;
 	t_image		img;
 	int			wall_color;
-	
 }	t_data;
 
 typedef struct s_parsing
@@ -139,10 +138,6 @@ typedef struct s_parsing
 
 //functionalities
 int	init(t_data *data);
-int	play(t_data *data, int c_a_time);
-int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
-int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
-inline void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
 
 //parsing
 int	is_valid_ch(char c);
@@ -155,6 +150,33 @@ size_t	count_tab(char **tab);
 int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int	conv_rgb(char *rgb);
+int	check_empty(char **map, int line, int col, t_data *data);
+
+//raycast
+float	wall_check(t_data *data, float dir_x, float dir_y);
+int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
+int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
+int	raycast(t_data *data, float dir_x, float dir_y, int c_a_time);
+void	reset_raycast(t_data *data);
+
+//render
+int	render(t_data *data);
+void my_mlx_put_pixel(t_data *data, int x, int y, int color);
+int	play(t_data *data, int c_a_time);
+int	get_pixel(t_data *data, int wall_height, int i, int c_a_time);
+int	on_destroy(t_data *data);
+
+//movement
+int	handle_input(int keysym, t_data *data);
+int	move_player(t_data *data);
+int	move_mouse(t_data *data, int *x, int *y);
+int	release_handler(int keysym, t_data *data);
+
+//conv_base
+int		ft_atoi_base(char *str, char *base);
+int		base_check(char *str, size_t len);
+int		str_len(char *str);
+int		power(unsigned int nbr, size_t len);
 
 
 //utils

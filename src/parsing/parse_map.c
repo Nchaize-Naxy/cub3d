@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/27 15:43:35 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:35:15 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,50 +37,28 @@ int	handle_identifier(char *line, t_data *data)
 {
 	char **split;
 	char	*file;
-	//int i;
+
 	split = ft_split(line, ' ');
 	file = no_back_n(split[1]);
-	//printf("path is : %s\n", file);
 	if (count_tab(split) > 2)
 		return (error("too many arguments found in a single line"), 0);
 	if (!split || !split[0])
 		return (0);
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-	{
 		get_texture(data, data->textures->EA, file);
-/* 		i = 0;
-		while (i < 10)
-		{
-			printf("%d is %d\n", i, data->textures->EA->info[i]);
-			i++;
-		} */
-		write(1, "fetching texture EA\n", 20);
-	}
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-	{
 		get_texture(data, data->textures->SO, file);
-	}
 	else if (!ft_strncmp(split[0], ID_NO, 2))
-	{
 		get_texture(data, data->textures->NO, file);
-	}
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-	{
 		get_texture(data, data->textures->WE, file);
-	}
 	else if (!ft_strncmp(split[0], ID_F, 1))
 		data->textures->Floor_color = conv_rgb(file);
 	else if (!ft_strncmp(split[0], ID_C, 1))
 		data->textures->Ceiling_color = conv_rgb(file);
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
-	{
-		free_tab(split);
-		free(file);
-		return (0);
-	}
-	free_tab(split);
-	free(file);
-	return (1);
+		return (free(file), free_tab(split), 0);
+	return (free(file), free_tab(split), 1);
 }
 
 int	conv_rgb(char *rgb)
