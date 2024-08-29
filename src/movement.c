@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:06:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/28 09:08:48 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 16:04:37 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,58 +63,17 @@ int	move_mouse(t_data *data, int *x, int *y)
 
 int	move_player(t_data *data)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	float	move_x;
 	float	move_y;
-	
+
 	move_x = data->player->dir_x * 5 / 100;
 	move_y = data->player->dir_y * 5 / 100;
 	move_mouse(data, &x, &y);
-	if (data->player->move_f == 1)
-	{
-		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x + move_x)] != '1')
-			data->player->pos_x += move_x;
-		if (data->map[(int)(data->player->pos_y + move_y)][(int)(data->player->pos_x)] != '1')
-			data->player->pos_y += move_y;
-	}
-	if (data->player->move_b == 1)
-	{
-		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x - move_x)] != '1')
-			data->player->pos_x -= move_x;
-		if (data->map[(int)(data->player->pos_y - move_y)][(int)(data->player->pos_x)] != '1')
-			data->player->pos_y -= move_y;
-	}
-	if (data->player->move_r == 1)
-	{
-		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x - move_y)] != '1')
-			data->player->pos_x -= move_y;
-		if (data->map[(int)(data->player->pos_y + move_x)][(int)(data->player->pos_x)] != '1')
-			data->player->pos_y += move_x;
-	}
-	if (data->player->move_l == 1)
-	{
-		if (data->map[(int)(data->player->pos_y)][(int)(data->player->pos_x + move_y)] != '1')
-			data->player->pos_x += move_y;
-		if (data->map[(int)(data->player->pos_y - move_x)][(int)(data->player->pos_x)] != '1')
-			data->player->pos_y -= move_x;
-	}
-	if (data->player->rotate_l == 1)
-	{
-		data->player->a -= 0.02;
-		if (data->player->a < 0)
-			data->player->a += 2 * M_PI;
-		data->player->dir_x = cos(data->player->a);
-		data->player->dir_y = sin(data->player->a);
-	}
-	if (data->player->rotate_r == 1)
-	{
-		data->player->a += 0.02;
-		if (data->player->a > 2 * M_PI)
-			data->player->a -= 2 * M_PI;
-		data->player->dir_x = cos(data->player->a);
-		data->player->dir_y = sin(data->player->a);
-	}
+	movement_f_b(data, move_x, move_y);
+	movement_r_l(data, move_x, move_y);
+	movement_rotation(data);
 	if (data->player->m_x != x && data->player->m_x != 0)
 	{
 		data->player->a -= (data->player->m_x - x) * 0.00085;
@@ -129,4 +88,3 @@ int	move_player(t_data *data)
 	data->ray.pos_y = data->player->pos_y;
 	return (0);
 }
-

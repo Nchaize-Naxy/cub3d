@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:01:55 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/29 10:30:37 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 16:01:34 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	*ft_strjoin(char *buffer, char *buffer_read)
 	res[i + buf_size] = '\0';
 	return (res);
 }
-
 
 char	*ft_strjoin_update(char *buffer, char *buffer_read)
 {

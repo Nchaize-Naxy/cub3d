@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/29 11:20:03 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 16:14:30 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-void my_mlx_put_pixel(t_data *data, int x, int y, int color)																																	
+void	my_mlx_put_pixel(t_data *data, int x, int y, int color)
 {
-	((unsigned int*)data->img.addr)[y*(data->img.line_length >> 2) + x] = color;
+	((unsigned int *)data->img.addr)[y * (data->img.line_length >> 2) + x]
+		= color;
 }
 
 int	render(t_data *data)
@@ -28,8 +28,8 @@ int	render(t_data *data)
 	move_player(data);
 	while (c_a_time <= half_width)
 	{
-		raycast(data, data->player->dir_x, data->player->dir_y, c_a_time); 
-		play(data, c_a_time);
+		raycast(data, data->player->dir_x, data->player->dir_y, c_a_time);
+		play(data, c_a_time, 0);
 		reset_raycast(data);
 		c_a_time++;
 	}
@@ -48,7 +48,7 @@ int	on_destroy(t_data *data)
 	return (0);
 }
 
-float	get_pixel_pos(t_data *data, t_tx_info **texture, int	x_int)
+float	get_pixel_pos(t_data *data, t_tx_info **texture, int x_int)
 {
 	if (data->wall_dir == N || data->wall_dir == S)
 	{
@@ -78,10 +78,10 @@ float	get_pixel_pos(t_data *data, t_tx_info **texture, int	x_int)
 
 int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 {
-	float 			x;
-	int				x_int;
-	int				tx_x;
-	int				tx_y;
+	float		x;
+	int			x_int;
+	int			tx_x;
+	int			tx_y;
 	t_tx_info	*texture;
 
 	texture = NULL;
@@ -93,27 +93,29 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
 	return (texture->info[tx_y * (texture->width) + tx_x]);
 }
 
-int	play(t_data *data, int c_a_time)
+int	play(t_data *data, int c_a_time, int i)
 {
 	int	wall_height;
-	int	i;
 	int	half_width;
 	int	half_height;
 
-	i = 0;
 	half_width = WINWIDTH / 2;
 	half_height = WINHEIGHT / 2;
 	wall_height = round((WINWIDTH / data->wall));
 	while (i <= (wall_height) / 2 && i <= half_height)
 	{
-		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i, get_pixel(data, wall_height, -i, c_a_time));
-		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i, get_pixel(data, wall_height, i, c_a_time));
+		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) - i,
+			get_pixel(data, wall_height, -i, c_a_time));
+		my_mlx_put_pixel(data, half_width + c_a_time, (half_height) + i,
+			get_pixel(data, wall_height, i, c_a_time));
 		i++;
 	}
 	while (i <= half_height)
 	{
-		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i), data->textures->Ceiling_color);
-		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i), data->textures->Floor_color);
+		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i),
+			data->textures->Ceiling_color);
+		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i),
+			data->textures->Floor_color);
 		i++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/28 12:34:44 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 15:28:46 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ int	init_player(t_data *data)
 
 int	init(t_data *data)
 {
-	init_textures(data);
+	if (init_textures(data) != 0)
+		return (1);
 	data->map = NULL;
 	data->player = malloc(sizeof(t_player));
+	if (!data->player)
+		return (free(data->textures), 1);
 	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (free(data->textures), free(data->player), 1);
 	init_player(data);
 	data->exit = false;
 	data->wall = 0;
@@ -52,9 +57,9 @@ int	init(t_data *data)
 	return (0);
 }
 
-t_tx_info	*init_pole()
+t_tx_info	*init_pole(void)
 {
-	t_tx_info *pole;
+	t_tx_info	*pole;
 
 	pole = malloc(sizeof(t_tx_info));
 	pole->info = NULL;
@@ -70,6 +75,8 @@ t_tx_info	*init_pole()
 int	init_textures(t_data *data)
 {
 	data->textures = malloc(sizeof(t_textures));
+	if (!data->textures)
+		return (1);
 	data->textures->Floor_color = 0;
 	data->textures->Ceiling_color = 0;
 	data->textures->NO = init_pole();

@@ -11,9 +11,12 @@ HEADERS = ./includes/cub3d.h\
 CFILES = main.c\
 	init.c\
 	utils.c\
+	utils2.c\
 	raycast.c\
 	movement.c\
 	render.c\
+	wall_check_utils.c\
+	movement_utils.c\
 
 CFILES_GNL = get_next_line.c\
 	get_next_line_utils.c\

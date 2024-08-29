@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/29 12:13:49 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 16:09:26 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@
 # define N		1
 # define E		2
 # define W		3
+
+typedef struct s_wall
+{
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+}	t_wall;
 
 typedef struct s_ray
 {
@@ -126,7 +134,6 @@ typedef struct s_data
 	t_ray		ray;
 	int			wall_dir;
 	t_image		img;
-	int			wall_color;
 	bool		is_player;
 }	t_data;
 
@@ -155,6 +162,8 @@ int	check_empty(char **map, int line, int col, t_data *data);
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);
+float	wall_check_one(t_data *data, float dir_x, float dir_y, t_wall w);
+float	wall_check_two(t_data *data, float dir_x, float dir_y, t_wall w);
 int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
 int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
 int	raycast(t_data *data, float dir_x, float dir_y, int c_a_time);
@@ -163,7 +172,7 @@ void	reset_raycast(t_data *data);
 //render
 int	render(t_data *data);
 void my_mlx_put_pixel(t_data *data, int x, int y, int color);
-int	play(t_data *data, int c_a_time);
+int	play(t_data *data, int c_a_time, int i);
 int	get_pixel(t_data *data, int wall_height, int i, int c_a_time);
 int	on_destroy(t_data *data);
 
@@ -172,6 +181,9 @@ int	handle_input(int keysym, t_data *data);
 int	move_player(t_data *data);
 int	move_mouse(t_data *data, int *x, int *y);
 int	release_handler(int keysym, t_data *data);
+void	movement_f_b(t_data *data, float move_x, float move_y);
+void	movement_r_l(t_data *data, float move_x, float move_y);
+void	movement_rotation(t_data *data);
 
 //conv_base
 int		ft_atoi_base(char *str, char *base);
