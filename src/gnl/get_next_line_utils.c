@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <nchaize-@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:01:55 by nchaize-          #+#    #+#             */
-/*   Updated: 2023/12/14 13:39:07 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:30:37 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,33 @@ char	*ft_strjoin(char *buffer, char *buffer_read)
 	}
 	res[i + buf_size] = '\0';
 	return (res);
+}
+
+
+char	*ft_strjoin_update(char *buffer, char *buffer_read)
+{
+	char	*res;
+	size_t	i;
+	size_t	buf_size;
+	size_t	buffer_read_size;
+
+	i = 0;
+	buf_size = ft_sstrlen(buffer);
+	buffer_read_size = ft_sstrlen(buffer_read);
+	res = malloc(sizeof(char) * (buf_size + buffer_read_size) + 1);
+	if (!res)
+		return (NULL);
+	while (buffer[i])
+	{
+		res[i] = buffer[i];
+		i++;
+	}
+	i = 0;
+	while (buffer_read[i])
+	{
+		res[i + buf_size] = buffer_read[i];
+		i++;
+	}
+	res[i + buf_size] = '\0';
+	return (free(buffer), res);
 }

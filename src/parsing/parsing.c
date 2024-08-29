@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/27 15:42:37 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:58:37 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int		free_tab(char **tab)
 int	parse_line(char *line, t_data *data)
 {
 	if (handle_identifier(line, data) == 0)
-		handle_map(line, data);
+		if (handle_map(line, data) == 0)
+			return (0);
 	return (1);
 }
 
@@ -89,7 +90,8 @@ int read_file(t_data *data)
     line = get_next_line(data->map_fd);
     while (line != NULL)
     {	
-		parse_line(line, data);
+		if (parse_line(line, data) == 0)
+			return (0);
 		line = get_next_line(data->map_fd);
     }
 	return (1);
@@ -102,14 +104,12 @@ int parsing(char *map_name, t_data *data)
 		data->map_fd = open(map_name, O_RDONLY);
 		if (data->map_fd == -1)
             return (error("error opening map file\n"), 0);
-		read_file(data);
+		if (read_file(data) == 0)
+			return (0);
     }
 	data->height = count_tab(data->map);
 	if (check_map(data->map, data) == 0)
-	{
-		free_tab(data->map);
-		return (0);
-	}
+		return (free_tab(data->map), 0);
 	return (1);
 }
 

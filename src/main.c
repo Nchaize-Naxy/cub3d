@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/28 09:21:51 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 12:21:07 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	init(data);
 	if (parsing(argv[1], data) == 0)
-		return (1);
+		return (0);
 	mlx_type_shit(data);
-	return (0);
+	return (1);
 }

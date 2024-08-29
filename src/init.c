@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/27 15:34:16 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:34:44 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	init(t_data *data)
 	data->ray.pos_y = data->player->pos_y;
 	data->ray.wall_x = data->player->pos_x;
 	data->ray.wall_y = data->player->pos_y;
-	
+	data->is_player = false;
 	return (0);
 }
 

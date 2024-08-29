@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/28 12:23:31 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 12:13:49 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_data
 	int			wall_dir;
 	t_image		img;
 	int			wall_color;
+	bool		is_player;
 }	t_data;
 
 typedef struct s_parsing
@@ -189,6 +190,7 @@ void	error(char *err_msg);
 int		is_alnum(int c);
 int	ft_atoi(const char *str);
 char	*ft_strndup(const char *s, size_t n);
+char	*ft_strjoin_update(char *buffer, char *buffer_read);
 
 //textures
 int	init_textures(t_data *data);

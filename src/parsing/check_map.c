@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/28 12:23:09 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 10:59:04 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	is_valid_ch(char c)
 		return (0);
 	return (1);
 }
-
 
 int	is_player_position(char c)
 {
@@ -61,7 +60,10 @@ int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 			return (0);
 	}
 	else if (is_player_position(map[line][col]))
+	{
 		handle_player_pos(line, col, map[line][col], data);
+		data->is_player = true;
+	}
 	else if (map[line][col] != '1'
 		&& (line == 0 || col == 0 || col == ft_strlen(map[line]) - 1 || line == data->height
 		|| col >= ft_strlen(map[line - 1]) || col >= ft_strlen(map[line + 1])))
@@ -86,5 +88,7 @@ int	check_map(char **map, t_data *data)
 		}
 		line++;
 	}
+	if (data->is_player == false)
+		return (error("no player found"), 0);
 	return (1);
 }

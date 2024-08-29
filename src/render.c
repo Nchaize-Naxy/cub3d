@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/28 12:29:46 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/08/29 11:20:03 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,39 +48,45 @@ int	on_destroy(t_data *data)
 	return (0);
 }
 
-int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
+float	get_pixel_pos(t_data *data, t_tx_info **texture, int	x_int)
 {
-	double x;
-	int	x_int;
-	int	tx_x;
-	int	tx_y;
-	t_tx_info	*texture;
-
-	texture = NULL;
-	x = 1;
 	if (data->wall_dir == N || data->wall_dir == S)
 	{
 		if (data->wall_dir == N)
-			texture = data->textures->NO;
+			*texture = data->textures->NO;
 		if (data->wall_dir == S)
-			texture = data->textures->SO;
+			*texture = data->textures->SO;
 		x_int = (int) data->ray.pos_x;
-		x = (data->ray.pos_x - x_int);
+		return (data->ray.pos_x - x_int);
 	}
 	else if (data->wall_dir == E || data->wall_dir == W)
 	{
 		x_int = (int) data->ray.pos_y;
 		if (data->wall_dir == E)
 		{
-			texture = data->textures->EA;
-			x = ((data->ray.pos_y - x_int));
+			*texture = data->textures->EA;
+			return ((data->ray.pos_y - x_int));
 		}
 		if (data->wall_dir == W)
 		{
-			texture = data->textures->WE;
-			x = (1 - (data->ray.pos_y - x_int));
+			*texture = data->textures->WE;
+			return (1 - (data->ray.pos_y - x_int));
 		}
 	}
+	return (0);
+}
+
+int	get_pixel(t_data *data, int wall_height, int i, int c_a_time)
+{
+	float 			x;
+	int				x_int;
+	int				tx_x;
+	int				tx_y;
+	t_tx_info	*texture;
+
+	texture = NULL;
+	x_int = 0;
+	x = get_pixel_pos(data, &texture, x_int);
 	(void) c_a_time;
 	tx_x = texture->width * x;
 	tx_y = (texture->height / 2) + (i * texture->height / wall_height);
