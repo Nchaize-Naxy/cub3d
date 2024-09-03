@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/29 16:09:26 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:17:14 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int	conv_rgb(char *rgb);
 int	check_empty(char **map, int line, int col, t_data *data);
+int check_extension(char *map_name, char *extension);
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/29 16:05:03 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:52:32 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@ int	mlx_booting(t_data *data)
 	return (0);
 }
 
+void	free_data(t_data *data)
+{
+	free_tab(data->map);
+	free(data->textures->EA);
+	free(data->textures->SO);
+	free(data->textures->NO);
+	free(data->textures->WE);
+	free(data->textures);
+	free(data->player);
+	free(data);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -53,6 +65,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (mlx_booting(data) != 0)
 		return (free(data), error("An error has occured"), 1);
-	free(data);
+	free_data(data);
 	return (0);
 }

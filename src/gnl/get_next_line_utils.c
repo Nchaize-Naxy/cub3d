@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 10:01:55 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/08/29 16:01:34 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:47:51 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,25 @@ char	*ft_strjoin_update(char *buffer, char *buffer_read)
 	size_t	buffer_read_size;
 
 	i = 0;
+	if (!buffer || !buffer_read)
+		return (NULL);
 	buf_size = ft_sstrlen(buffer);
 	buffer_read_size = ft_sstrlen(buffer_read);
 	res = malloc(sizeof(char) * (buf_size + buffer_read_size) + 1);
 	if (!res)
-		return (NULL);
+		return (free(buffer), free(buffer_read), NULL);
 	while (buffer[i])
 	{
 		res[i] = buffer[i];
 		i++;
 	}
 	i = 0;
+	free(buffer);
 	while (buffer_read[i])
 	{
 		res[i + buf_size] = buffer_read[i];
 		i++;
 	}
 	res[i + buf_size] = '\0';
-	return (free(buffer), res);
+	return (free(buffer_read), res);
 }

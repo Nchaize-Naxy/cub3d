@@ -6,7 +6,7 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/29 12:12:55 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/03 18:49:39 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*no_back_n(char *string)
 	char	*new_string;
 
 	i = 0;
+	new_string = "a\0";
 	while (string && string[i])
 	{
 		if (string[i] == '\n')
@@ -34,6 +35,8 @@ char	*no_back_n(char *string)
 
 int	get_texture(t_data *data, t_tx_info *texture, char *file)
 {
+	if (check_extension(file, ".xpm") == 0)
+		return (error("Wrong extension on texture files. Need .xpm"), 0);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	free (file);
@@ -56,19 +59,19 @@ int	handle_identifier(char *line, t_data *data)
 	if (!file || file == NULL)
 		return (free_tab(split), 0);
 	if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-		get_texture(data, data->textures->EA, file);
+		return (free_tab(split), get_texture(data, data->textures->EA, file));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-		get_texture(data, data->textures->SO, file);
+		return (free_tab(split), get_texture(data, data->textures->SO, file));
 	else if (!ft_strncmp(split[0], ID_NO, 2))
-		get_texture(data, data->textures->NO, file);
+		return (free_tab(split), get_texture(data, data->textures->NO, file));
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-		get_texture(data, data->textures->WE, file);
+		return (free_tab(split), get_texture(data, data->textures->WE, file));
 	else if (!ft_strncmp(split[0], ID_F, 1))
 		data->textures->Floor_color = conv_rgb(file);
 	else if (!ft_strncmp(split[0], ID_C, 1))
 		data->textures->Ceiling_color = conv_rgb(file);
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
-		return (free_tab(split), 0);
+		return (free_tab(split), 2);
 	return (free_tab(split), 1);
 }
 
@@ -79,6 +82,7 @@ int	conv_rgb(char *rgb)
 	char	*hexbase;
 	char	*tenbase;
 	int		int_value;
+	char	*temp;
 
 	tenbase = "0123456789";
 	hexbase = "0123456789ABCDEF";
@@ -95,8 +99,11 @@ int	conv_rgb(char *rgb)
 	hex_nbr = ft_strjoin_update(hex_nbr, ft_convert_base(rgb_split[2], tenbase, hexbase));
 	if (!hex_nbr)
 		return (free_tab(rgb_split), 0);
-	int_value = atoi(ft_convert_base(hex_nbr, hexbase, tenbase));
-	return (free(hex_nbr), int_value);
+	temp = ft_convert_base(hex_nbr, hexbase, tenbase);
+	int_value = atoi(temp);
+	free(temp);
+	free(hex_nbr);
+	return (free_tab(rgb_split), int_value);
 }
 
 int	check_map_line(char *line)
@@ -144,6 +151,7 @@ int	handle_map(char *line, t_data *data)
 		data->map = append_line(data->map, line, data);
 		if (!data->map)
 			return (free(line), error("failed to create map"), 0);
+		free(line);
 		line = get_next_line(data->map_fd);
 	}
 	return (1);

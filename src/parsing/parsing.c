@@ -6,20 +6,18 @@
 /*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/29 10:58:37 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/03 18:31:46 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int check_extension(char *map_name)
+int check_extension(char *map_name, char *extension)
 {
 	size_t  len;
 	size_t  i;
 	size_t  j;
-	char    *extension;
-	
-	extension = ".cub";
+
 	len = ft_strlen(map_name);
 	if (len > 3)
 	    i = len - 4;
@@ -29,9 +27,9 @@ int check_extension(char *map_name)
 	while (map_name[i])
 	{
 		if (map_name[i++] != extension[j++])
-	        return (error("invalid map extension"), 1);
+	        return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int check_name(char *map_name)
@@ -45,9 +43,9 @@ int check_name(char *map_name)
 	        return (error("invalid map name"), 1);
 	    i++;
 	} */
-	if (check_extension(map_name) == 1)
-		return (1);
-	return (0);
+	if (check_extension(map_name, ".cub") == 0)
+		return (error("Invalid map extension. Need .cub"), 0);
+	return (1);
 }
 
 size_t	count_tab(char **tab)
@@ -77,9 +75,20 @@ int		free_tab(char **tab)
 
 int	parse_line(char *line, t_data *data)
 {
-	if (handle_identifier(line, data) == 0)
+	int	check;
+
+	check = handle_identifier(line, data);
+	if (check == 2)
+	{
 		if (handle_map(line, data) == 0)
 			return (0);
+		if (check == 0)
+			return (0);
+		return (1);
+	}
+	free(line);
+	if (check == 0)
+		return (0);
 	return (1);
 }
 
@@ -99,7 +108,7 @@ int read_file(t_data *data)
 
 int parsing(char *map_name, t_data *data)
 {
-    if (check_name(map_name) == 0)
+    if (check_name(map_name) == 1)
     {
 		data->map_fd = open(map_name, O_RDONLY);
 		if (data->map_fd == -1)
@@ -112,30 +121,3 @@ int parsing(char *map_name, t_data *data)
 		return (free_tab(data->map), 0);
 	return (1);
 }
-
-/* char	*parse_line(char *line)
-{
-	size_t	i;
-	char	identifier[3];
-
-	i = 0;
-	while (line && line[i] && (line[i] == ' ') || is_alnum(line[i]))
-	{
-		while (line[i] == ' ')
-			i++;
-		if (is_alnum(line[i]))
-		{
-			identifier[0] = line[i];
-			i++;
-		}
-		if (is_alnum(line[i]))
-			identifier[1] = line[i];
-		else if (line[i] == ' ')
-			identifier[1] = '\0';
-		else
-			error("invalid character found in file");
-		i++;
-		identifier[2] = '\0';
-	}
-	return (identifier);
-} */
