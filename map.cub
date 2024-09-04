@@ -1,7 +1,7 @@
 
 F    20,20,20
 C  20,10,5
-EA            other-front-wall.xpm
+EA            other-front-wall.xp
 WE                               back-wall.xpm
 NO                              Pipe-wall.xpm
 SO                              Pipe-wall.xpm
