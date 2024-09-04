@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 11:58:23 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:22:31 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ int	render(t_data *data);
 void my_mlx_put_pixel(t_data *data, int x, int y, int color);
 int	play(t_data *data, int c_a_time, int i);
 int	get_pixel(t_data *data, int wall_height, int i, int c_a_time);
+
+//exit
 int	on_destroy(t_data *data);
 
 //movement

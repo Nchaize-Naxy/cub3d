@@ -17,6 +17,7 @@ CFILES = main.c\
 	render.c\
 	wall_check_utils.c\
 	movement_utils.c\
+	exit.c\
 
 CFILES_GNL = get_next_line.c\
 	get_next_line_utils.c\
