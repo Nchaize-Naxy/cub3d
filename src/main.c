@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 13:29:34 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:42:13 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,28 @@ int	mlx_booting(t_data *data)
 	return (0);
 }
 
-void	free_data(t_data *data)
+void	free_textures(t_data *data)
 {
-	free_tab(data->map);
 	free(data->textures->EA);
 	free(data->textures->SO);
 	free(data->textures->NO);
 	free(data->textures->WE);
 	free(data->textures);
-	free(data->player);
-	free(data);
 }
 
-void	free_textures(t_data *data)
+void	free_data(t_data *data)
+{
+	if (data->textures)
+		free_textures(data);
+	if (data->player)
+		free(data->player);
+	if (data->map)
+		free_tab(data->map);
+	if (data)
+		free(data);
+}
+
+void	destroy_textures(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->textures->EA->img);
 	mlx_destroy_image(data->mlx, data->textures->SO->img);
@@ -76,7 +85,7 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (error("An error has occured"), 1);
 	if (init(data) != 0)
-		return (free_data(data), 1);
+		return (free(data), 1);
 	if (parsing(argv[1], data) == 0)
 		return (exit_parsing(data), 1);
 	if (mlx_booting(data) != 0)
