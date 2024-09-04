@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:38 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 13:59:04 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ int	handle_player_pos(size_t line, size_t col, char dir, t_data *data)
 	data->ray.y2 = data->player->pos_y;
 	data->ray.pos_x = data->player->pos_x;
 	data->ray.pos_y = data->player->pos_y;
-	return (1);
+	return (0);
 }
 
 int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 {
 	if (!is_valid_ch(map[line][col]) && map[line][col] != '1')
-		return (error("invalid character found in map"), 0);
+		return (error("invalid character found in map"), 1);
 	else if (map[line][col] == ' ')
 	{
-		if (check_empty(map, line, col, data) == 0)
-			return (0);
+		if (check_empty(map, line, col, data) != 0)
+			return (1);
 	}
 	else if (is_player_position(map[line][col]))
 	{
@@ -67,8 +67,8 @@ int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 	else if (map[line][col] != '1'
 		&& (line == 0 || col == 0 || col == ft_strlen(map[line]) - 1 || line == data->height
 		|| col >= ft_strlen(map[line - 1]) || col >= ft_strlen(map[line + 1])))
-		return (error("map not closed by walls"), 0);
-	return (1);
+		return (error("map not closed by walls"), 1);
+	return (0);
 }
 
 int	check_map(char **map, t_data *data)
@@ -82,13 +82,13 @@ int	check_map(char **map, t_data *data)
 		col = 0;
 		while (map && map[line][col])
 		{
-			if (check_error_map(map, data, col, line) == 0)
-				return (0);
+			if (check_error_map(map, data, col, line) != 0)
+				return (1);
 			col++;
 		}
 		line++;
 	}
 	if (data->is_player == false)
-		return (error("no player found"), 0);
-	return (1);
+		return (error("no player found"), 1);
+	return (0);
 }

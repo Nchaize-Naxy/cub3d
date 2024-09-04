@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 14:42:13 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:02:51 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ int	mlx_booting(t_data *data)
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
-	mlx_mouse_hide(data->mlx, data->mlx_win);
+	//mlx_mouse_hide(data->mlx, data->mlx_win);
 	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	if (!data->img.img)
-		return (free(data->mlx_win), 1);
+		return (mlx_destroy_window(data->mlx, data->mlx_win), 1);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel,
 			&data->img.line_length, &data->img.endian);
 	if (!data->img.addr)
-		return (free(data->mlx_win), free(data->img.img), 1);
+		return (mlx_destroy_window(data->mlx, data->mlx_win),
+			mlx_destroy_image(data->mlx, data->img.img), 1);
 	mlx_loop_hook(data->mlx, &render, data);
 	mlx_loop(data->mlx);
 	mlx_destroy_image(data->mlx, data->img.img);
@@ -48,11 +49,19 @@ void	free_textures(t_data *data)
 void	free_data(t_data *data)
 {
 	if (data->textures)
+	{
+		destroy_textures(data);
 		free_textures(data);
+	}
 	if (data->player)
 		free(data->player);
 	if (data->map)
 		free_tab(data->map);
+	if (data->mlx)
+	{
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+	}
 	if (data)
 		free(data);
 }
@@ -63,14 +72,6 @@ void	destroy_textures(t_data *data)
 	mlx_destroy_image(data->mlx, data->textures->SO->img);
 	mlx_destroy_image(data->mlx, data->textures->NO->img);
 	mlx_destroy_image(data->mlx, data->textures->WE->img);
-}
-
-void	exit_parsing(t_data *data)
-{
-	free_textures(data);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-	free_data(data);
 }
 
 int	main(int argc, char **argv)
@@ -86,11 +87,10 @@ int	main(int argc, char **argv)
 		return (error("An error has occured"), 1);
 	if (init(data) != 0)
 		return (free(data), 1);
-	if (parsing(argv[1], data) == 0)
-		return (exit_parsing(data), 1);
+	if (parsing(argv[1], data) != 0)
+		return (free_data(data), 1);
 	if (mlx_booting(data) != 0)
 		return (free_data(data), error("An error has occured"), 1);
-	free_textures(data);
 	free_data(data);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 13:30:15 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:36:45 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,9 @@ int	get_pixel(t_data *data, int wall_height, int i, int c_a_time);
 
 //exit
 int	on_destroy(t_data *data);
+void	destroy_textures(t_data *data);
+void	free_data(t_data *data);
+void	free_textures(t_data *data);
 
 //movement
 int	handle_input(int keysym, t_data *data);
