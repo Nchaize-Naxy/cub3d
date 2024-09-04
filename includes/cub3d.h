@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 11:36:42 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:58:23 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ char	*ft_strjoin_update(char *buffer, char *buffer_read);
 
 //textures
 int	init_textures(t_data *data);
+void	free_textures(t_data *data);
 
 
 #endif
