@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 13:28:19 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:29:34 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	mlx_booting(t_data *data)
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
-	//mlx_mouse_hide(data->mlx, data->mlx_win);
+	mlx_mouse_hide(data->mlx, data->mlx_win);
 	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	if (!data->img.img)
 		return (free(data->mlx_win), 1);
