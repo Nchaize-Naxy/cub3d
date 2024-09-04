@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/03 18:49:39 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 11:46:37 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,20 @@ char	*no_back_n(char *string)
 	return (new_string);
 }
 
-int	get_texture(t_data *data, t_tx_info *texture, char *file)
+void	destroy(t_data *data, int i)
+{
+	if (i >= 1)
+		mlx_destroy_image(data->mlx, data->textures->EA->img);
+	if (i >= 2)
+		mlx_destroy_image(data->mlx, data->textures->SO->img);
+	if (i >= 3)
+		mlx_destroy_image(data->mlx, data->textures->NO->img);
+}
+
+int	get_texture(t_data *data, t_tx_info *texture, char *file, int i)
 {
 	if (check_extension(file, ".xpm") == 0)
-		return (error("Wrong extension on texture files. Need .xpm"), 0);
+		return (free(file), destroy(data, i), error("Wrong extension on texture files. Need .xpm"), 0);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	free (file);
@@ -59,13 +69,13 @@ int	handle_identifier(char *line, t_data *data)
 	if (!file || file == NULL)
 		return (free_tab(split), 0);
 	if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-		return (free_tab(split), get_texture(data, data->textures->EA, file));
+		return (free_tab(split), get_texture(data, data->textures->EA, file, 0));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-		return (free_tab(split), get_texture(data, data->textures->SO, file));
+		return (free_tab(split), get_texture(data, data->textures->SO, file, 1));
 	else if (!ft_strncmp(split[0], ID_NO, 2))
-		return (free_tab(split), get_texture(data, data->textures->NO, file));
+		return (free_tab(split), get_texture(data, data->textures->NO, file, 2));
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-		return (free_tab(split), get_texture(data, data->textures->WE, file));
+		return (free_tab(split), get_texture(data, data->textures->WE, file, 3));
 	else if (!ft_strncmp(split[0], ID_F, 1))
 		data->textures->Floor_color = conv_rgb(file);
 	else if (!ft_strncmp(split[0], ID_C, 1))

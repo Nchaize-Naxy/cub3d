@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 11:42:11 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:55:04 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ void	free_data(t_data *data)
 	free(data);
 }
 
+void	free_textures(t_data *data)
+{
+	mlx_destroy_image(data->mlx, data->textures->EA->img);
+	mlx_destroy_image(data->mlx, data->textures->SO->img);
+	mlx_destroy_image(data->mlx, data->textures->NO->img);
+	mlx_destroy_image(data->mlx, data->textures->WE->img);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -66,9 +74,10 @@ int	main(int argc, char **argv)
 	if (init(data) != 0)
 		return (free(data), 1);
 	if (parsing(argv[1], data) == 0)
-		return (1);
+		return (free_data(data), 1);
 	if (mlx_booting(data) != 0)
-		return (free(data), error("An error has occured"), 1);
+		return (free_data(data), error("An error has occured"), 1);
+	free_textures(data);
 	free_data(data);
 	return (0);
 }

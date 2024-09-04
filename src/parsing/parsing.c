@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/03 18:31:46 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 11:16:53 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,6 @@ int parsing(char *map_name, t_data *data)
     }
 	data->height = count_tab(data->map);
 	if (check_map(data->map, data) == 0)
-		return (free_tab(data->map), 0);
+		return (0);
 	return (1);
 }
