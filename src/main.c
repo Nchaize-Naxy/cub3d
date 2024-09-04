@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 13:29:34 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:03:44 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	mlx_booting(t_data *data)
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
-	mlx_mouse_hide(data->mlx, data->mlx_win);
+	//mlx_mouse_hide(data->mlx, data->mlx_win);
 	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	if (!data->img.img)
 		return (free(data->mlx_win), 1);
@@ -58,7 +58,6 @@ void	free_textures(t_data *data)
 
 void	exit_parsing(t_data *data)
 {
-	free_textures(data);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	free_data(data);
@@ -77,7 +76,7 @@ int	main(int argc, char **argv)
 		return (error("An error has occured"), 1);
 	if (init(data) != 0)
 		return (free_data(data), 1);
-	if (parsing(argv[1], data) == 0)
+	if (parsing(argv[1], data) != 0)
 		return (exit_parsing(data), 1);
 	if (mlx_booting(data) != 0)
 		return (free_data(data), error("An error has occured"), 1);

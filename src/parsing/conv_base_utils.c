@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conv_base_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:15 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/28 11:51:18 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 13:54:19 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

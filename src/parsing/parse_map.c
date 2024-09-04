@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 11:46:37 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:11:36 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	destroy(t_data *data, int i)
 
 int	get_texture(t_data *data, t_tx_info *texture, char *file, int i)
 {
-	if (check_extension(file, ".xpm") == 0)
-		return (free(file), destroy(data, i), error("Wrong extension on texture files. Need .xpm"), 0);
+	if (check_extension(file, ".xpm") != 0)
+		return (free(file), destroy(data, i), error("Wrong extension on texture files. Need .xpm"), 1);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, &(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), &(texture->size_line), &(texture->endian));
 	free (file);
-	return (1);
+	return (0);
 }
 
 int	handle_identifier(char *line, t_data *data)
@@ -60,14 +60,14 @@ int	handle_identifier(char *line, t_data *data)
 
 	split = ft_split(line, ' ');
 	if (!split)
-		return (0);
+		return (1);
 	if (count_tab(split) > 2)
-		return (free_tab(split), error("too many arguments found in a single line"), 0);
+		return (free_tab(split), error("too many arguments found in a single line"), 1);
 	if (!split || !split[0])
-		return (0);
+		return (1);
 	file = no_back_n(split[1]);
 	if (!file || file == NULL)
-		return (free_tab(split), 0);
+		return (free_tab(split), 1);
 	if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
 		return (free_tab(split), get_texture(data, data->textures->EA, file, 0));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
@@ -82,7 +82,7 @@ int	handle_identifier(char *line, t_data *data)
 		data->textures->Ceiling_color = conv_rgb(file);
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' ' || split[0][0] == '1')
 		return (free_tab(split), 2);
-	return (free_tab(split), 1);
+	return (free_tab(split), 0);
 }
 
 int	conv_rgb(char *rgb)
@@ -119,8 +119,8 @@ int	conv_rgb(char *rgb)
 int	check_map_line(char *line)
 {
 	if (!line || line[0] == '\0')
-		return (error("empty line"), 0);
-	return (1);
+		return (error("empty line"), 1);
+	return (0);
 }
 
 char	**append_line(char **map, char *line, t_data *data)
@@ -138,7 +138,7 @@ char	**append_line(char **map, char *line, t_data *data)
 		if (new_map[i] == NULL)
 			return(free_tab(map), free_tab(new_map), \
 				error("Memory allocation problem encountered while parsing map\n"), NULL);
-		if (check_map_line(new_map[i]) == 0)
+		if (check_map_line(new_map[i]) != 0)
 			return (free_tab(map), free_tab(new_map), NULL);
 		free(map[i]);
 		i++;
@@ -155,14 +155,14 @@ char	**append_line(char **map, char *line, t_data *data)
 int	handle_map(char *line, t_data *data)
 {
 	if (!line)
-		return (0);
+		return (1);
 	while (line != NULL)
 	{
 		data->map = append_line(data->map, line, data);
 		if (!data->map)
-			return (free(line), error("failed to create map"), 0);
+			return (free(line), error("failed to create map"), 1);
 		free(line);
 		line = get_next_line(data->map_fd);
 	}
-	return (1);
+	return (0);
 }
