@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 11:55:04 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:42:52 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	mlx_booting(t_data *data)
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
-	mlx_mouse_hide(data->mlx, data->mlx_win);
+	//mlx_mouse_hide(data->mlx, data->mlx_win);
 	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	if (!data->img.img)
 		return (free(data->mlx_win), 1);
@@ -39,10 +39,6 @@ int	mlx_booting(t_data *data)
 void	free_data(t_data *data)
 {
 	free_tab(data->map);
-	mlx_destroy_image(data->mlx, data->img.img);
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
 	free(data->textures->EA);
 	free(data->textures->SO);
 	free(data->textures->NO);

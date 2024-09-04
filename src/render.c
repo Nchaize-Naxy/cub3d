@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/04 12:09:55 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:18:41 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int	render(t_data *data)
 int	on_destroy(t_data *data)
 {
 	free_textures(data);
+	mlx_destroy_image(data->mlx, data->img.img);
+	mlx_destroy_window(data->mlx, data->mlx_win);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
 	free_data(data);
 	exit(0);
 	return (0);
