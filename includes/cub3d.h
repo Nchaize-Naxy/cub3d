@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 14:36:45 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:36:38 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,10 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int	conv_rgb(char *rgb);
 int	check_empty(char **map, int line, int col, t_data *data);
 int check_extension(char *map_name, char *extension);
+char	*no_back_n(char *string);
+void	destroy(t_data *data, int i);
+int	check_map_line(char *line);
+int	check_name(char *map_name);
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);

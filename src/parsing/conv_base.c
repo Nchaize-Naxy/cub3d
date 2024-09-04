@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conv_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:01:36 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:46 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 14:45:37 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_putnbr_code(char *code, unsigned int int_nbr, char *base_to, int off)
 {
 	int						i;
-	size_t						len;
+	size_t					len;
 	int						pow;
 	unsigned int			nb;
 
@@ -57,7 +57,7 @@ char	*cas_zero(char *nbr, char *base_from, char *base_to)
 	code = malloc(sizeof(char) * 3);
 	if (!code)
 		return ((void *)0);
-	while (nbr[i] == 32 || nbr[i] == 43 || nbr[i] == 45 
+	while (nbr[i] == 32 || nbr[i] == 43 || nbr[i] == 45
 		|| (nbr[i] >= 9 && nbr[i] <= 13))
 		i++;
 	code[0] = '0';
@@ -86,6 +86,7 @@ char	*generate_code(int pow, int signe, char *code)
 	}
 	return (code);
 }
+
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
 	unsigned int		int_nbr;
@@ -94,7 +95,7 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	int					signe;
 	int					nb;
 
-	if (base_check(base_from, ft_strlen(base_from)) == 0 
+	if (base_check(base_from, ft_strlen(base_from)) == 0
 		|| base_check(base_to, ft_strlen(base_to)) == 0)
 		return (NULL);
 	signe = 1;

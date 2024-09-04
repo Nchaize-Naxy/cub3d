@@ -30,6 +30,8 @@ CFILES_PARSING = \
 	parse_map.c\
 	conv_base.c\
 	conv_base_utils.c\
+	parse_map_utils.c\
+	parsing_utils.c\
 
 SRCS_DIR = ./src/
 SRCS_GNL_DIR = ./src/gnl/

@@ -6,12 +6,11 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:06:42 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/06/17 14:06:56 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:36:46 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 int	count_words(char const *str, char c)
 {

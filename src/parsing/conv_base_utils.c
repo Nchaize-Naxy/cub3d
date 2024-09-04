@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:15 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/04 13:54:19 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:46:27 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	power(unsigned int nbr, size_t len)
 {
-	unsigned int					i;
+	unsigned int			i;
 	size_t					pow;
 
 	pow = len;
@@ -26,7 +26,6 @@ int	power(unsigned int nbr, size_t len)
 	}
 	return (i + 1);
 }
-
 
 int	base_check(char *str, size_t len)
 {
@@ -92,7 +91,7 @@ int	ft_atoi_base(char *str, char *base)
 	signe = 1;
 	i = 0;
 	num = 0;
-	while (str[i] && ((str[i] >= 9 && str[i] <= 13) 
+	while (str[i] && ((str[i] >= 9 && str[i] <= 13)
 			|| str[i] == 32))
 		i++;
 	while (str[i] == 43 || str[i] == 45)
@@ -105,4 +104,3 @@ int	ft_atoi_base(char *str, char *base)
 		num = num * len + decodage(str[i++], base);
 	return (num * signe);
 }
-

@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 13:59:04 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:44:14 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_valid_ch(char c)
 {
-	if (c != '0' && c != 'N' &&
+	if (c != '0' && c != 'N' && \
 		c != 'S' && c != 'W' && c != 'E' && c != ' ')
 		return (0);
 	return (1);
@@ -32,7 +32,7 @@ int	handle_player_pos(size_t line, size_t col, char dir, t_data *data)
 	data->player->pos_x = ((int) col) + 0.5;
 	data->player->pos_y = ((int) line) + 0.5;
 	if (dir == 'N')
-		data->player->a = (3 * M_PI) / 2;;
+		data->player->a = (3 * M_PI) / 2;
 	if (dir == 'E')
 		data->player->a = 0;
 	if (dir == 'W')
@@ -65,15 +65,16 @@ int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 		data->is_player = true;
 	}
 	else if (map[line][col] != '1'
-		&& (line == 0 || col == 0 || col == ft_strlen(map[line]) - 1 || line == data->height
-		|| col >= ft_strlen(map[line - 1]) || col >= ft_strlen(map[line + 1])))
+		&& (line == 0 || col == 0 || col == ft_strlen(map[line]) - 1
+		|| line == data->height || col >= ft_strlen(map[line - 1])
+		|| col >= ft_strlen(map[line + 1])))
 		return (error("map not closed by walls"), 1);
 	return (0);
 }
 
 int	check_map(char **map, t_data *data)
 {
-	size_t line;
+	size_t	line;
 	size_t	col;
 
 	line = 0;
