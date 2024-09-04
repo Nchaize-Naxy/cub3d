@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 15:52:02 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 20:29:04 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ void	free_textures(t_data *data)
 void	free_data(t_data *data, int do_free_txt)
 {
 	if (data->textures && do_free_txt != 1)
-	{
 		destroy_textures(data);
-		free_textures(data);
-	}
+	free_textures(data);
 	if (data->player)
 		free(data->player);
 	if (data->map)

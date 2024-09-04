@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 15:46:33 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:03:39 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	parse_line(char *line, t_data *data)
 	if (check == 2)
 	{
 		if (handle_map(line, data) != 0)
-			return (1);
+			return (destroy_textures(data), 1);
 		if (check == 1)
 			return (1);
 		return (0);
@@ -75,7 +75,7 @@ int	parsing(char *map_name, t_data *data)
 	{
 		data->map_fd = open(map_name, O_RDONLY);
 		if (data->map_fd == -1)
-			return (error("error opening map file\n"), 1);
+			return (error("error opening map file"), 1);
 		if (read_file(data) != 0)
 			return (1);
 	}

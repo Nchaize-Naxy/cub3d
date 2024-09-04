@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:29:44 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 15:42:32 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:16:26 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ char	*no_back_n(char *string)
 	{
 		if (string[i] == '\n')
 		{
-			new_string = NULL;
 			new_string = ft_strndup(string, i);
 			if (!new_string || new_string == NULL)
-				return (NULL);
+				return (error("Memory allocation failure"), NULL);
 		}
 		i++;
 	}
@@ -35,12 +34,21 @@ char	*no_back_n(char *string)
 
 void	destroy(t_data *data, int i)
 {
-	if (i >= 1)
-		mlx_destroy_image(data->mlx, data->textures->NO->img);
-	if (i >= 2)
-		mlx_destroy_image(data->mlx, data->textures->SO->img);
-	if (i >= 3)
-		mlx_destroy_image(data->mlx, data->textures->WE->img);
+	int			j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (data->textures->EA->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->EA->img);
+		if (data->textures->NO->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->NO->img);
+		if (data->textures->SO->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->SO->img);
+		if (data->textures->WE->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->WE->img);
+		j++;
+	}
 }
 
 int	conv_rgb(char *rgb)

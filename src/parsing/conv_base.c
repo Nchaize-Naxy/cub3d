@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conv_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:01:36 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 14:45:37 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:14:31 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,16 @@ char	*generate_code(int pow, int signe, char *code)
 	if (pow == 1)
 	{
 		code = malloc(sizeof(char) * (pow + signe + 1));
+		if (!code)
+			return (NULL);
 		code[0] = '0';
 		code[pow + signe] = '\0';
 	}
 	else
 	{
 		code = malloc(sizeof(char) * (pow + signe));
+		if (!code)
+			return (NULL);
 		code[pow + signe - 1] = '\0';
 	}
 	return (code);
@@ -112,5 +116,7 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	pow = power(int_nbr, ft_strlen(base_to));
 	code = NULL;
 	code = generate_code(pow, signe, code);
+	if (!code)
+		return (NULL);
 	return (converter(int_nbr, base_to, code, signe));
 }

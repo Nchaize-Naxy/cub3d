@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 15:37:53 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:08:41 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,30 @@ int	get_texture(t_data *data, t_tx_info *texture, char *file, int i)
 	if (check_extension(file, ".xpm") != 0)
 		return (free(file), destroy(data, i), \
 			error("Error: Texture files must be .xpm"), 1);
+	if (access(file, R_OK) == -1)
+		return (free(file), destroy(data, i), \
+			error("Cannot access texture file"), 1);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, \
 		&(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), \
 		&(texture->size_line), &(texture->endian));
-	free (file);
+	texture->i_create = i;
+	free(file);
 	return (0);
 }
 
 int	assign_textures(t_data *data, char *file, char **split)
 {
+	static int i = -1;
+
 	if (!ft_strncmp(split[0], ID_NO, 2))
-		return (get_texture(data, data->textures->NO, file, 0));
+		return (get_texture(data, data->textures->NO, file, ++i));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-		return (get_texture(data, data->textures->SO, file, 1));
+		return (get_texture(data, data->textures->SO, file, ++i));
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-		return (get_texture(data, data->textures->WE, file, 2));
+		return (get_texture(data, data->textures->WE, file, ++i));
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-		return (get_texture(data, data->textures->EA, file, 3));
+		return (get_texture(data, data->textures->EA, file, ++i));
 	else if (!ft_strncmp(split[0], ID_F, 1))
 	{
 		data->textures->Floor_color = conv_rgb(file);
@@ -75,6 +81,7 @@ char	**append_line(char **map, char *line, t_data *data)
 	size_t	i;
 	char	**new_map;
 
+	(void) line;
 	i = 0;
 	new_map = malloc(sizeof(char *) * (count_tab(map) + 2));
 	if (!new_map)
@@ -83,8 +90,7 @@ char	**append_line(char **map, char *line, t_data *data)
 	{
 		new_map[i] = dup_map_row(map[i]);
 		if (new_map[i] == NULL)
-			return (free_tab(map), free_tab(new_map), \
-				error("Memory allocation failure during parsing"), NULL);
+			return (free_tab(map), free_tab(new_map), NULL);
 		if (check_map_line(new_map[i]) != 0)
 			return (free_tab(map), free_tab(new_map), NULL);
 		free(map[i]);
@@ -93,7 +99,7 @@ char	**append_line(char **map, char *line, t_data *data)
 	free(map);
 	new_map[i] = dup_map_row(line);
 	if (new_map[i] == NULL)
-		return (free_tab(new_map), error("memory allocation failure"), NULL);
+		return (free_tab(new_map), NULL);
 	new_map[i + 1] = NULL;
 	data->map = new_map;
 	return (new_map);
