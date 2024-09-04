@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:06:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/29 16:04:37 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:31:00 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_input(int keysym, t_data *data)
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 1;
 	if (data->exit == true)
-		exit(0);
+		on_destroy(data);
 	return (0);
 }
 

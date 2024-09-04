@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/08/29 16:14:30 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:40:31 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	render(t_data *data)
 
 int	on_destroy(t_data *data)
 {
-	(void) data;
+	free_data(data);
 	exit(0);
 	return (0);
 }

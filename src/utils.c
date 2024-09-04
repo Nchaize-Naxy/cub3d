@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:53:54 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/08/29 15:05:20 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:06:31 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,32 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strjoin_update(char *buffer, char *buffer_read)
+{
+	char	*res;
+	size_t	i;
+	size_t	buf_size;
+	size_t	buffer_read_size;
+
+	i = -1;
+	if (!buffer || !buffer_read)
+		return (NULL);
+	buf_size = ft_sstrlen(buffer);
+	buffer_read_size = ft_sstrlen(buffer_read);
+	res = malloc(sizeof(char) * (buf_size + buffer_read_size) + 1);
+	if (!res)
+		return (free(buffer), free(buffer_read), NULL);
+	while (buffer[++i])
+		res[i] = buffer[i];
+	i = 0;
+	free(buffer);
+	while (buffer_read[i])
+	{
+		res[i + buf_size] = buffer_read[i];
+		i++;
+	}
+	res[i + buf_size] = '\0';
+	return (free(buffer_read), res);
 }
