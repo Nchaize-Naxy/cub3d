@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 15:02:51 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:52:02 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	free_textures(t_data *data)
 	free(data->textures);
 }
 
-void	free_data(t_data *data)
+void	free_data(t_data *data, int do_free_txt)
 {
-	if (data->textures)
+	if (data->textures && do_free_txt != 1)
 	{
 		destroy_textures(data);
 		free_textures(data);
@@ -77,6 +77,7 @@ void	destroy_textures(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
+	int		ret_parsing;
 
 	if (argc > 2)
 		return (error("Too many arguments"), 1);
@@ -87,10 +88,11 @@ int	main(int argc, char **argv)
 		return (error("An error has occured"), 1);
 	if (init(data) != 0)
 		return (free(data), 1);
-	if (parsing(argv[1], data) != 0)
-		return (free_data(data), 1);
+	ret_parsing = parsing(argv[1], data);
+	if (ret_parsing != 0)
+		return (free_data(data, ret_parsing), 1);
 	if (mlx_booting(data) != 0)
-		return (free_data(data), error("An error has occured"), 1);
-	free_data(data);
+		return (free_data(data, 0), error("An error has occured"), 1);
+	free_data(data, 0);
 	return (0);
 }
