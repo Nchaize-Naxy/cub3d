@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/03 17:52:28 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/04 13:20:26 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ int	init(t_data *data)
 		return (1);
 	data->map = NULL;
 	data->player = malloc(sizeof(t_player));
-	if (!data->player)
-		return (free(data->textures), 1);
-	data->mlx = mlx_init();
-	if (!data->mlx)
-		return (free(data->textures), free(data->player), 1);
 	init_player(data);
 	data->exit = false;
 	data->wall = 0;
@@ -54,6 +49,12 @@ int	init(t_data *data)
 	data->ray.wall_x = data->player->pos_x;
 	data->ray.wall_y = data->player->pos_y;
 	data->is_player = false;
+	if (!data->player)
+		return (free(data->textures), 1);
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (free(data->textures), free(data->player), 1);
+	return (0);
 	return (0);
 }
 

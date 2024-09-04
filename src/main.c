@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 12:42:52 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:28:19 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ void	free_textures(t_data *data)
 	mlx_destroy_image(data->mlx, data->textures->WE->img);
 }
 
+void	exit_parsing(t_data *data)
+{
+	free_textures(data);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+	free_data(data);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -68,9 +76,9 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (error("An error has occured"), 1);
 	if (init(data) != 0)
-		return (free(data), 1);
-	if (parsing(argv[1], data) == 0)
 		return (free_data(data), 1);
+	if (parsing(argv[1], data) == 0)
+		return (exit_parsing(data), 1);
 	if (mlx_booting(data) != 0)
 		return (free_data(data), error("An error has occured"), 1);
 	free_textures(data);

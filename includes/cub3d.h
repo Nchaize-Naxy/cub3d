@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 11:58:23 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:20:19 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,8 @@ char	*ft_strjoin_update(char *buffer, char *buffer_read);
 int	init_textures(t_data *data);
 void	free_textures(t_data *data);
 
+//init
+int	init_mlx(t_data *data);
+int	init_data(t_data *data);
 
 #endif
