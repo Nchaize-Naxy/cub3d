@@ -6,41 +6,39 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 11:36:01 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:17:07 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	get_texture(t_data *data, t_tx_info *texture, char *file, int i)
+int	get_texture(t_data *data, t_tx_info *texture, char *file)
 {
 	if (check_extension(file, ".xpm") != 0)
-		return (free(file), destroy(data, i), \
+		return (free(file), destroy(data), \
 			error("Error: Texture files must be .xpm"), 1);
 	if (access(file, R_OK) == -1)
-		return (free(file), destroy(data, i), \
+		return (free(file), destroy(data), \
 			error("Cannot access texture file"), 1);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, \
 		&(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), \
 		&(texture->size_line), &(texture->endian));
-	texture->i_create = i;
+	texture->i_create = 0;
 	free(file);
 	return (0);
 }
 
 int	assign_textures(t_data *data, char *file, char **split)
 {
-	static int	i = -1;
-
 	if (!ft_strncmp(split[0], ID_NO, 2))
-		return (get_texture(data, data->textures->no, file, ++i));
+		return (get_texture(data, data->textures->no, file));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-		return (get_texture(data, data->textures->so, file, ++i));
+		return (get_texture(data, data->textures->so, file));
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-		return (get_texture(data, data->textures->we, file, ++i));
+		return (get_texture(data, data->textures->we, file));
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-		return (get_texture(data, data->textures->ea, file, ++i));
+		return (get_texture(data, data->textures->ea, file));
 	else if (!ft_strncmp(split[0], ID_F, 1))
 	{
 		data->textures->floor_color = conv_rgb(file);

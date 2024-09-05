@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 11:39:17 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:58:35 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	init_textures(t_data *data)
 	data->textures = malloc(sizeof(t_textures));
 	if (!data->textures)
 		return (1);
-	data->textures->floor_color = 0;
-	data->textures->ceiling_color = 0;
+	data->textures->floor_color = -1;
+	data->textures->ceiling_color = -1;
 	data->textures->no = init_pole(data, 0);
 	if (!data->textures->no)
 		return (free(data->textures), 1);

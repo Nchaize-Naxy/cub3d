@@ -1,12 +1,11 @@
 WE                               ./textures/back-wall.xpm
 EA            ./textures/other-front-wall.xpm
 SO                              ./textures/Pipe-wall.xpm
+NO ./textures/side_wall.xpm
 
 C    20,20,20
 F  20,10,5
 
-
-NO                              ./textures/side_wall.xpm
 
 11111111111111111111111111111111111
 11111111000000000000001111111111111

@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:35:42 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 15:36:26 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:24:36 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,23 @@ int	check_name(char *map_name)
 {
 	if (check_extension(map_name, ".cub") != 0)
 		return (error("Invalid map extension. Need .cub"), 1);
+	return (0);
+}
+
+int	check_file_textures(t_data *data)
+{
+	t_textures	*texture;
+
+	texture = data->textures;
+	if (!texture->ea->img || !texture->we->img || !texture->no->img |!texture->so->img)
+	{
+		destroy(data);
+		return (error("missing texture file"), 1);
+	}
+	else if (texture->ceiling_color == -1 || texture->floor_color == -1)
+	{
+		destroy(data);
+		return (error("missing floor or ceiling colors"), 1);
+	}
 	return (0);
 }

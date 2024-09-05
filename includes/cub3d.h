@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 11:42:51 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:17:21 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,11 @@ int		conv_rgb(char *rgb);
 int		check_empty(char **map, int line, int col, t_data *data);
 int		check_extension(char *map_name, char *extension);
 char	*no_back_n(char *string);
-void	destroy(t_data *data, int i);
+void	destroy(t_data *data);
 int		check_map_line(char *line);
 int		check_name(char *map_name);
+int	check_file_textures(t_data *data);
+
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);
