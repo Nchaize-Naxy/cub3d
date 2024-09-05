@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 10:57:01 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:37:32 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	init_player(t_data *data)
 	data->player->rotate_r = 0;
 	data->player->rotate_l = 0;
 	data->player->m_x = 0;
+	data->player->free_mouse = 0;
 	return (0);
 }
 

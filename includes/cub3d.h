@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 20:05:10 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 11:29:42 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
-	
 	int	m_x;
 	int	move_f;
 	int	move_b;
@@ -83,6 +82,7 @@ typedef struct s_player
 	int	move_l;
 	int	rotate_r;
 	int	rotate_l;
+	int	free_mouse;
 	
 }	t_player;
 
