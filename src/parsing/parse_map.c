@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 21:08:41 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 10:56:30 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	get_texture(t_data *data, t_tx_info *texture, char *file, int i)
 
 int	assign_textures(t_data *data, char *file, char **split)
 {
-	static int i = -1;
+	static int	i = -1;
 
 	if (!ft_strncmp(split[0], ID_NO, 2))
 		return (get_texture(data, data->textures->NO, file, ++i));

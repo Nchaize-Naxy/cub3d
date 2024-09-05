@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 20:51:32 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 10:57:01 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_tx_info	*init_pole(t_data *data, int i)
 		if (i >= 3)
 			free(data->textures->EA);
 		return (NULL);
-	};
+	}
 	pole->i_create = -1;
 	pole->info = NULL;
 	pole->bits_px = 0;
