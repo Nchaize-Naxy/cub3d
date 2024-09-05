@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 12:17:21 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:26:48 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_player
 	int		move_l;
 	int		rotate_r;
 	int		rotate_l;
+	int		free_mouse;
 
 }	t_player;
 

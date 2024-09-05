@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 11:58:35 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:25:56 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	init_player(t_data *data)
 	data->player->rotate_r = 0;
 	data->player->rotate_l = 0;
 	data->player->m_x = 0;
+	data->player->free_mouse = 0;
 	return (0);
 }
 

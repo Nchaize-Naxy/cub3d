@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:06:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/04 11:31:00 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:38:11 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ int	handle_input(int keysym, t_data *data)
 		data->player->rotate_r = 1;
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 1;
+	if (keysym == XK_b)
+	{
+		mlx_mouse_show(data->mlx, data->mlx_win);
+		data->player->free_mouse = 1;
+	}
 	if (data->exit == true)
 		on_destroy(data);
 	return (0);
@@ -49,6 +54,11 @@ int	release_handler(int keysym, t_data *data)
 		data->player->rotate_r = 0;
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 0;
+	if (keysym == XK_b)
+	{
+		mlx_mouse_hide(data->mlx, data->mlx_win);
+		data->player->free_mouse = 0;
+	}
 	return (0);
 }
 
@@ -57,7 +67,8 @@ int	move_mouse(t_data *data, int *x, int *y)
 	*x = 0;
 	*y = 0;
 	mlx_mouse_get_pos(data->mlx, data->mlx_win, x, y);
-	mlx_mouse_move(data->mlx, data->mlx_win, WINWIDTH / 2, WINHEIGHT / 2);
+	if (data->player->free_mouse == 0)
+		mlx_mouse_move(data->mlx, data->mlx_win, WINWIDTH / 2, WINHEIGHT / 2);
 	return (0);
 }
 
