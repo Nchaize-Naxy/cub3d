@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conv_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:01:36 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 21:14:31 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 11:25:55 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,34 @@ void	ft_putnbr_code(char *code, unsigned int int_nbr, char *base_to, int off)
 	}
 }
 
-char	*converter(unsigned int nbr, char *base_to, char *code, int signe)
+char	*generate_code(int pow, int signe, char *code)
 {
+	if (pow == 1)
+	{
+		code = malloc(sizeof(char) * (pow + signe + 1));
+		if (!code)
+			return (NULL);
+		code[0] = '0';
+		code[pow + signe] = '\0';
+	}
+	else
+	{
+		code = malloc(sizeof(char) * (pow + signe));
+		if (!code)
+			return (NULL);
+		code[pow + signe - 1] = '\0';
+	}
+	return (code);
+}
+
+char	*converter(unsigned int nbr, char *base_to, int pow, int signe)
+{
+	char	*code;
+
+	code = NULL;
+	code = generate_code(pow, signe, code);
+	if (!code)
+		return (NULL);
 	if (base_check(base_to, ft_strlen(base_to)) == 1)
 	{
 		if (signe == 2)
@@ -71,30 +97,9 @@ char	*cas_zero(char *nbr, char *base_from, char *base_to)
 	return (code);
 }
 
-char	*generate_code(int pow, int signe, char *code)
-{
-	if (pow == 1)
-	{
-		code = malloc(sizeof(char) * (pow + signe + 1));
-		if (!code)
-			return (NULL);
-		code[0] = '0';
-		code[pow + signe] = '\0';
-	}
-	else
-	{
-		code = malloc(sizeof(char) * (pow + signe));
-		if (!code)
-			return (NULL);
-		code[pow + signe - 1] = '\0';
-	}
-	return (code);
-}
-
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
 	unsigned int		int_nbr;
-	char				*code;
 	int					pow;
 	int					signe;
 	int					nb;
@@ -114,9 +119,5 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	else
 		int_nbr = nb;
 	pow = power(int_nbr, ft_strlen(base_to));
-	code = NULL;
-	code = generate_code(pow, signe, code);
-	if (!code)
-		return (NULL);
-	return (converter(int_nbr, base_to, code, signe));
+	return (converter(int_nbr, base_to, pow, signe));
 }

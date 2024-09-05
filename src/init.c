@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:01:51 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 11:37:32 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:46:55 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ t_tx_info	*init_pole(t_data *data, int i)
 	if (!pole)
 	{
 		if (i >= 1)
-			free(data->textures->NO);
+			free(data->textures->no);
 		if (i >= 2)
-			free(data->textures->SO);
+			free(data->textures->so);
 		if (i >= 3)
-			free(data->textures->EA);
+			free(data->textures->ea);
 		return (NULL);
 	}
 	pole->i_create = -1;
@@ -89,19 +89,19 @@ int	init_textures(t_data *data)
 	data->textures = malloc(sizeof(t_textures));
 	if (!data->textures)
 		return (1);
-	data->textures->Floor_color = 0;
-	data->textures->Ceiling_color = 0;
-	data->textures->NO = init_pole(data, 0);
-	if (!data->textures->NO)
+	data->textures->floor_color = 0;
+	data->textures->ceiling_color = 0;
+	data->textures->no = init_pole(data, 0);
+	if (!data->textures->no)
 		return (free(data->textures), 1);
-	data->textures->SO = init_pole(data, 1);
-	if (!data->textures->SO)
+	data->textures->so = init_pole(data, 1);
+	if (!data->textures->so)
 		return (free(data->textures), 1);
-	data->textures->EA = init_pole(data, 2);
-	if (!data->textures->EA)
+	data->textures->ea = init_pole(data, 2);
+	if (!data->textures->ea)
 		return (free(data->textures), 1);
-	data->textures->WE = init_pole(data, 3);
-	if (!data->textures->WE)
+	data->textures->we = init_pole(data, 3);
+	if (!data->textures->we)
 		return (free(data->textures), 1);
 	return (0);
 }

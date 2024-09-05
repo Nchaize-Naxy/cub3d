@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/04 20:29:01 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 11:37:10 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ float	get_pixel_pos(t_data *data, t_tx_info **texture, int x_int)
 	if (data->wall_dir == N || data->wall_dir == S)
 	{
 		if (data->wall_dir == N)
-			*texture = data->textures->NO;
+			*texture = data->textures->no;
 		if (data->wall_dir == S)
-			*texture = data->textures->SO;
+			*texture = data->textures->so;
 		x_int = (int) data->ray.pos_x;
 		return (data->ray.pos_x - x_int);
 	}
@@ -57,12 +57,12 @@ float	get_pixel_pos(t_data *data, t_tx_info **texture, int x_int)
 		x_int = (int) data->ray.pos_y;
 		if (data->wall_dir == E)
 		{
-			*texture = data->textures->EA;
+			*texture = data->textures->ea;
 			return ((data->ray.pos_y - x_int));
 		}
 		if (data->wall_dir == W)
 		{
-			*texture = data->textures->WE;
+			*texture = data->textures->we;
 			return (1 - (data->ray.pos_y - x_int));
 		}
 	}
@@ -106,9 +106,9 @@ int	play(t_data *data, int c_a_time, int i)
 	while (i <= half_height)
 	{
 		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) - i),
-			data->textures->Ceiling_color);
+			data->textures->ceiling_color);
 		my_mlx_put_pixel(data, (half_width + c_a_time), ((half_height) + i),
-			data->textures->Floor_color);
+			data->textures->floor_color);
 		i++;
 	}
 	return (0);
