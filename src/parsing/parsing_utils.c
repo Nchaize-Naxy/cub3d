@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:35:42 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 12:24:36 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:29:14 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	check_file_textures(t_data *data)
 	t_textures	*texture;
 
 	texture = data->textures;
-	if (!texture->ea->img || !texture->we->img || !texture->no->img |!texture->so->img)
+	if (!texture->ea->img || !texture->we->img
+		|| !texture->no->img |!texture->so->img)
 	{
 		destroy(data);
 		return (error("missing texture file"), 1);
