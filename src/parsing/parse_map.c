@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 10:56:30 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:36:01 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ int	assign_textures(t_data *data, char *file, char **split)
 	static int	i = -1;
 
 	if (!ft_strncmp(split[0], ID_NO, 2))
-		return (get_texture(data, data->textures->NO, file, ++i));
+		return (get_texture(data, data->textures->no, file, ++i));
 	else if (!ft_strncmp(split[0], ID_SO, 2))
-		return (get_texture(data, data->textures->SO, file, ++i));
+		return (get_texture(data, data->textures->so, file, ++i));
 	else if (!ft_strncmp(split[0], ID_WE, 2))
-		return (get_texture(data, data->textures->WE, file, ++i));
+		return (get_texture(data, data->textures->we, file, ++i));
 	else if (split && split[0] && !ft_strncmp(split[0], ID_EA, 2))
-		return (get_texture(data, data->textures->EA, file, ++i));
+		return (get_texture(data, data->textures->ea, file, ++i));
 	else if (!ft_strncmp(split[0], ID_F, 1))
 	{
-		data->textures->Floor_color = conv_rgb(file);
+		data->textures->floor_color = conv_rgb(file);
 		return (0);
 	}
 	else if (!ft_strncmp(split[0], ID_C, 1))
 	{
-		data->textures->Ceiling_color = conv_rgb(file);
+		data->textures->ceiling_color = conv_rgb(file);
 		return (0);
 	}
 	else if (is_valid_ch(split[0][0]) || split[0][0] == ' '

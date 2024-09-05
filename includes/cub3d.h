@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 20:05:10 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 11:42:51 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_ray
 	float	pos_y;
 }	t_ray;
 
-
 typedef struct s_player
 {
 	float	pos_x;
@@ -75,18 +74,18 @@ typedef struct s_player
 	float	dir_x;
 	float	dir_y;
 	float	a;
-	
-	int	m_x;
-	int	move_f;
-	int	move_b;
-	int	move_r;
-	int	move_l;
-	int	rotate_r;
-	int	rotate_l;
-	
+
+	int		m_x;
+	int		move_f;
+	int		move_b;
+	int		move_r;
+	int		move_l;
+	int		rotate_r;
+	int		rotate_l;
+
 }	t_player;
 
-typedef struct	s_image
+typedef struct s_image
 {
 	char	*addr;
 	void	*img;
@@ -95,10 +94,10 @@ typedef struct	s_image
 	int		endian;
 }	t_image;
 
-typedef struct	s_tx_info
+typedef struct s_tx_info
 {
-	int	i_create;
-	int	*info;
+	int		i_create;
+	int		*info;
 	void	*img;
 	int		width;
 	int		height;
@@ -107,15 +106,15 @@ typedef struct	s_tx_info
 	int		endian;
 }	t_tx_info;
 
-typedef struct	s_textures
+typedef struct s_textures
 {
 	int			i;
-	t_tx_info	*NO;
-	t_tx_info	*SO;
-	t_tx_info	*EA;
-	t_tx_info	*WE;
-	int		Floor_color;
-	int		Ceiling_color;
+	t_tx_info	*no;
+	t_tx_info	*so;
+	t_tx_info	*ea;
+	t_tx_info	*we;
+	int			floor_color;
+	int			ceiling_color;
 }	t_textures;
 
 typedef struct s_data
@@ -142,56 +141,56 @@ typedef struct s_parsing
 {
 	char	*indentifier;
 	char	*line;
-	
+
 }	t_parsing;
 
 //functionalities
-int	init(t_data *data);
+int		init(t_data *data);
 void	free_data(t_data *data, int free_textures);
 
 //parsing
-int	is_valid_ch(char c);
-int parsing(char *map_name, t_data *data);
+int		is_valid_ch(char c);
+int		parsing(char *map_name, t_data *data);
 char	*dup_map_row(const char *s);
-int	check_map(char **map, t_data *data);
-int	handle_map(char *line, t_data *data);
-int	handle_identifier(char *line, t_data *data);
+int		check_map(char **map, t_data *data);
+int		handle_map(char *line, t_data *data);
+int		handle_identifier(char *line, t_data *data);
 size_t	count_tab(char **tab);
 int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
-int	conv_rgb(char *rgb);
-int	check_empty(char **map, int line, int col, t_data *data);
-int check_extension(char *map_name, char *extension);
+int		conv_rgb(char *rgb);
+int		check_empty(char **map, int line, int col, t_data *data);
+int		check_extension(char *map_name, char *extension);
 char	*no_back_n(char *string);
 void	destroy(t_data *data, int i);
-int	check_map_line(char *line);
-int	check_name(char *map_name);
+int		check_map_line(char *line);
+int		check_name(char *map_name);
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);
 float	wall_check_one(t_data *data, float dir_x, float dir_y, t_wall w);
 float	wall_check_two(t_data *data, float dir_x, float dir_y, t_wall w);
-int	raycast_x_wall(t_data *data, float dir_x, float dir_y);
-int	raycast_y_wall(t_data *data, float dir_x, float dir_y);
-int	raycast(t_data *data, float dir_x, float dir_y, int c_a_time);
+int		raycast_x_wall(t_data *data, float dir_x, float dir_y);
+int		raycast_y_wall(t_data *data, float dir_x, float dir_y);
+int		raycast(t_data *data, float dir_x, float dir_y, int c_a_time);
 void	reset_raycast(t_data *data);
 
 //render
-int	render(t_data *data);
-void my_mlx_put_pixel(t_data *data, int x, int y, int color);
-int	play(t_data *data, int c_a_time, int i);
-int	get_pixel(t_data *data, int wall_height, int i, int c_a_time);
+int		render(t_data *data);
+void	my_mlx_put_pixel(t_data *data, int x, int y, int color);
+int		play(t_data *data, int c_a_time, int i);
+int		get_pixel(t_data *data, int wall_height, int i, int c_a_time);
 
 //exit
-int	on_destroy(t_data *data);
+int		on_destroy(t_data *data);
 void	destroy_textures(t_data *data);
 void	free_textures(t_data *data);
 
 //movement
-int	handle_input(int keysym, t_data *data);
-int	move_player(t_data *data);
-int	move_mouse(t_data *data, int *x, int *y);
-int	release_handler(int keysym, t_data *data);
+int		handle_input(int keysym, t_data *data);
+int		move_player(t_data *data);
+int		move_mouse(t_data *data, int *x, int *y);
+int		release_handler(int keysym, t_data *data);
 void	movement_f_b(t_data *data, float move_x, float move_y);
 void	movement_r_l(t_data *data, float move_x, float move_y);
 void	movement_rotation(t_data *data);
@@ -202,7 +201,6 @@ int		base_check(char *str, size_t len);
 int		str_len(char *str);
 int		power(unsigned int nbr, size_t len);
 
-
 //utils
 size_t	ft_strlen(const char *str);
 int		ft_isalnum(int c);
@@ -211,16 +209,16 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 char	*ft_strndup(const char *s, size_t n);
 char	*ft_strjoin_update(char *buffer, char *buffer_read);
 
 //textures
-int	init_textures(t_data *data);
+int		init_textures(t_data *data);
 void	free_textures(t_data *data);
 
 //init
-int	init_mlx(t_data *data);
-int	init_data(t_data *data);
+int		init_mlx(t_data *data);
+int		init_data(t_data *data);
 
 #endif

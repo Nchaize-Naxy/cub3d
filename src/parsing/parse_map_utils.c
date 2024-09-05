@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:29:44 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 21:16:26 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/05 11:34:35 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	destroy(t_data *data, int i)
 	j = 0;
 	while (j < i)
 	{
-		if (data->textures->EA->i_create == j)
-			mlx_destroy_image(data->mlx, data->textures->EA->img);
-		if (data->textures->NO->i_create == j)
-			mlx_destroy_image(data->mlx, data->textures->NO->img);
-		if (data->textures->SO->i_create == j)
-			mlx_destroy_image(data->mlx, data->textures->SO->img);
-		if (data->textures->WE->i_create == j)
-			mlx_destroy_image(data->mlx, data->textures->WE->img);
+		if (data->textures->ea->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->ea->img);
+		if (data->textures->no->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->no->img);
+		if (data->textures->so->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->so->img);
+		if (data->textures->we->i_create == j)
+			mlx_destroy_image(data->mlx, data->textures->we->img);
 		j++;
 	}
 }

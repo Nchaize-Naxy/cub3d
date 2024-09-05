@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 10:56:39 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:38:11 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	mlx_booting(t_data *data)
 
 void	free_textures(t_data *data)
 {
-	free(data->textures->EA);
-	free(data->textures->SO);
-	free(data->textures->NO);
-	free(data->textures->WE);
+	free(data->textures->ea);
+	free(data->textures->so);
+	free(data->textures->no);
+	free(data->textures->we);
 	free(data->textures);
 }
 
@@ -66,10 +66,10 @@ void	free_data(t_data *data, int do_free_txt)
 
 void	destroy_textures(t_data *data)
 {
-	mlx_destroy_image(data->mlx, data->textures->EA->img);
-	mlx_destroy_image(data->mlx, data->textures->SO->img);
-	mlx_destroy_image(data->mlx, data->textures->NO->img);
-	mlx_destroy_image(data->mlx, data->textures->WE->img);
+	mlx_destroy_image(data->mlx, data->textures->ea->img);
+	mlx_destroy_image(data->mlx, data->textures->so->img);
+	mlx_destroy_image(data->mlx, data->textures->no->img);
+	mlx_destroy_image(data->mlx, data->textures->we->img);
 }
 
 int	main(int argc, char **argv)
