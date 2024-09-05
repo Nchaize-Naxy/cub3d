@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:09:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/05 11:37:10 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:32:16 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	render(t_data *data)
 	half_width = WINWIDTH / 2;
 	c_a_time = -(half_width);
 	move_player(data);
-	while (c_a_time <= half_width)
+	while (c_a_time < half_width)
 	{
 		raycast(data, data->player->dir_x, data->player->dir_y, c_a_time);
 		play(data, c_a_time, 0);
