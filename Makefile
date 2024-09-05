@@ -1,5 +1,5 @@
 NAME = cub3d
-CFLAGS = -Wall -Werror -Wextra -I./includes -g3
+CFLAGS = -Wall -Werror -Wextra -I./includes
 
 MLX_LINK = -I ./minilibx_linux/ -L./minilibx-linux -lmlx -lX11 -lm -lXext
 MLX_LIB = ./minilibx-linux/libmlx.a
