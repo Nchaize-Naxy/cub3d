@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/04 14:44:14 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:19:53 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 	else if (is_player_position(map[line][col]))
 	{
 		handle_player_pos(line, col, map[line][col], data);
+		map[line][col] = '0';
 		data->is_player = true;
 	}
 	else if (map[line][col] != '1'
