@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 09:06:16 by pinkdonkeyj       #+#    #+#             */
-/*   Updated: 2024/09/05 11:38:11 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:35:21 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,23 @@ int	handle_input(int keysym, t_data *data)
 		data->player->rotate_r = 1;
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 1;
-	if (keysym == XK_b)
+	if (data->exit == true)
+		on_destroy(data);
+	return (0);
+}
+
+void	release_handler_utils(t_data *data)
+{
+	if (data->player->free_mouse == 0)
 	{
 		mlx_mouse_show(data->mlx, data->mlx_win);
 		data->player->free_mouse = 1;
 	}
-	if (data->exit == true)
-		on_destroy(data);
-	return (0);
+	else
+	{
+		mlx_mouse_hide(data->mlx, data->mlx_win);
+		data->player->free_mouse = 0;
+	}
 }
 
 int	release_handler(int keysym, t_data *data)
@@ -55,10 +64,7 @@ int	release_handler(int keysym, t_data *data)
 	if (keysym == XK_s || keysym == XK_Down)
 		data->player->move_b = 0;
 	if (keysym == XK_b)
-	{
-		mlx_mouse_hide(data->mlx, data->mlx_win);
-		data->player->free_mouse = 0;
-	}
+		release_handler_utils(data);
 	return (0);
 }
 
@@ -85,7 +91,8 @@ int	move_player(t_data *data)
 	movement_f_b(data, move_x, move_y);
 	movement_r_l(data, move_x, move_y);
 	movement_rotation(data);
-	if (data->player->m_x != x && data->player->m_x != 0)
+	if (data->player->m_x != x && data->player->m_x != 0
+		&& data->player->free_mouse == 0)
 	{
 		data->player->a -= (data->player->m_x - x) * 0.00085;
 		if (data->player->a > 2 * M_PI)
