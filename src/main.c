@@ -6,7 +6,7 @@
 /*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:34:29 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 11:47:06 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:30:37 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	mlx_booting(t_data *data)
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, &release_handler, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask,
 		&on_destroy, data);
+	mlx_hook(data->mlx_win, FocusIn, FocusChangeMask, &on_focus_in, data);
+	mlx_hook(data->mlx_win, FocusOut, FocusChangeMask, &on_focus_out, data);
 	mlx_mouse_hide(data->mlx, data->mlx_win);
 	data->img.img = mlx_new_image(data->mlx, WINWIDTH, WINHEIGHT);
 	if (!data->img.img)

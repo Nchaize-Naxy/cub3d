@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:21:30 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/04 20:29:08 by pinkdonkeyj      ###   ########.fr       */
+/*   Updated: 2024/09/06 14:37:04 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	on_focus_out(t_data *data)
+{
+	data->player->free_mouse = 1;
+	return (0);
+}
+
+int	on_focus_in(t_data *data)
+{
+	data->player->free_mouse = 0;
+	return (0);
+}
 
 int	on_destroy(t_data *data)
 {

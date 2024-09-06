@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 14:35:23 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:07:08 by nchaize-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ typedef struct s_parsing
 //functionalities
 int		init(t_data *data);
 void	free_data(t_data *data, int free_textures);
+int		on_focus_in(t_data *data);
+int		on_focus_out(t_data *data);
 
 //parsing
 int		is_valid_ch(char c);
