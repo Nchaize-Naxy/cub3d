@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:46:17 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 12:07:07 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:22:24 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ size_t	count_tab(char **tab)
 
 int	free_tab(char **tab)
 {
-	size_t	i;
+	size_t		i;
 
 	i = 0;
+	if (!tab || tab == NULL)
+		return (0);
 	while (tab && tab[i])
 	{
 		free(tab[i]);

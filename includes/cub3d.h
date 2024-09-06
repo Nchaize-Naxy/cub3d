@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/05 14:35:23 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:30:35 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int		conv_rgb(char *rgb);
 int		check_empty(char **map, int line, int col, t_data *data);
 int		check_extension(char *map_name, char *extension);
-char	*no_back_n(char *string);
+char	*no_back_n(char **split);
 void	destroy(t_data *data);
 int		check_map_line(char *line);
 int		check_name(char *map_name);
@@ -207,7 +207,7 @@ int		power(unsigned int nbr, size_t len);
 size_t	ft_strlen(const char *str);
 int		ft_isalnum(int c);
 char	*ft_strdup(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	error(char *err_msg);
 int		is_alnum(int c);
