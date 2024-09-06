@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 12:17:07 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:35:03 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 int	get_texture(t_data *data, t_tx_info *texture, char *file)
 {
 	if (check_extension(file, ".xpm") != 0)
-		return (free(file), destroy(data), \
+		return (destroy(data), \
 			error("Error: Texture files must be .xpm"), 1);
 	if (access(file, R_OK) == -1)
-		return (free(file), destroy(data), \
+		return (destroy(data), \
 			error("Cannot access texture file"), 1);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, \
 		&(texture->width), &(texture->height));
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), \
 		&(texture->size_line), &(texture->endian));
 	texture->i_create = 0;
-	free(file);
 	return (0);
 }
 
@@ -71,6 +70,7 @@ int	handle_identifier(char *line, t_data *data)
 	if (!file || file == NULL)
 		return (free_tab(split), 1);
 	ret = assign_textures(data, file, split);
+	free(file);
 	return (free_tab(split), ret);
 }
 

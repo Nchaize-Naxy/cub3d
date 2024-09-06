@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:29:44 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 12:14:45 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:34:39 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	*no_back_n(char *string)
 	char	*new_string;
 
 	i = 0;
-	new_string = "a\0";
+	new_string = malloc(sizeof(char));
+	new_string[0] = '\0';
 	while (string && string[i])
 	{
 		if (string[i] == '\n')
 		{
+			free(new_string);
 			new_string = ft_strndup(string, i);
 			if (!new_string || new_string == NULL)
 				return (error("Memory allocation failure"), NULL);
@@ -54,7 +56,6 @@ int	conv_rgb(char *rgb)
 
 	hexbase = "0123456789ABCDEF";
 	rgb_split = ft_split(rgb, ',');
-	free (rgb);
 	if (!rgb_split)
 		return (0);
 	hex_nbr = ft_convert_base(rgb_split[0], "0123456789", hexbase);
