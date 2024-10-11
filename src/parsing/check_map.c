@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nchaize- <@student.42lyon.fr>              +#+  +:+       +#+        */
+/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:56:40 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/06 13:19:53 by nchaize-         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:24:54 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,20 @@ int	check_error_map(char **map, t_data *data, size_t col, size_t line)
 		return (error("invalid character found in map"), 1);
 	else if (map[line][col] == ' ')
 	{
-		if (check_empty(map, line, col, data) != 0)
+		if (check_empty(map, line, col, data, ' ') != 0)
 			return (1);
-	}
-	else if (is_player_position(map[line][col]))
-	{
-		handle_player_pos(line, col, map[line][col], data);
-		map[line][col] = '0';
-		data->is_player = true;
 	}
 	else if (map[line][col] != '1'
 		&& (line == 0 || col == 0 || col == ft_strlen(map[line]) - 1
 		|| line == data->height || col >= ft_strlen(map[line - 1])
 		|| col >= ft_strlen(map[line + 1])))
 		return (error("map not closed by walls"), 1);
+	else if (is_player_position(map[line][col]))
+	{
+		handle_player_pos(line, col, map[line][col], data);
+		map[line][col] = '0';
+		data->is_player = true;
+	}
 	return (0);
 }
 

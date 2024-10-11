@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/09/06 14:44:31 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:17:10 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ size_t	count_tab(char **tab);
 int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int		conv_rgb(char *rgb);
-int		check_empty(char **map, int line, int col, t_data *data);
+int		check_empty(char **map, int line, int col, t_data *data, char space);
 int		check_extension(char *map_name, char *extension);
 char	*no_back_n(char **split);
 void	destroy(t_data *data);
