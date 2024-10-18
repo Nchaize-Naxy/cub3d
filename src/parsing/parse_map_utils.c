@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:29:44 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/06 14:43:11 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:02:17 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,13 @@ void	destroy(t_data *data)
 		mlx_destroy_image(data->mlx, data->textures->we->img);
 }
 
-int	conv_rgb(char *rgb)
+int	conv_rgb(char *rgb, char *hexbase)
 {
 	char	**rgb_split;
 	char	*hex_nbr;
-	char	*hexbase;
 	int		int_value;
 	char	*temp;
 
-	hexbase = "0123456789ABCDEF";
 	rgb_split = ft_split(rgb, ',');
 	if (!rgb_split)
 		return (0);

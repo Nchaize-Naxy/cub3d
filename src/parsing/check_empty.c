@@ -6,16 +6,18 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:37:49 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/10/11 12:17:43 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:57:23 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_right(char **map, int line, int col, t_data *data, char space)
+int	check_right(int line, int col, t_data *data, char space)
 {
-	int	x;
+	int		x;
+	char	**map;
 
+	map = data->map;
 	x = 0;
 	while ((line + x < (int) data->height) && (is_valid_ch(map[line + x][col])))
 	{
@@ -96,9 +98,12 @@ int	check_down(char **map, int line, int col, char space)
 	return (0);
 }
 
-int	check_empty(char **map, int line, int col, t_data *data, char space)
+int	check_empty(int line, int col, t_data *data, char space)
 {
-	if (check_right(map, line, col, data, space) != 0)
+	char	**map;
+
+	map = data->map;
+	if (check_right(line, col, data, space) != 0)
 		return (1);
 	if (check_left(map, line, col, space) != 0)
 		return (1);

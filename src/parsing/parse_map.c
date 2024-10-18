@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/06 14:28:34 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:03:01 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	assign_textures(t_data *data, char *file, char **split)
 		return (get_texture(data, data->textures->ea, file));
 	else if (!ft_strcmp(split[0], ID_F))
 	{
-		data->textures->floor_color = conv_rgb(file);
+		data->textures->floor_color = conv_rgb(file, "0123456789ABCDEF");
 		return (0);
 	}
 	else if (!ft_strcmp(split[0], ID_C))
 	{
-		data->textures->ceiling_color = conv_rgb(file);
+		data->textures->ceiling_color = conv_rgb(file, "0123456789ABCDEF");
 		return (0);
 	}
 	else if (split[0][0] == ' ' || split[0][0] == '1')
@@ -64,30 +64,16 @@ int	handle_identifier(char *line, t_data *data)
 	if (!split)
 		return (destroy(data), 1);
 	if (count_tab(split) > 2)
-		return (free_tab(split), destroy(data), error("Too many arguments for identifier"), 1);
-	if (split[0] && split[0][0] != '\n' && split[0][0] != 'C' && split[0][0] != 'F' && split[0][0] != '1' && !(is_valid_ch(split[0][0])))
-		return (error("Invalid line in file"), destroy(data),free_tab(split), 1);
+		return (free_tab(split), destroy(data), error("Indentifier error"), 1);
+	if (split[0] && split[0][0] != '\n' && split[0][0] != 'C' &&
+		split[0][0] != 'F' && split[0][0] != '1' && !(is_valid_ch(split[0][0])))
+		return (error("Invalid line"), destroy(data), free_tab(split), 1);
 	file = no_back_n(split);
 	if (!file || file == NULL)
 		return (free_tab(split), destroy(data), 1);
 	ret = assign_textures(data, file, split);
 	free(file);
 	return (free_tab(split), ret);
-}
-
-void	free_new_map(char **tab, size_t i)
-{
-	size_t		j;
-
-	j = 0;
-	if (!tab || tab == NULL)
-		return ;
-	while (tab && j <= i)
-	{
-		free(tab[j]);
-		j++;
-	}
-	free(tab);
 }
 
 char	**append_line(char **map, char *line, t_data *data)
@@ -124,6 +110,8 @@ int	handle_map(char *line, t_data *data)
 		return (1);
 	while (line != NULL)
 	{
+		if (line[0] == '\n' || line[0] == '\0')
+			return (error("invalid line in map"), 1);
 		data->map = append_line(data->map, line, data);
 		if (!data->map)
 			return (free(line), error("failed to create map"), 1);

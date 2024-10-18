@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:54:45 by nchaize-          #+#    #+#             */
-/*   Updated: 2024/10/11 12:17:10 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:03:17 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,15 @@ int		handle_identifier(char *line, t_data *data);
 size_t	count_tab(char **tab);
 int		free_tab(char **tab);
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to);
-int		conv_rgb(char *rgb);
-int		check_empty(char **map, int line, int col, t_data *data, char space);
+int		conv_rgb(char *rgb, char *hexbase);
+int		check_empty(int line, int col, t_data *data, char space);
 int		check_extension(char *map_name, char *extension);
 char	*no_back_n(char **split);
 void	destroy(t_data *data);
 int		check_map_line(char *line);
 int		check_name(char *map_name);
 int		check_file_textures(t_data *data);
+void	free_new_map(char **tab, size_t i);
 
 //raycast
 float	wall_check(t_data *data, float dir_x, float dir_y);

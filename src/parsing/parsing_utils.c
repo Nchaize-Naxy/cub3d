@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:35:42 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/09/05 12:29:14 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:18:41 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,19 @@ int	check_file_textures(t_data *data)
 		return (error("missing floor or ceiling colors"), 1);
 	}
 	return (0);
+}
+
+void	free_new_map(char **tab, size_t i)
+{
+	size_t		j;
+
+	j = 0;
+	if (!tab || tab == NULL)
+		return ;
+	while (tab && j <= i)
+	{
+		free(tab[j]);
+		j++;
+	}
+	free(tab);
 }
