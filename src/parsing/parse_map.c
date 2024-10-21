@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pinkdonkeyjuice <pinkdonkeyjuice@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/10/18 16:03:01 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/21 10:34:07 by pinkdonkeyj      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	handle_map(char *line, t_data *data)
 	while (line != NULL)
 	{
 		if (line[0] == '\n' || line[0] == '\0')
-			return (error("invalid line in map"), 1);
+			return (free(line), error("invalid line in map"), 1);
 		data->map = append_line(data->map, line, data);
 		if (!data->map)
 			return (free(line), error("failed to create map"), 1);
