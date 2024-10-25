@@ -6,7 +6,7 @@
 /*   By: gyvergni <gyvergni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 13:40:20 by gyvergni          #+#    #+#             */
-/*   Updated: 2024/10/18 16:03:01 by gyvergni         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:38:34 by gyvergni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	get_texture(t_data *data, t_tx_info *texture, char *file)
 			error("Cannot access texture file"), 1);
 	texture->img = mlx_xpm_file_to_image(data->mlx, file, \
 		&(texture->width), &(texture->height));
+	if (!texture->img)
+	{
+		error("xpm file has invalid content");
+		return (1);
+	}
 	texture->info = (int *)mlx_get_data_addr(texture->img, &(texture->bits_px), \
 		&(texture->size_line), &(texture->endian));
 	texture->i_create = 0;
